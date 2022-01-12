@@ -10,93 +10,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f99dca14-7949-4c2e-885c-66eed54b9ffc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Stushbr/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Stushbr/.idea/indexLayout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Stushbr/.idea/projectSettingsUpdater.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Stushbr/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/.dockerignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/.env.development" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/aspnetcore-https.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/aspnetcore-react.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/public/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/public/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/public/manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/src/App.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/src/App.test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/src/components/Counter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/src/components/FetchData.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/src/components/FetchItems.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/src/components/Home.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/src/components/Layout.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/src/components/NavMenu.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/src/components/NavMenu.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/src/custom.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/src/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/src/reportWebVitals.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/src/service-worker.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/src/serviceWorkerRegistration.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/src/setupProxy.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Configuration/ApplicationConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Configuration/QiwiConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Controllers/ItemController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Controllers/WeatherForecastController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/MapperProfiles/ItemProfile.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Models/Client.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Models/Item.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Models/ItemType.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Models/OwnedItem.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Program.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Properties/launchSettings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Repositories/ClientRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Repositories/IClientRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Repositories/IItemRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Repositories/ItemRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Services/IItemService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Services/IQiwiService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Services/ItemService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Services/QiwiService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Stushbr.PaymentsGatewayWeb.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ViewModels/ItemResponse.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/WeatherForecast.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/appsettings.Development.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/appsettings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsTelegramBot/.dockerignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsTelegramBot/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsTelegramBot/Program.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsTelegramBot/Properties/launchSettings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsTelegramBot/Stushbr.PaymentsTelegramBot.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsTelegramBot/Worker.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsTelegramBot/appsettings.Development.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.PaymentsTelegramBot/appsettings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Scheduler/.dockerignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Scheduler/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Scheduler/Program.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Scheduler/Properties/launchSettings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Scheduler/Stushbr.Scheduler.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Scheduler/Worker.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Scheduler/appsettings.Development.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Scheduler/appsettings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Shared/Class1.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Shared/DataAccess/IIdentifier.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Shared/DataAccess/IRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Shared/DataAccess/MongoDb/MongoDBConfig.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Shared/DataAccess/MongoDb/MongoDBRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Shared/DataAccess/Postgres/PostgresRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Shared/Services/CrudServiceBase.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Shared/Services/ICrudService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Shared/Stushbr.Shared.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.sln" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.sln.DotSettings.user" afterDir="false" />
-    </list>
+    <list default="true" id="f99dca14-7949-4c2e-885c-66eed54b9ffc" name="Changes" comment="First commit" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -204,18 +118,40 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1641909274331</updated>
-      <workItem from="1641909276438" duration="19543000" />
+      <workItem from="1641909276438" duration="20026000" />
     </task>
+    <task id="LOCAL-00001" summary="First commit">
+      <created>1642013239442</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1642013239442</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="null" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="First commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="First commit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
