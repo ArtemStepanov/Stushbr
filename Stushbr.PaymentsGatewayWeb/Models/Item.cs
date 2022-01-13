@@ -1,28 +1,39 @@
-﻿using AutoMapper.Configuration.Annotations;
+﻿using LinqToDB;
+using LinqToDB.Mapping;
 using Stushbr.Shared.DataAccess;
-using System.Runtime.Serialization;
-using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
 
 namespace Stushbr.PaymentsGatewayWeb.Models;
 
-public record Item(
-    string Id,
-    string DisplayName,
-    string Description,
-    double Price,
-    ItemType Type,
-    JsonObject ItemData,
-    bool IsEnabled,
-    DateTime AvailableSince,
-    DateTime AvailableBefore
-) : IIdentifier
+[Table("Items")]
+public class Item : IIdentifier
 {
-    [Ignore]
-    [JsonIgnore]
-    [IgnoreDataMember]
-    public bool IsAvailable =>
-        IsEnabled
-        && DateTime.Now > AvailableSince
-        && DateTime.Now < AvailableBefore;
+    [PrimaryKey]
+    public string Id { get; set; } = Guid.NewGuid().ToString("N");
+
+    [NotNull, Column]
+    public string DisplayName { get; set; }
+
+    [NotNull, Column]
+    public string Description { get; set; }
+
+    [NotNull, Column]
+    public double Price { get; set; }
+
+    [NotNull, Column]
+    public ItemType Type { get; set; }
+
+    [DataType(DataType.Json), Column]
+    public dynamic? Data { get; set; }
+
+    [NotNull, Column]
+    public bool IsEnabled { get; set; } = true;
+
+    [Column]
+    public DateTime? AvailableSince { get; set; }
+
+    [Column]
+    public DateTime? AvailableBefore { get; set; }
+
+    [Association(ThisKey = nameof(Id), OtherKey = nameof(Bill.ItemId), Relationship = Relationship.OneToMany)]
+    public List<Bill> Bills { get; set; }
 }

@@ -62,7 +62,20 @@ export class FetchItems extends Component {
   async populateWeatherData() {
     const response = await fetch('items/available');
     const data = await response.json();
-    console.log(data);
+    const resp2 = await fetch('items/c3f2c680edc345168643179c2d568227/order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        clientInfo: {
+          firstName: "Artem",
+          secondName: "Stepanov",
+          email: "test@test.test",
+          phoneNumber: "89998030386"
+        }
+      })
+    });
+    const data2 = await resp2.json();
+    console.log(data2);
     this.setState({ forecasts: data, loading: false });
   }
 }

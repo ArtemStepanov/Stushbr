@@ -2,5 +2,7 @@
 
 public class ApplicationConfiguration
 {
-    public QiwiConfiguration Qiwi { get; set; }
+    public QiwiConfiguration? Qiwi { get; set; }
+
+    public string SuccessUrl { get; set; } = "https://stushbr.ru";
 }

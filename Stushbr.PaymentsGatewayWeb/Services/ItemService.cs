@@ -1,4 +1,5 @@
-﻿using Stushbr.PaymentsGatewayWeb.Models;
+﻿using LinqToDB;
+using Stushbr.PaymentsGatewayWeb.Models;
 using Stushbr.PaymentsGatewayWeb.Repositories;
 using Stushbr.Shared.Services;
 
@@ -7,18 +8,25 @@ namespace Stushbr.PaymentsGatewayWeb.Services;
 public class ItemService : CrudServiceBase<Item>, IItemService
 {
     private readonly ILogger<ItemService> _logger;
+    private readonly StushbrDataConnection _stushbrDataConnection;
 
     public ItemService(
         ILogger<ItemService> logger,
-        IItemRepository repository
-    ) : base(repository)
+        StushbrDataConnection stushbrDataConnection
+    ) : base(stushbrDataConnection)
     {
         _logger = logger;
+        _stushbrDataConnection = stushbrDataConnection;
     }
 
     public async Task<IEnumerable<Item>> GetAvailableItemsAsync()
     {
-        var items = await Repository.GetItemsAsync(i => i.IsAvailable);
+        var items = await _stushbrDataConnection.Items.Where(i =>
+                i.IsEnabled
+                && DateTime.Now > i.AvailableSince
+                && DateTime.Now < i.AvailableBefore)
+            .ToListAsync();
+
         return items;
     }
 }

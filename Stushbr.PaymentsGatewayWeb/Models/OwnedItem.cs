@@ -1,6 +1,4 @@
-﻿using Stushbr.Shared.DataAccess;
-
-namespace Stushbr.PaymentsGatewayWeb.Models;
+﻿namespace Stushbr.PaymentsGatewayWeb.Models;
 
 /// <summary>
 /// Item, that is owned by <paramref name="ClientId"/>
@@ -11,6 +9,7 @@ namespace Stushbr.PaymentsGatewayWeb.Models;
 /// <param name="IsReceiptSent">Is receipt sent for that item?</param>
 public record OwnedItem(
     string ItemId,
+    string BillId,
     DateTime OwnedSince,
     DateTime OwnedBefore,
     bool IsReceiptSent

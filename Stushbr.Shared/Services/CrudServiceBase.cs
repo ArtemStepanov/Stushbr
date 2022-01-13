@@ -1,4 +1,6 @@
-﻿using Stushbr.Shared.DataAccess;
+﻿using LinqToDB;
+using LinqToDB.Data;
+using Stushbr.Shared.DataAccess;
 using System.Linq.Expressions;
 
 namespace Stushbr.Shared.Services
@@ -6,51 +8,65 @@ namespace Stushbr.Shared.Services
     public abstract class CrudServiceBase<TModel> : ICrudService<TModel>
         where TModel : class, IIdentifier
     {
-        protected IRepository<TModel> Repository { get; }
+        private DataConnection DataConnection { get; }
+        private ITable<TModel> Table => DataConnection.GetTable<TModel>();
 
-        protected CrudServiceBase(IRepository<TModel> repository)
+        protected CrudServiceBase(DataConnection dataConnection)
         {
-            Repository = repository;
+            DataConnection = dataConnection;
         }
 
-        public virtual Task<TModel> GetItemByIdAsync(string id)
+        public virtual Task<TModel?> GetItemByIdAsync(string id)
         {
-            return Repository.GetItemByIdAsync(id);
+            return Table.SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public virtual Task<IList<TModel>> GetItemsAsync(Expression<Func<TModel, bool>> predicate)
+        public virtual IQueryable<TModel> GetItemsAsync(Expression<Func<TModel, bool>> predicate)
         {
-            return Repository.GetItemsAsync(predicate);
+            return Table.Where(predicate);
         }
 
-        public virtual Task<IList<TModel>> GetAllItemsAsync()
+        public virtual ITable<TModel> GetAllItemsAsync()
         {
-            return Repository.GetAllItemsAsync();
+            return Table;
         }
 
-        public virtual Task CreateItemAsync(TModel item)
+        public virtual async Task<TModel> CreateItemAsync(TModel item)
         {
-            return Repository.CreateItemAsync(item);
+            var id = await DataConnection.InsertWithIdentityAsync(item);
+            item.Id = id.ToString()!;
+            return item;
         }
 
-        public virtual Task CreateItemsAsync(IEnumerable<TModel> items)
+        public virtual async Task<IEnumerable<TModel>> CreateItemsAsync(IEnumerable<TModel> items)
         {
-            return Repository.CreateItemsAsync(items);
+            var newList = new List<TModel>();
+
+            foreach (var item in items)
+            {
+                newList.Add(await CreateItemAsync(item));
+            }
+
+            return newList;
         }
 
-        public virtual Task UpdateItemAsync(TModel item)
+        public virtual async Task<TModel> UpdateItemAsync(TModel item)
         {
-            return Repository.UpdateItemAsync(item.Id, item);
+            await DataConnection.UpdateAsync(item);
+            return item;
         }
 
-        public virtual Task DeleteItemAsync(string id)
+        public virtual async Task DeleteItemAsync(string id)
         {
-            return Repository.DeleteItemAsync(id);
+            await DataConnection.DeleteAsync(id);
         }
 
-        public virtual Task DeleteItemsAsync(IEnumerable<string> ids)
+        public virtual async Task DeleteItemsAsync(IEnumerable<string> ids)
         {
-            return Repository.DeleteItemsAsync(ids);
+            foreach (var id in ids)
+            {
+                await DeleteItemAsync(id);
+            }
         }
     }
 }

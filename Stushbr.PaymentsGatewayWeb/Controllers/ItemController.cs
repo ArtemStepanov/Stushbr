@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
+using LinqToDB.Data;
 using Microsoft.AspNetCore.Mvc;
+using Qiwi.BillPayments.Model.Out;
 using Stushbr.PaymentsGatewayWeb.Models;
+using Stushbr.PaymentsGatewayWeb.Repositories;
 using Stushbr.PaymentsGatewayWeb.Services;
-using Stushbr.PaymentsGatewayWeb.ViewModels;
-using System.Text.Json.Nodes;
+using Stushbr.PaymentsGatewayWeb.ViewModels.Requests;
+using Stushbr.PaymentsGatewayWeb.ViewModels.Responses;
+using System.ComponentModel.DataAnnotations;
 
 namespace Stushbr.PaymentsGatewayWeb.Controllers;
 
@@ -12,39 +16,88 @@ namespace Stushbr.PaymentsGatewayWeb.Controllers;
 public class ItemController : ControllerBase
 {
     private ILogger<ItemController> _logger;
+    private readonly IBillService _billService;
     private readonly IItemService _itemService;
-    private readonly IMapper _autoMapper;
+    private readonly IClientService _clientService;
+    private readonly IQiwiService _qiwiService;
+    private readonly StushbrDataConnection _dataConnection;
+    private readonly IMapper _mapper;
 
     public ItemController(
         ILogger<ItemController> logger,
+        IBillService billService,
         IItemService itemService,
-        IMapper autoMapper
+        IClientService clientService,
+        IQiwiService qiwiService,
+        StushbrDataConnection dataConnection,
+        IMapper mapper
     )
     {
         _logger = logger;
-        _logger.LogInformation("test");
+        _billService = billService;
         _itemService = itemService;
-        _autoMapper = autoMapper;
+        _clientService = clientService;
+        _qiwiService = qiwiService;
+        _dataConnection = dataConnection;
+        _mapper = mapper;
     }
 
     [HttpGet("available")]
     public async Task<ItemResponse[]> GetAvailableItems()
     {
-        var items = new List<Item>
-        {
-            new Item(
-                Id: "TestId",
-                DisplayName: "Урок",
-                Description: "Описание",
-                Price: 500.0,
-                Type: ItemType.YouTubeVideo,
-                new JsonObject(),
-                IsEnabled: true,
-                AvailableSince: DateTime.Today,
-                AvailableBefore: DateTime.Today.AddDays(1))
-        };
+        var items = await _itemService.GetAvailableItemsAsync();
         return items
-            .Select(i => _autoMapper.Map<ItemResponse>(i))
+            .Select(i => _mapper.Map<ItemResponse>(i))
             .ToArray();
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ItemResponse> GetItemById(string id)
+    {
+        var item = await _itemService.GetItemByIdAsync(id);
+        return _mapper.Map<ItemResponse>(item);
+    }
+
+    [HttpPost("{id}/order")]
+    public async Task<ActionResult<OrderItemResponse>> OrderItem(
+        [StringLength(32, MinimumLength = 32, ErrorMessage = "Неверный идентификатор продукта")]
+        string id,
+        [FromBody] OrderItemRequest request
+    )
+    {
+        OrderItemResponse result;
+
+        var item = await _itemService.GetItemByIdAsync(id);
+        if (item == null)
+        {
+            return NotFound(new { Error = "Продукт не найден" });
+        }
+
+        await using (DataConnectionTransaction transaction = await _dataConnection.BeginTransactionAsync())
+        {
+            ClientRequest clientInfoRequest = request.ClientInfo;
+            Client client = await _clientService.TryGetClientByEmailAsync(clientInfoRequest.Email)
+                            ?? await _clientService.CreateItemAsync(_mapper.Map<Client>(clientInfoRequest));
+
+            Bill bill = await _billService.CreateAndLoadBillAsync(new Bill
+            {
+                ClientId = client.Id,
+                ItemId = id
+            });
+
+            BillResponse qiwiBill = await _qiwiService.CreateBillAsync(bill);
+
+            bill.PaymentSystemBillId = qiwiBill.BillId;
+            await _billService.UpdateItemAsync(bill);
+
+            result = new OrderItemResponse
+            {
+                Url = qiwiBill.PayUrl.ToString()
+            };
+
+            await transaction.CommitAsync();
+        }
+
+        return Ok(result);
     }
 }

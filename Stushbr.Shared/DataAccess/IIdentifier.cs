@@ -2,5 +2,5 @@
 
 public interface IIdentifier
 {
-    string Id { get; init; }
+    string Id { get; set; }
 }
