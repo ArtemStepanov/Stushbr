@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Stushbr.PaymentsGatewayWeb.Models;
 using Stushbr.PaymentsGatewayWeb.ViewModels.Requests;
 using Stushbr.PaymentsGatewayWeb.ViewModels.Responses;
+using Stushbr.Shared.Models;
 
 namespace Stushbr.PaymentsGatewayWeb.MapperProfiles;
 

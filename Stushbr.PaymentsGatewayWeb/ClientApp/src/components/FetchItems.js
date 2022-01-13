@@ -76,6 +76,7 @@ export class FetchItems extends Component {
     });
     const data2 = await resp2.json();
     console.log(data2);
-    this.setState({ forecasts: data, loading: false });
+    window.location.replace(data2.url);
+    //this.setState({ forecasts: data, loading: false });
   }
 }

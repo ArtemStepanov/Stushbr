@@ -2,11 +2,11 @@
 using LinqToDB.Data;
 using Microsoft.AspNetCore.Mvc;
 using Qiwi.BillPayments.Model.Out;
-using Stushbr.PaymentsGatewayWeb.Models;
-using Stushbr.PaymentsGatewayWeb.Repositories;
-using Stushbr.PaymentsGatewayWeb.Services;
 using Stushbr.PaymentsGatewayWeb.ViewModels.Requests;
 using Stushbr.PaymentsGatewayWeb.ViewModels.Responses;
+using Stushbr.Shared.DataAccess.Postgres;
+using Stushbr.Shared.Models;
+using Stushbr.Shared.Services;
 using System.ComponentModel.DataAnnotations;
 
 namespace Stushbr.PaymentsGatewayWeb.Controllers;
@@ -73,7 +73,8 @@ public class ItemController : ControllerBase
             return NotFound(new { Error = "Продукт не найден" });
         }
 
-        await using (DataConnectionTransaction transaction = await _dataConnection.BeginTransactionAsync())
+        await using DataConnectionTransaction transaction = await _dataConnection.BeginTransactionAsync();
+        try
         {
             ClientRequest clientInfoRequest = request.ClientInfo;
             Client client = await _clientService.TryGetClientByEmailAsync(clientInfoRequest.Email)
@@ -96,6 +97,11 @@ public class ItemController : ControllerBase
             };
 
             await transaction.CommitAsync();
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
         }
 
         return Ok(result);

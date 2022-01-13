@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Qiwi.BillPayments.Model.In;
-using Stushbr.PaymentsGatewayWeb.Models;
+using Stushbr.Shared.Models;
 
 namespace Stushbr.PaymentsGatewayWeb.MapperProfiles;
 

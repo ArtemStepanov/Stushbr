@@ -1,4 +1,4 @@
-﻿using Stushbr.PaymentsGatewayWeb.Models;
+﻿using Stushbr.Shared.Models;
 
 namespace Stushbr.PaymentsGatewayWeb.ViewModels.Responses;
 

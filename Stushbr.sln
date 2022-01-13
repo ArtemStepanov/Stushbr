@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stushbr.PaymentsTelegramBot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stushbr.Shared", "Stushbr.Shared\Stushbr.Shared.csproj", "{E7F6FA5F-A41E-4631-B365-9AE569CDEED8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stushbr.Scheduler", "Stushbr.Scheduler\Stushbr.Scheduler.csproj", "{5561E1F8-42B5-48D3-B09C-CAADE7EA5375}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stushbr.EntitiesProcessor", "Stushbr.EntitiesProcessor\Stushbr.EntitiesProcessor.csproj", "{5561E1F8-42B5-48D3-B09C-CAADE7EA5375}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

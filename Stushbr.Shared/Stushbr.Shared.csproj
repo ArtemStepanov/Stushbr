@@ -7,20 +7,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
-      <PackageReference Include="linq2db.AspNet" Version="3.6.0" />
-      <PackageReference Include="MongoDB.Driver" Version="2.14.1" />
-      <PackageReference Include="Npgsql" Version="6.0.2" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+        <PackageReference Include="linq2db.AspNet" Version="3.6.0" />
+        <PackageReference Include="MongoDB.Driver" Version="2.14.1" />
+        <PackageReference Include="Npgsql" Version="6.0.2" />
+        <PackageReference Include="Qiwi.BillPayments" Version="0.1.5" />
+        <PackageReference Include="System.Data.Common" Version="4.3.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
-        <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\6.0.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
-      </Reference>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="DataAccess\Postgres" />
+        <Content Include="DataAccess\Schemas\**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>
