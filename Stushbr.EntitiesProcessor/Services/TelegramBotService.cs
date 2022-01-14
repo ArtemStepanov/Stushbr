@@ -1,9 +1,19 @@
-﻿namespace Stushbr.EntitiesProcessor.Services;
+﻿using Telegram.Bot;
+
+namespace Stushbr.EntitiesProcessor.Services;
 
 public class TelegramBotService : ITelegramBotService
 {
-    public TelegramBotService()
+    private readonly ILogger<TelegramBotService> _getRequiredService;
+    private readonly TelegramBotClient _telegramBotClient;
+
+    public TelegramBotService(
+        ILogger<TelegramBotService> getRequiredService,
+        TelegramBotClient telegramBotClient
+    )
     {
+        _getRequiredService = getRequiredService;
+        _telegramBotClient = telegramBotClient;
     }
 
     public async Task<string> CreateInviteLinkAsync(string channel)
