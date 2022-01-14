@@ -5,64 +5,18 @@
     <projectFile profileName="IIS Express">Stushbr.PaymentsGateway/Stushbr.PaymentsGateway.csproj</projectFile>
     <projectFile profileName="Stushbr.PaymentsTelegramBot">Stushbr.PaymentsTelegramBot/Stushbr.PaymentsTelegramBot.csproj</projectFile>
     <projectFile profileName="Stushbr.Scheduler">Stushbr.Scheduler/Stushbr.Scheduler.csproj</projectFile>
+    <projectFile profileName="Stushbr.EntitiesProcessor">Stushbr.EntitiesProcessor/Stushbr.EntitiesProcessor.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f99dca14-7949-4c2e-885c-66eed54b9ffc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Stushbr.EntitiesProcessor/BillStatusUpdater.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.EntitiesProcessor/Configuration/ProcessorConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.EntitiesProcessor/Configuration/TelegramConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.EntitiesProcessor/ItemProcessorWorker.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.EntitiesProcessor/Processors/ITelegramChannelProcessor.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.EntitiesProcessor/Processors/TelegramChannelProcessor.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.EntitiesProcessor/Program.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.EntitiesProcessor/Services/IItemProcessorService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.EntitiesProcessor/Services/ITelegramBotService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.EntitiesProcessor/Services/ItemProcessorService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.EntitiesProcessor/Services/TelegramBotService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Shared/Configuration/PostgresConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Shared/DataAccess/Postgres/PostgreTableSeeder.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Shared/DataAccess/Schemas/tables.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Stushbr.Shared/Extensions/ServiceCollectionExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Stushbr/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Stushbr/.idea/aws.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Stushbr/.idea/shelf/Uncommitted_changes_before_Update_at_1_14_2022_5_17_PM_[Changes]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Stushbr/.idea/shelf/Uncommitted_changes_before_Update_at_1_14_2022_5_17_PM__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Stushbr/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Stushbr/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/src/components/FetchItems.js" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/src/components/FetchItems.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Configuration/ApplicationConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.Shared/Configuration/ApplicationConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Configuration/QiwiConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.Shared/Configuration/QiwiConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Controllers/ItemController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Controllers/ItemController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Controllers/WeatherForecastController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/MapperProfiles/ClientProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/MapperProfiles/ClientProfile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/MapperProfiles/ItemProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/MapperProfiles/ItemProfile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Models/Bill.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.Shared/Models/Bill.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Models/Client.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.Shared/Models/Client.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Models/Item.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.Shared/Models/Item.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Models/ItemType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.Shared/Models/ItemType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Models/OwnedItem.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Repositories/StushbrDataConnection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.Shared/DataAccess/Postgres/StushbrDataConnection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Services/BillService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.Shared/Services/BillService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Services/ClientService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.Shared/Services/ClientService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Services/IBillService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.Shared/Services/IBillService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Services/IClientService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.Shared/Services/IClientService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Services/IItemService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.Shared/Services/IItemService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Services/IQiwiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.Shared/Services/IQiwiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Services/ItemService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.Shared/Services/ItemService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Services/QiwiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.Shared/Services/QiwiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Stushbr.PaymentsGatewayWeb.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Stushbr.PaymentsGatewayWeb.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ViewModels/Requests/ClientRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ViewModels/Requests/ClientRequest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ViewModels/Responses/ItemResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ViewModels/Responses/ItemResponse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/WeatherForecast.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/appsettings.Development.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.Scheduler/.dockerignore" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.EntitiesProcessor/.dockerignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.Scheduler/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.EntitiesProcessor/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.Scheduler/Program.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.Scheduler/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.EntitiesProcessor/Properties/launchSettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.Scheduler/Stushbr.Scheduler.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.EntitiesProcessor/Stushbr.EntitiesProcessor.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.Scheduler/Worker.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.Scheduler/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.EntitiesProcessor/appsettings.Development.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stushbr.Scheduler/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.EntitiesProcessor/appsettings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Stushbr.Shared/Stushbr.Shared.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.Shared/Stushbr.Shared.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Stushbr.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Stushbr.sln" afterDir="false" />
     </list>
@@ -80,28 +34,17 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Controllers/ItemController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Stushbr.Shared/Models/Item.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Stushbr.EntitiesProcessor/Program.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ViewModels/Responses/ItemResponse.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Stushbr.Shared/Models/ItemType.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Stushbr.EntitiesProcessor/Services/IItemProcessorService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Controllers/ItemController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Stushbr.EntitiesProcessor/Services/ItemProcessorService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ClientApp/package-lock.json" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Stushbr.Shared/Models/ItemType.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Stushbr.EntitiesProcessor/BillStatusUpdater.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/eb7da7a398254ea68fb2dd8e9340f0d5c600/a9/d0f5298e/ResponseStatus.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9f3f2539caf1d1d3bc962f51b12a49523c53a6a135dd252df0b23b14b3515df/EntityFrameworkServiceCollectionExtensions.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Stushbr.EntitiesProcessor/ItemProcessorWorker.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9d4f4ac7db6d2c5d183ab2d92602280ed4349fd6e6a1b6313546b3d01fdab5/ServiceProvider.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bd1a2f2b051aafc98f48248c9526535ad6876e7ac7b60a4d858631cbf9f1/NpgsqlConnection.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/eb7da7a398254ea68fb2dd8e9340f0d5c600/60/6450f96b/BillStatusEnum.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8ce284dd96769341c0597fc5532bc853df4618b5e61ce04a44ca86b6c1a5/Lazy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/fcf8a632bf29ee1c9ceeba6881d34e365d858f8f117f62861291dcdb2f1f93/ModelValidator.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6f3d9d99a916c21e24123c494fc2af978b87cef4e538b436dd822a5424e0/ValueConverterAttribute.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/eb7da7a398254ea68fb2dd8e9340f0d5c600/b5/0855cd90/BillPaymentsClient.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/575c31ecc35a636b6f962cb71d53992552941a18982aae1c8e6c16305cc3761b/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/29d7b52780daa4ca9cdd56b8fd1f415cccdd8a29c28c94e1e628dafbfca0117b/DataConnectionTransaction.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/ViewModels/Responses/ItemResponse.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Stushbr.EntitiesProcessor/BillStatusUpdater.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Stushbr.EntitiesProcessor/ItemProcessorWorker.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Stushbr.EntitiesProcessor/Program.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -191,6 +134,7 @@
       <updated>1641909274331</updated>
       <workItem from="1641909276438" duration="65144000" />
       <workItem from="1642084242918" duration="3544000" />
+      <workItem from="1642171499456" duration="299000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <created>1642013239442</created>
@@ -247,27 +191,13 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Stushbr.PaymentsGatewayWeb/Controllers/ItemController.cs</url>
           <line>78</line>
-          <properties documentPath="D:\_repos\stushbr\Stushbr\Stushbr.PaymentsGatewayWeb\Controllers\ItemController.cs" initialLine="78" containingFunctionPresentation="method 'OrderItem'">
-            <startOffsets>
-              <option value="2452" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2505" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="D:\_repos\stushbr\Stushbr\Stushbr.PaymentsGatewayWeb\Controllers\ItemController.cs" initialLine="78" containingFunctionPresentation="method 'OrderItem'" />
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Stushbr.EntitiesProcessor/Program.cs</url>
           <line>14</line>
-          <properties documentPath="D:\_repos\stushbr\Stushbr\Stushbr.EntitiesProcessor\Program.cs" initialLine="14" containingFunctionPresentation="">
-            <startOffsets>
-              <option value="583" />
-            </startOffsets>
-            <endOffsets>
-              <option value="657" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="D:\_repos\stushbr\Stushbr\Stushbr.EntitiesProcessor\Program.cs" initialLine="14" containingFunctionPresentation="" />
           <option name="timeStamp" value="34" />
         </line-breakpoint>
       </breakpoints>
