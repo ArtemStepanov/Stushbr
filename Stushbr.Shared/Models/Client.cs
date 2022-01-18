@@ -21,6 +21,6 @@ public class Client : IIdentifier
     [Column("phone_number")]
     public string PhoneNumber { get; init; }
 
-    [Association(ThisKey = nameof(Id), OtherKey = nameof(Bill.ClientId))]
-    public List<Bill> Bills { get; set; }
+    [Association(ThisKey = nameof(Id), OtherKey = nameof(ClientItem.ClientId))]
+    public List<ClientItem> ClientItems { get; set; }
 }

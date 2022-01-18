@@ -5,7 +5,7 @@ namespace Stushbr.Shared.Services;
 
 public interface IQiwiService
 {
-    Task<BillResponse> CreateBillAsync(Bill loadedBill);
+    Task<BillResponse> CreateBillAsync(ClientItem loadedClientItem);
 
     Task<BillResponse> GetBillInfoAsync(string billId);
 }

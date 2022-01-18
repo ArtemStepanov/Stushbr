@@ -21,7 +21,7 @@ public class TelegramBotService : ITelegramBotService
     {
         ChatInviteLink link = await _telegramBotClient.CreateChatInviteLinkAsync(
             new ChatId(channelId),
-            "invite link for {username}",
+            Guid.NewGuid().ToString(),
             memberLimit: 1,
             expireDate: DateTime.Now.AddDays(10)
         );

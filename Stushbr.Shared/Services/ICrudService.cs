@@ -1,15 +1,16 @@
 ﻿using LinqToDB;
+using LinqToDB.Data;
 using System.Linq.Expressions;
 
 namespace Stushbr.Shared.Services
 {
-    public interface ICrudService<TModel> where TModel : notnull
+    public interface ICrudService<TModel> : IService where TModel : notnull
     {
         Task<TModel?> GetItemByIdAsync(string id);
 
         IQueryable<TModel> GetItemsAsync(Expression<Func<TModel, bool>> predicate);
 
-        ITable<TModel> GetAllItemsAsync();
+        Task<List<TModel>> GetAllItemsAsync();
 
         Task<TModel> CreateItemAsync(TModel item);
 

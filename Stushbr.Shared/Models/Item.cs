@@ -35,6 +35,6 @@ public class Item : IIdentifier
     [Column("available_before")]
     public DateTime? AvailableBefore { get; set; }
 
-    [Association(ThisKey = nameof(Id), OtherKey = nameof(Bill.ItemId))]
-    public List<Bill> Bills { get; set; }
+    [Association(ThisKey = nameof(Id), OtherKey = nameof(ClientItem.ItemId))]
+    public List<ClientItem> ClientItems { get; set; }
 }

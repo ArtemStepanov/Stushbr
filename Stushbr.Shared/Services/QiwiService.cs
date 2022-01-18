@@ -6,7 +6,6 @@ using Qiwi.BillPayments.Model.In;
 using Qiwi.BillPayments.Model.Out;
 using Stushbr.Shared.Configuration;
 using Stushbr.Shared.Models;
-using Bill = Stushbr.Shared.Models.Bill;
 
 namespace Stushbr.Shared.Services;
 
@@ -30,10 +29,10 @@ public class QiwiService : IQiwiService
         _mapper = mapper;
     }
 
-    public async Task<BillResponse> CreateBillAsync(Bill loadedBill)
+    public async Task<BillResponse> CreateBillAsync(ClientItem loadedClientItem)
     {
-        Item item = loadedBill.AssociatedItem!;
-        Client client = loadedBill.AssociatedClient!;
+        Item item = loadedClientItem.AssociatedItem!;
+        Client client = loadedClientItem.AssociatedClient!;
 
         var amount = new MoneyAmount
         {
@@ -50,7 +49,7 @@ public class QiwiService : IQiwiService
             Amount = amount,
             Comment = FormatComment(item, client),
             Customer = _mapper.Map<Customer>(client),
-            BillId = loadedBill.Id,
+            BillId = loadedClientItem.Id,
             SuccessUrl = new Uri(_configuration.SuccessUrl),
             ExpirationDateTime = DateTime.Now.AddDays(10)
         });

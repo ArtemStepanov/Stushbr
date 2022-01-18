@@ -1,10 +1,13 @@
-﻿using LinqToDB.Mapping;
+﻿using LinqToDB;
+using LinqToDB.Mapping;
 using Stushbr.Shared.DataAccess;
+using Stushbr.Shared.Extensions;
+using System.Text.Json.Nodes;
 
 namespace Stushbr.Shared.Models;
 
-[Table("bills")]
-public class Bill : IIdentifier
+[Table("client_items")]
+public class ClientItem : IIdentifier
 {
     [Column("id"), PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString("N");
@@ -35,4 +38,12 @@ public class Bill : IIdentifier
 
     [Column("process_date")]
     public DateTime? ProcessDate { get; set; }
+
+    [Column("data", DataType = DataType.Json)]
+    public JsonNode Data { get; set; }
+
+    public TelegramClientItemData? GetTelegramData()
+    {
+        return Data.ToObject<TelegramClientItemData>();
+    }
 }

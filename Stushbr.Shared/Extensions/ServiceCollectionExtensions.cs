@@ -15,54 +15,68 @@ namespace Stushbr.Shared.Extensions;
 
 public static class ServiceCollectionExtensions
 {
+    private class DbInitializer
+    {
+        public DbInitializer()
+        {
+        }
+    }
+
     public static IServiceCollection AddEssentials(
         this IServiceCollection services,
         ApplicationConfiguration applicationConfiguration
     )
     {
-        services.AddSingleton(applicationConfiguration);
-        services.AddSingleton(BillPaymentsClientFactory.Create(applicationConfiguration.Qiwi!.SecretToken));
+        // !!! WARNING !!!
+        // applicationConfiguration MUST BE USED ONLY ONCE BELOW
+        // !!! WARNING !!!
+        services.AddSingleton(provider =>
+        {
+            // hack to initialize databases
+
+            // Seed postgres tables
+            PostgreTableSeeder.SeedTablesIfRequired(
+                applicationConfiguration.Postgres!.ConnectionString,
+                provider.GetRequiredService<ILogger<PostgreTableSeeder>>()
+            );
+
+            return applicationConfiguration;
+        });
+
         services.AddAutoMapper(Assembly.GetCallingAssembly());
 
         #region Repositories
 
         services.AddLinqToDbContext<StushbrDataConnection>((provider, options) =>
         {
-            // Seed postgres tables
-            InitializeDatabaseIfRequired(applicationConfiguration, provider);
+            var config = provider.GetRequiredService<ApplicationConfiguration>();
 
             MappingSchema ms = options.MappingSchema ?? MappingSchema.Default;
             ms.SetConverter<string, JsonNode?>(source => JsonNode.Parse(source));
 
             options
-                .UsePostgreSQL(applicationConfiguration.Postgres!.ConnectionString)
+                .UsePostgreSQL(config.Postgres!.ConnectionString)
                 .UseMappingSchema(ms)
                 .UseDefaultLogging(provider);
-        }, ServiceLifetime.Transient);
+        });
 
         #endregion
 
         #region Services
 
+        services.AddSingleton(provider => BillPaymentsClientFactory.Create(
+                provider.GetRequiredService<ApplicationConfiguration>().Qiwi!.SecretToken
+            )
+        );
         services.AddSingleton<IQiwiService, QiwiService>();
-        services.AddTransient<IItemService, ItemService>();
-        services.AddTransient<IClientService, ClientService>();
-        services.AddTransient<IBillService, BillService>();
         services.AddSingleton<IMailService, MailService>();
+
+        services.AddScoped<IItemService, ItemService>();
+        services.AddScoped<IClientService, ClientService>();
+        services.AddScoped<IClientItemService, ClientItemService>();
 
         #endregion
 
         return services;
-    }
-
-    private static void InitializeDatabaseIfRequired(
-        ApplicationConfiguration applicationConfiguration,
-        IServiceProvider provider
-    )
-    {
-        PostgreTableSeeder.SeedTablesIfRequired(
-            applicationConfiguration.Postgres!.ConnectionString,
-            provider.GetRequiredService<ILogger<PostgreTableSeeder>>()
-        );
     }
 }

@@ -16,5 +16,5 @@ public class StushbrDataConnection : DataConnection
 
     public ITable<Client> Clients => GetTable<Client>();
 
-    public ITable<Bill> Bills => GetTable<Bill>();
+    public ITable<ClientItem> Bills => GetTable<ClientItem>();
 }

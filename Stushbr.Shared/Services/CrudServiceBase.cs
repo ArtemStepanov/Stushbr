@@ -9,6 +9,7 @@ namespace Stushbr.Shared.Services
         where TModel : class, IIdentifier
     {
         private DataConnection DataConnection { get; }
+
         private ITable<TModel> Table => DataConnection.GetTable<TModel>();
 
         protected CrudServiceBase(DataConnection dataConnection)
@@ -26,9 +27,9 @@ namespace Stushbr.Shared.Services
             return Table.Where(predicate);
         }
 
-        public virtual ITable<TModel> GetAllItemsAsync()
+        public virtual Task<List<TModel>> GetAllItemsAsync()
         {
-            return Table;
+            return Table.ToListAsync();
         }
 
         public virtual async Task<TModel> CreateItemAsync(TModel item)
@@ -67,6 +68,11 @@ namespace Stushbr.Shared.Services
             {
                 await DeleteItemAsync(id);
             }
+        }
+
+        public Task<DataConnectionTransaction> StartTransactionAsync(CancellationToken? cancellationToken)
+        {
+            return DataConnection.BeginTransactionAsync(cancellationToken ?? CancellationToken.None);
         }
     }
 }

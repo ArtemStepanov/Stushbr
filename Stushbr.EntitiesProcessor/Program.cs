@@ -1,5 +1,6 @@
 using Stushbr.EntitiesProcessor;
 using Stushbr.EntitiesProcessor.Configuration;
+using Stushbr.EntitiesProcessor.HostedWorkers;
 using Stushbr.EntitiesProcessor.Processors;
 using Stushbr.EntitiesProcessor.Services;
 using Stushbr.Shared.Extensions;
@@ -11,26 +12,20 @@ IHost host = Host.CreateDefaultBuilder(args)
         var config = context.Configuration.Get<ProcessorConfiguration>();
         services.AddEssentials(config);
 
-        #region Processors
-
-        services.AddSingleton<ITelegramChannelProcessor, TelegramChannelProcessor>();
-
-        #endregion
-
         #region Services
 
-        services.AddSingleton<IItemProcessorService, ItemProcessorService>();
         services.AddSingleton<ITelegramBotService>(provider => new TelegramBotService(
             provider.GetRequiredService<ILogger<TelegramBotService>>(),
             new TelegramBotClient(config.Telegram.AccessToken)
         ));
+        services.AddScoped<ITelegramChannelProcessor, TelegramChannelProcessor>();
 
         #endregion
 
         #region Hosted services
 
-        services.AddHostedService<BillStatusUpdater>();
-        services.AddHostedService<ItemProcessorWorker>();
+        services.AddHostedService<ClientItemStatusUpdaterHostedService>();
+        services.AddHostedService<ClientItemProcessorHostedService>();
 
         #endregion
     })
