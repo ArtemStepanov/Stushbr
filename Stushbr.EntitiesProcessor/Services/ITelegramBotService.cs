@@ -1,6 +1,8 @@
-﻿namespace Stushbr.EntitiesProcessor.Services;
+﻿using Telegram.Bot.Types;
+
+namespace Stushbr.EntitiesProcessor.Services;
 
 public interface ITelegramBotService
 {
-    Task<string> CreateInviteLinkAsync(string channel);
+    Task<ChatInviteLink> CreateInviteLinkAsync(long channelId);
 }

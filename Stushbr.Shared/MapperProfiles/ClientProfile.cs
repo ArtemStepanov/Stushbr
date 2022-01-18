@@ -2,7 +2,7 @@
 using Qiwi.BillPayments.Model.In;
 using Stushbr.Shared.Models;
 
-namespace Stushbr.PaymentsGatewayWeb.MapperProfiles;
+namespace Stushbr.Shared.MapperProfiles;
 
 public class ClientProfile : Profile
 {

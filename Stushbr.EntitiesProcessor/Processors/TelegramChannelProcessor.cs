@@ -1,6 +1,6 @@
 ﻿using Stushbr.EntitiesProcessor.Services;
 using Stushbr.Shared.Models;
-using Telegram.Bot;
+using Telegram.Bot.Types;
 
 namespace Stushbr.EntitiesProcessor.Processors;
 
@@ -20,6 +20,11 @@ public class TelegramChannelProcessor : ITelegramChannelProcessor
 
     public async Task SendInviteLinkToClientAsync(Item item, Client client)
     {
-        return TODO_IMPLEMENT_ME;
+        ChatInviteLink link =
+            await _telegramBotService.CreateInviteLinkAsync(
+                item.Data["ChannelId"]!.GetValue<long>()
+            );
+
+        // await _mailSenderService.SendTelegramInviteLinkAsync(client, link.InviteLink, link.ExpireDate);
     }
 }

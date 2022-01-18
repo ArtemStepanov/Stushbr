@@ -1,6 +1,5 @@
 ﻿using LinqToDB;
 using Stushbr.EntitiesProcessor.Services;
-using Stushbr.Shared.Models;
 using Stushbr.Shared.Services;
 
 namespace Stushbr.EntitiesProcessor;
@@ -43,9 +42,5 @@ public class ItemProcessorWorker : BackgroundService
         {
             await _itemProcessorService.ProcessItemAsync(item, cancellationToken);
         }
-    }
-
-    private async Task ProcessItem(Bill item, CancellationToken cancellationToken)
-    {
     }
 }

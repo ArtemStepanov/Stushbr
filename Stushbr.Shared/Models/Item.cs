@@ -1,4 +1,5 @@
-﻿using LinqToDB;
+﻿using System.Text.Json.Nodes;
+using LinqToDB;
 using LinqToDB.Mapping;
 using Stushbr.Shared.DataAccess;
 
@@ -23,7 +24,7 @@ public class Item : IIdentifier
     public ItemType Type { get; set; }
 
     [Column("data", DataType = DataType.Json)]
-    public dynamic Data { get; set; }
+    public JsonNode Data { get; set; }
 
     [Column("is_enabled")]
     public bool IsEnabled { get; set; } = true;

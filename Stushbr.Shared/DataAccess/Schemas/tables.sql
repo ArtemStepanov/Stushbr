@@ -49,7 +49,7 @@ CREATE INDEX IF NOT EXISTS clients_second_name_idx ON public.clients USING btree
 
 -- DROP TABLE public.bills;
 
-CREATE TABLE public.bills
+CREATE TABLE IF NOT EXISTS public.bills
 (
     id                     text      NOT NULL,
     client_id              text      NOT NULL,
@@ -63,6 +63,6 @@ CREATE TABLE public.bills
     CONSTRAINT bills_fk FOREIGN KEY (item_id) REFERENCES public.items (id) ON UPDATE CASCADE,
     CONSTRAINT bills_fk_1 FOREIGN KEY (client_id) REFERENCES public.clients (id) ON UPDATE CASCADE
 );
-CREATE INDEX bills_client_id_idx ON public.bills USING btree (client_id);
-CREATE INDEX bills_item_id_idx ON public.bills USING btree (item_id);
-CREATE INDEX bills_payment_system_id_idx ON public.bills USING btree (payment_system_bill_id);
+CREATE INDEX IF NOT EXISTS bills_client_id_idx ON public.bills USING btree (client_id);
+CREATE INDEX IF NOT EXISTS bills_item_id_idx ON public.bills USING btree (item_id);
+CREATE INDEX IF NOT EXISTS bills_payment_system_id_idx ON public.bills USING btree (payment_system_bill_id);

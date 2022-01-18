@@ -1,6 +1,4 @@
-using Stushbr.PaymentsGatewayWeb.MapperProfiles;
 using Stushbr.Shared.Configuration;
-using Stushbr.Shared.DataAccess.Postgres;
 using Stushbr.Shared.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,17 +10,10 @@ services.AddEssentials(configuration);
 services.AddSwaggerGen();
 
 // Add services to the container.
-services.AddAutoMapper(typeof(ItemProfile), typeof(ClientProfile));
 
 services.AddControllersWithViews();
 
 var app = builder.Build();
-
-// Seed postgre tables
-PostgreTableSeeder.SeedTablesIfRequired(
-    configuration.Postgres!.ConnectionString,
-    app.Services.GetRequiredService<ILogger<PostgreTableSeeder>>()
-);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
