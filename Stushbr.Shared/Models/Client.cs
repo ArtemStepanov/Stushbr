@@ -23,4 +23,7 @@ public class Client : IIdentifier
 
     [Association(ThisKey = nameof(Id), OtherKey = nameof(ClientItem.ClientId))]
     public List<ClientItem> ClientItems { get; set; }
+
+    [NotColumn]
+    public string FullName => $"{FirstName} {SecondName}";
 }

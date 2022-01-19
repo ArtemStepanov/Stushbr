@@ -17,15 +17,21 @@ public class TelegramBotService : ITelegramBotService
         _telegramBotClient = telegramBotClient;
     }
 
-    public async Task<ChatInviteLink> CreateInviteLinkAsync(long channelId)
+    public async Task<ChatInviteLink> CreateInviteLinkAsync(long chatId)
     {
         ChatInviteLink link = await _telegramBotClient.CreateChatInviteLinkAsync(
-            new ChatId(channelId),
+            new ChatId(chatId),
             Guid.NewGuid().ToString(),
             memberLimit: 1,
             expireDate: DateTime.Now.AddDays(10)
         );
 
         return link;
+    }
+
+    public async Task<Chat> GetChatInfoAsync(long chatId)
+    {
+        var info = await _telegramBotClient.GetChatAsync(new ChatId(chatId));
+        return info;
     }
 }

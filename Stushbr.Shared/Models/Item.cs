@@ -2,6 +2,8 @@
 using LinqToDB;
 using LinqToDB.Mapping;
 using Stushbr.Shared.DataAccess;
+using Stushbr.Shared.Extensions;
+using System.Text.Json.Serialization;
 
 namespace Stushbr.Shared.Models;
 
@@ -24,7 +26,7 @@ public class Item : IIdentifier
     public ItemType Type { get; set; }
 
     [Column("data", DataType = DataType.Json)]
-    public JsonNode Data { get; set; }
+    public JsonNode? Data { get; set; }
 
     [Column("is_enabled")]
     public bool IsEnabled { get; set; } = true;
@@ -37,4 +39,7 @@ public class Item : IIdentifier
 
     [Association(ThisKey = nameof(Id), OtherKey = nameof(ClientItem.ItemId))]
     public List<ClientItem> ClientItems { get; set; }
+
+    [NotColumn]
+    public TelegramItemData? TelegramItemData => Data?.ToObject<TelegramItemData>();
 }

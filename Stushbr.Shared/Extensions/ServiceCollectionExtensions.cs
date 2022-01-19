@@ -15,13 +15,6 @@ namespace Stushbr.Shared.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    private class DbInitializer
-    {
-        public DbInitializer()
-        {
-        }
-    }
-
     public static IServiceCollection AddEssentials(
         this IServiceCollection services,
         ApplicationConfiguration applicationConfiguration
@@ -69,8 +62,8 @@ public static class ServiceCollectionExtensions
             )
         );
         services.AddSingleton<IQiwiService, QiwiService>();
-        services.AddSingleton<IMailService, MailService>();
 
+        services.AddScoped<IMailService, MailService>();
         services.AddScoped<IItemService, ItemService>();
         services.AddScoped<IClientService, ClientService>();
         services.AddScoped<IClientItemService, ClientItemService>();

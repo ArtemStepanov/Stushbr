@@ -1,5 +1,7 @@
 namespace Stushbr.Shared.Models;
 
 public record TelegramClientItemData(
-    string InviteLink
+    string InviteLink,
+    DateTime? LinkExpireDate,
+    string? ChannelName
 );

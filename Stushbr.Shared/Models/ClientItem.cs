@@ -42,8 +42,12 @@ public class ClientItem : IIdentifier
     [Column("data", DataType = DataType.Json)]
     public JsonNode Data { get; set; }
 
-    public TelegramClientItemData? GetTelegramData()
+    [NotColumn]
+    public TelegramClientItemData? TelegramData => Data.ToObject<TelegramClientItemData>();
+
+    public void SetProcessed(bool isProcessed)
     {
-        return Data.ToObject<TelegramClientItemData>();
+        IsProcessed = isProcessed;
+        ProcessDate = isProcessed ? DateTime.Now : null;
     }
 }

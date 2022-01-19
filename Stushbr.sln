@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stushbr.PaymentsGatewayWeb", "Stushbr.PaymentsGatewayWeb\Stushbr.PaymentsGatewayWeb.csproj", "{461247E0-9141-4B04-BF73-87C283BBF5DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stushbr.PaymentsTelegramBot", "Stushbr.PaymentsTelegramBot\Stushbr.PaymentsTelegramBot.csproj", "{F4F576C8-8CCB-4A88-AAB0-47D29AC0C5A4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stushbr.Shared", "Stushbr.Shared\Stushbr.Shared.csproj", "{E7F6FA5F-A41E-4631-B365-9AE569CDEED8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stushbr.EntitiesProcessor", "Stushbr.EntitiesProcessor\Stushbr.EntitiesProcessor.csproj", "{5561E1F8-42B5-48D3-B09C-CAADE7EA5375}"
@@ -25,10 +23,6 @@ Global
 		{461247E0-9141-4B04-BF73-87C283BBF5DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{461247E0-9141-4B04-BF73-87C283BBF5DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{461247E0-9141-4B04-BF73-87C283BBF5DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F4F576C8-8CCB-4A88-AAB0-47D29AC0C5A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F4F576C8-8CCB-4A88-AAB0-47D29AC0C5A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F4F576C8-8CCB-4A88-AAB0-47D29AC0C5A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F4F576C8-8CCB-4A88-AAB0-47D29AC0C5A4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E7F6FA5F-A41E-4631-B365-9AE569CDEED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E7F6FA5F-A41E-4631-B365-9AE569CDEED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7F6FA5F-A41E-4631-B365-9AE569CDEED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
