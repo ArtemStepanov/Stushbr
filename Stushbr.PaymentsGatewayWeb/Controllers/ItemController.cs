@@ -39,8 +39,9 @@ public class ItemController : ControllerBase
     }
 
     [HttpGet("available")]
-    public async Task<ItemResponse[]> GetAvailableItems()
+    public async Task<ActionResult<ItemResponse[]>> GetAvailableItems()
     {
+        throw new Exception("haha");
         var items = await _itemService.GetAvailableItemsAsync();
         return items
             .Select(i => _mapper.Map<ItemResponse>(i))
@@ -48,7 +49,7 @@ public class ItemController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ItemResponse> GetItemById(string id)
+    public async Task<ActionResult<ItemResponse>> GetItemById(string id)
     {
         var item = await _itemService.GetItemByIdAsync(id);
         return _mapper.Map<ItemResponse>(item);
@@ -56,7 +57,7 @@ public class ItemController : ControllerBase
 
     [HttpPost("{id}/order")]
     public async Task<ActionResult<OrderItemResponse>> OrderItem(
-        [StringLength(32, MinimumLength = 32, ErrorMessage = "Неверный идентификатор продукта")] string id,
+        string id,
         [FromBody] OrderItemRequest request
     )
     {
@@ -70,22 +71,29 @@ public class ItemController : ControllerBase
 
         await using DataConnectionTransaction transaction =
             await _clientService.StartTransactionAsync(HttpContext.RequestAborted);
+
         try
         {
             ClientRequest clientInfoRequest = request.ClientInfo;
             Client client = await _clientService.TryGetClientByEmailAsync(clientInfoRequest.Email)
                             ?? await _clientService.CreateItemAsync(_mapper.Map<Client>(clientInfoRequest));
 
-            ClientItem clientItem = await _clientItemService.CreateAndLoadBillAsync(new ClientItem
+            ClientItem clientItem = await _clientItemService.GetOrCreateAndLoadBillAsync(new ClientItem
             {
                 ClientId = client.Id,
                 ItemId = id
             }, HttpContext.RequestAborted);
 
-            BillResponse qiwiBill = await _qiwiService.CreateBillAsync(clientItem);
-
-            clientItem.PaymentSystemBillId = qiwiBill.BillId;
-            await _clientItemService.UpdateItemAsync(clientItem);
+            BillResponse qiwiBill;
+            if (clientItem.PaymentSystemBillId == null)
+            {
+                // Create new bill and update client item
+                qiwiBill = await CreateBillAndUpdateClientItemAsync(clientItem);
+            }
+            else
+            {
+                qiwiBill = await _qiwiService.GetBillInfoAsync(clientItem.PaymentSystemBillId);
+            }
 
             result = new OrderItemResponse
             {
@@ -101,5 +109,17 @@ public class ItemController : ControllerBase
         }
 
         return Ok(result);
+    }
+
+    private async Task<BillResponse> CreateBillAndUpdateClientItemAsync(ClientItem clientItem)
+    {
+        BillResponse qiwiBill = await _qiwiService.CreateBillAsync(clientItem);
+
+        clientItem.PaymentSystemBillId = qiwiBill.BillId;
+        clientItem.PaymentSystemBillDueDate = qiwiBill.ExpirationDateTime;
+
+        await _clientItemService.UpdateItemAsync(clientItem);
+
+        return qiwiBill;
     }
 }

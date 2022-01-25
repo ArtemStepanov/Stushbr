@@ -24,8 +24,28 @@ public class ClientItemService : CrudServiceBase<ClientItem>, IClientItemService
         return bill!;
     }
 
-    public async Task<ClientItem> CreateAndLoadBillAsync(ClientItem clientItem, CancellationToken cancellationToken)
+    public async Task<ClientItem> GetOrCreateAndLoadBillAsync(
+        ClientItem clientItem,
+        CancellationToken cancellationToken
+    )
     {
+        // search for active bills
+        ClientItem? bill = await GetItemsAsync(x =>
+                x.ClientId == clientItem.ClientId
+                && x.ItemId == clientItem.ItemId
+                && !x.IsPaid && x.PaymentSystemBillDueDate > DateTime.Now
+            )
+            .LoadWith(b => b.AssociatedClient)
+            .LoadWith(b => b.AssociatedItem)
+            .FirstOrDefaultAsync(token: cancellationToken);
+
+        // if active bill exists - just return it
+        if (bill != null)
+        {
+            return bill;
+        }
+
+        // otherwise - create new bill
         await CreateItemAsync(clientItem);
         return await LoadBillAsync(clientItem.Id, cancellationToken);
     }

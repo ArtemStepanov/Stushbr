@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
+import { Button } from "reactstrap";
 
-export class FetchItems extends Component {
+export class FetchItems extends Component<any, any> {
   static displayName = FetchItems.name;
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = { forecasts: [], loading: true };
   }
 
   componentDidMount() {
-    this.populateWeatherData();
+    void this.populateWeatherData();
   }
 
-  static renderForecastsTable(forecasts) {
+  renderForecastsTable(forecasts: any) {
     return (
       <table className='table table-striped' aria-labelledby="tabelLabel">
         <thead>
@@ -25,19 +26,21 @@ export class FetchItems extends Component {
           <th>Is Available</th>
           <th>Available Since</th>
           <th>Available Before</th>
+          <th>Buy it</th>
         </tr>
         </thead>
         <tbody>
-        {forecasts.map(forecast =>
+        {forecasts.map((forecast: any) =>
           <tr key={forecast.id}>
             <td>{forecast.id}</td>
             <td>{forecast.displayName}</td>
             <td>{forecast.description}</td>
             <td>{forecast.price}</td>
             <td>{forecast.type}</td>
-            <td>{forecast.isAvailable ? 'yes' : 'no'}</td>
+            <td>{forecast.isEnabled ? 'yes' : 'no'}</td>
             <td>{forecast.availableSince}</td>
-            <td>{forecast.availableBefore}</td>
+            <td>{forecast.availableBefore ?? 'not set'}</td>
+            <td><Button onClick={async () => await this.makePayment(forecast.id)}>Buy</Button></td>
           </tr>
         )}
         </tbody>
@@ -45,10 +48,31 @@ export class FetchItems extends Component {
     );
   }
 
+  makePayment = async (itemId: any) => {
+    const resp = await fetch(`items/${itemId}/order`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        clientInfo: {
+          firstName: "Artem",
+          secondName: "Stepanov",
+          email: "stxima@gmail.com",
+          phoneNumber: "89998030386"
+        }
+      })
+    });
+    const data = await resp.json();
+    if(!data?.url) {
+      alert("can't create bill, blyat");
+      return;
+    }
+    window.location.replace(data.url);
+  }
+
   render() {
     let contents = this.state.loading
       ? <p><em>Loading...</em></p>
-      : FetchItems.renderForecastsTable(this.state.forecasts);
+      : this.renderForecastsTable(this.state.forecasts);
 
     return (
       <div>
@@ -62,21 +86,6 @@ export class FetchItems extends Component {
   async populateWeatherData() {
     const response = await fetch('items/available');
     const data = await response.json();
-    const resp2 = await fetch('items/c3f2c680edc345168643179c2d568227/order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        clientInfo: {
-          firstName: "Artem",
-          secondName: "Stepanov",
-          email: "test@test.test",
-          phoneNumber: "89998030386"
-        }
-      })
-    });
-    const data2 = await resp2.json();
-    console.log(data2);
-    window.location.replace(data2.url);
-    //this.setState({ forecasts: data, loading: false });
+    this.setState({ forecasts: data, loading: false });
   }
 }

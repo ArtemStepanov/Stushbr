@@ -27,6 +27,9 @@ public class ClientItem : IIdentifier
     [Column("payment_system_bill_id")]
     public string? PaymentSystemBillId { get; set; }
 
+    [Column("payment_system_bill_due_date")]
+    public DateTime? PaymentSystemBillDueDate { get; set; }
+
     [Column("is_paid")]
     public bool IsPaid { get; set; }
 
@@ -40,10 +43,10 @@ public class ClientItem : IIdentifier
     public DateTime? ProcessDate { get; set; }
 
     [Column("data", DataType = DataType.Json)]
-    public JsonNode Data { get; set; }
+    public JsonNode? Data { get; set; }
 
     [NotColumn]
-    public TelegramClientItemData? TelegramData => Data.ToObject<TelegramClientItemData>();
+    public TelegramClientItemData? TelegramData => Data?.ToObject<TelegramClientItemData>();
 
     public void SetProcessed(bool isProcessed)
     {

@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Mvc;
 using Stushbr.Shared.Configuration;
+using Stushbr.Shared.ExceptionHandling;
 using Stushbr.Shared.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +13,13 @@ services.AddSwaggerGen();
 
 // Add services to the container.
 
-services.AddControllersWithViews();
+services
+    .AddControllersWithViews(opt => { opt.Filters.Add<HttpResponseExceptionFilter>(); })
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = context =>
+            new BadRequestObjectResult(new ErrorsResponse("Неверное состояние запроса"));
+    });
 
 var app = builder.Build();
 

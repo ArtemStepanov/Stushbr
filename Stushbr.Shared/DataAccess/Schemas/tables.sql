@@ -51,15 +51,16 @@ CREATE INDEX IF NOT EXISTS clients_second_name_idx ON public.clients USING btree
 
 CREATE TABLE IF NOT EXISTS public.client_items
 (
-    id                     text      NOT NULL,
-    client_id              text      NOT NULL,
-    item_id                text      NOT NULL,
-    payment_system_bill_id text      NULL,
-    is_paid                bool      NOT NULL DEFAULT false,
-    is_processed           bool      NOT NULL DEFAULT false,
-    "data"                 json      NOT NULL,
-    payment_date           timestamp NULL,
-    process_date           timestamp NULL,
+    id                           text      NOT NULL,
+    client_id                    text      NOT NULL,
+    item_id                      text      NOT NULL,
+    payment_system_bill_id       text      NULL,
+    payment_system_bill_due_date timestamp NULL,
+    is_paid                      bool      NOT NULL DEFAULT false,
+    is_processed                 bool      NOT NULL DEFAULT false,
+    "data"                       json      NULL,
+    payment_date                 timestamp NULL,
+    process_date                 timestamp NULL,
     CONSTRAINT bills_pk PRIMARY KEY (id),
     CONSTRAINT bills_fk FOREIGN KEY (item_id) REFERENCES public.items (id) ON UPDATE CASCADE,
     CONSTRAINT bills_fk_1 FOREIGN KEY (client_id) REFERENCES public.clients (id) ON UPDATE CASCADE
@@ -67,3 +68,4 @@ CREATE TABLE IF NOT EXISTS public.client_items
 CREATE INDEX IF NOT EXISTS bills_client_id_idx ON public.client_items USING btree (client_id);
 CREATE INDEX IF NOT EXISTS bills_item_id_idx ON public.client_items USING btree (item_id);
 CREATE INDEX IF NOT EXISTS bills_payment_system_id_idx ON public.client_items USING btree (payment_system_bill_id);
+CREATE INDEX IF NOT EXISTS payment_system_bill_due_date_idx ON public.client_items USING btree (payment_system_bill_due_date);

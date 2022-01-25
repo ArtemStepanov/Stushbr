@@ -24,7 +24,7 @@ public class ItemService : CrudServiceBase<Item>, IItemService
         var items = await _stushbrDataConnection.Items.Where(i =>
                 i.IsEnabled
                 && DateTime.Now > i.AvailableSince
-                && DateTime.Now < i.AvailableBefore)
+                && (i.AvailableBefore == null || DateTime.Now < i.AvailableBefore))
             .ToListAsync();
 
         return items;

@@ -7,5 +7,5 @@ public interface IClientItemService : ICrudService<ClientItem>
 {
     Task<ClientItem> LoadBillAsync(string billId, CancellationToken cancellationToken);
 
-    Task<ClientItem> CreateAndLoadBillAsync(ClientItem clientItem, CancellationToken cancellationToken);
+    Task<ClientItem> GetOrCreateAndLoadBillAsync(ClientItem clientItem, CancellationToken cancellationToken);
 }

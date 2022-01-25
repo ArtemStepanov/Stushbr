@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Qiwi.BillPayments.Client;
+using Qiwi.BillPayments.Exception;
 using Qiwi.BillPayments.Model;
 using Qiwi.BillPayments.Model.In;
 using Qiwi.BillPayments.Model.Out;
@@ -44,20 +45,28 @@ public class QiwiService : IQiwiService
         amount.ValueDecimal = 1m;
 #endif
 
-        var createBillResult = await _qiwiClient.CreateBillAsync<BillResponse>(new CreateBillInfo
+        try
         {
-            Amount = amount,
-            Comment = FormatComment(item, client),
-            Customer = _mapper.Map<Customer>(client),
-            BillId = loadedClientItem.Id,
-            SuccessUrl = new Uri(_configuration.SuccessUrl),
-            ExpirationDateTime = DateTime.Now.AddDays(10)
-        });
+            var createBillResult = await _qiwiClient.CreateBillAsync<BillResponse>(new CreateBillInfo
+            {
+                Amount = amount,
+                Comment = FormatComment(item, client),
+                Customer = _mapper.Map<Customer>(client),
+                BillId = loadedClientItem.Id,
+                SuccessUrl = new Uri(_configuration.SuccessUrl),
+                ExpirationDateTime = DateTime.Now.AddDays(10)
+            });
 
-        if (createBillResult == null)
-            throw new Exception("Unable to create qiwi bill");
+            if (createBillResult == null)
+                throw new Exception("Unable to create qiwi bill");
 
-        return createBillResult;
+            return createBillResult;
+        }
+        catch(BillPaymentsServiceException ex)
+        {
+            _logger.LogError("Unable to create QIWI bill", ex);
+            throw;
+        }
     }
 
     public async Task<BillResponse> GetBillInfoAsync(string billId)

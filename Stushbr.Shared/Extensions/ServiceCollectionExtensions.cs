@@ -36,7 +36,7 @@ public static class ServiceCollectionExtensions
             return applicationConfiguration;
         });
 
-        services.AddAutoMapper(Assembly.GetCallingAssembly());
+        services.AddAutoMapper(Assembly.GetCallingAssembly(), Assembly.GetExecutingAssembly());
 
         #region Repositories
 
@@ -63,7 +63,6 @@ public static class ServiceCollectionExtensions
         );
         services.AddSingleton<IQiwiService, QiwiService>();
 
-        services.AddScoped<IMailService, MailService>();
         services.AddScoped<IItemService, ItemService>();
         services.AddScoped<IClientService, ClientService>();
         services.AddScoped<IClientItemService, ClientItemService>();
