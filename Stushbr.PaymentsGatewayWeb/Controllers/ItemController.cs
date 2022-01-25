@@ -6,7 +6,6 @@ using Stushbr.PaymentsGatewayWeb.ViewModels.Requests;
 using Stushbr.PaymentsGatewayWeb.ViewModels.Responses;
 using Stushbr.Shared.Models;
 using Stushbr.Shared.Services;
-using System.ComponentModel.DataAnnotations;
 
 namespace Stushbr.PaymentsGatewayWeb.Controllers;
 

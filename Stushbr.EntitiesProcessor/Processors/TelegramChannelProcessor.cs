@@ -1,9 +1,7 @@
-﻿using LinqToDB.Data;
-using Stushbr.EntitiesProcessor.Services;
+﻿using Stushbr.EntitiesProcessor.Services;
 using Stushbr.Shared.Extensions;
 using Stushbr.Shared.Models;
 using Stushbr.Shared.Services;
-using Stxima.SendPulseClient;
 using Telegram.Bot.Types;
 
 namespace Stushbr.EntitiesProcessor.Processors;

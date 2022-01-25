@@ -1,5 +1,4 @@
 ﻿using LinqToDB;
-using LinqToDB.Data;
 using Stushbr.Shared.DataAccess.Postgres;
 using Stushbr.Shared.Models;
 
