@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS public.items
     id               text      NOT NULL,
     display_name     text      NOT NULL,
     description      text      NOT NULL,
+    image_url        text      NULL,
     price            float8    NOT NULL,
     "type"           int4      NOT NULL,
     "data"           json      NOT NULL,

@@ -1,22 +1,21 @@
-import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
-import { Layout } from './components/Layout';
-import { Home } from './components/Home';
-import { FetchData } from './components/FetchData';
+import React, {Component} from 'react';
+import {Route} from 'react-router-dom';
+import {Layout} from './components/Layout';
 
 import './custom.css'
-import Items from "./components/Items";
+import 'react-toastify/dist/ReactToastify.css';
+import 'bulma/css/bulma.min.css';
+
+import ItemsPage from "./components/ItemsPage";
 
 export default class App extends Component {
-  static displayName = App.name;
+    static displayName = App.name;
 
-  render () {
-    return (
-      <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/fetch-data' component={FetchData} />
-        <Route path='/fetch-items' component={Items} />
-      </Layout>
-    );
-  }
+    render() {
+        return (
+            <Layout>
+                <Route exact path='/' component={ItemsPage} />
+            </Layout>
+        );
+    }
 }

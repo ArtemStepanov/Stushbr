@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Qiwi.BillPayments.Model.Out;
 using Stushbr.PaymentsGatewayWeb.ViewModels.Requests;
 using Stushbr.PaymentsGatewayWeb.ViewModels.Responses;
+using Stushbr.Shared.ExceptionHandling;
 using Stushbr.Shared.Models;
 using Stushbr.Shared.Services;
 
@@ -40,7 +41,6 @@ public class ItemController : ControllerBase
     [HttpGet("available")]
     public async Task<ActionResult<ItemResponse[]>> GetAvailableItems()
     {
-        throw new Exception("haha");
         var items = await _itemService.GetAvailableItemsAsync();
         return items
             .Select(i => _mapper.Map<ItemResponse>(i))
@@ -55,11 +55,9 @@ public class ItemController : ControllerBase
     }
 
     [HttpPost("{id}/order")]
-    public async Task<ActionResult<OrderItemResponse>> OrderItem(
-        string id,
-        [FromBody] OrderItemRequest request
-    )
+    public async Task<ActionResult<OrderItemResponse>> OrderItem(string id, [FromBody] OrderItemRequest request)
     {
+        throw new BadRequestException("ашыпка");
         OrderItemResponse result;
 
         var item = await _itemService.GetItemByIdAsync(id);

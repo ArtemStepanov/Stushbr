@@ -10,6 +10,8 @@ public class ItemResponse
 
     public string Description { get; set; }
 
+    public string ImageUrl { get; set; }
+
     public double Price { get; set; }
 
     public ItemType Type { get; set; }

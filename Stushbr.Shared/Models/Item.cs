@@ -18,6 +18,9 @@ public class Item : IIdentifier
     [Column("description")]
     public string Description { get; set; }
 
+    [Column("image_url")]
+    public string? ImageUrl { get; set; }
+
     [Column("price")]
     public double Price { get; set; }
 
