@@ -4,12 +4,12 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLeaf} from "@fortawesome/free-solid-svg-icons";
 import {useState} from "react";
 
-function ItemInfo(props: { item: Item, buyButtonClickHandler: (item: Item) => Promise<void> }) {
+function ItemInfo(props: { item: Item, buyButtonClickHandler: () => Promise<void> }) {
     const [loading, setLoading] = useState<boolean>(false)
     
     const handleBuyButtonClick = async () => {
         setLoading(true)
-        await props.buyButtonClickHandler(props.item)
+        await props.buyButtonClickHandler()
         setLoading(false)
     }
     

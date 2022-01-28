@@ -3,7 +3,7 @@ import {Api} from "../common/Api";
 import {Item} from "../models/Item";
 import {toast} from "react-toastify";
 import ItemsDropdown from "./ItemsDropdown";
-import {Button, Columns, Content, Media, Modal, Image} from "react-bulma-components";
+import {Columns} from "react-bulma-components";
 import ItemInfo from "./ItemInfo";
 import ClientInfoInputModal from "./ClientInfoInputModal";
 import {ClientInfoRequest} from "../models/ClientInfoRequest";
@@ -14,13 +14,15 @@ function ItemsPage(props: any) {
     const [modalOpen, setModalOpen] = useState<boolean>(false)
 
     const fetchItems = async () => {
-        const id = toast.loading('Загрузка данных...')
-        const items = await Api.getAvailableItems()
-        toast.dismiss(id)
+        const items = await toast.promise(() => Api.getAvailableItems(), {
+            pending: 'Загрузка данных...',
+            error: 'При загрузке данных произошла непредвиденная ошибка',
+            success: 'Данные загружены'
+        })
         setItems(items)
     }
 
-    const handleBuyButtonClick = async (item: Item) => {
+    const handleBuyButtonClick = async () => {
         setModalOpen(true)
     }
     

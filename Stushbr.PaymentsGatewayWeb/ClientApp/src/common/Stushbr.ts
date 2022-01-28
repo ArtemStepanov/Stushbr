@@ -3,7 +3,7 @@ import {toast} from "react-toastify";
 
 export class Stushbr {
 
-    static showErrorPopup(errorMessage: ErrorsResponse) {
+    static showErrorPopupFromErrorResponse(errorMessage: ErrorsResponse) {
         const message = `Произошла одна или несколько ошибок: ${errorMessage.errors.map(value => {
             return `${(value.prop && `${value.prop}: ${value.msg}`) || value.msg}`;
         }).join('; ')}`
