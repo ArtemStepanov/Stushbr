@@ -14,7 +14,7 @@ function ItemInfo(props: { item: Item, buyButtonClickHandler: () => Promise<void
     }
     
     return (
-        <Card style={{width: 300, margin: 'auto'}}>
+        <Card style={{width:300}}>
             <Card.Header>
                 <Card.Header.Title>{props.item.displayName}</Card.Header.Title>
                 <Card.Header.Icon>

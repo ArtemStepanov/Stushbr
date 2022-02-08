@@ -26,7 +26,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\stxima.sendpulseapiclient\Stxima.SendPulseClient.csproj" />
+      <ProjectReference Include="..\..\..\my\Stxima.SendPulseClient\Stxima.SendPulseClient.csproj" />
     </ItemGroup>
 
 </Project>

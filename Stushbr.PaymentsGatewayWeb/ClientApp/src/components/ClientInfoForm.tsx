@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Form, Icon} from "react-bulma-components";
+import {Button, Form, Icon, Notification} from "react-bulma-components";
 import {ClientInfoRequest} from "../models/ClientInfoRequest";
 import {faUser, faEnvelope, faExclamationTriangle, faCheck, faMobile} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -50,8 +50,17 @@ function ClientInfoForm(props: { onFormSubmit: (clientInfo: ClientInfoRequest) =
     const [tocAgreed, setTocAgreed] = useState<boolean>(false);
     const [tocAgreedWrong, setTocAgreedWrong] = useState<boolean>(false)
 
+    const resetFormErrorsState = () => {
+        setFirstNameWrong(false)
+        setSecondNameWrong(false)
+        setEmailWrong(false)
+        setPhoneWrong(false)
+        setTocAgreedWrong(false)
+    }
+
     const verifyForm = () => {
         let error = false
+        resetFormErrorsState()
 
         if (!firstName) {
             setFirstNameWrong(true)
@@ -68,7 +77,7 @@ function ClientInfoForm(props: { onFormSubmit: (clientInfo: ClientInfoRequest) =
             error = true
         }
 
-        if (!phoneNumber) {
+        if (!phoneNumber || !validator.isMobilePhone(phoneNumber, "ru-RU")) {
             setPhoneWrong(true)
             error = true
         }
@@ -144,9 +153,9 @@ function ClientInfoForm(props: { onFormSubmit: (clientInfo: ClientInfoRequest) =
                 <Form.Label>Номер телефона</Form.Label>
                 <Form.Control>
                     <InputMask
-                        mask="+9 999 999 99 99"
+                        mask="+7 999 999 99 99"
                         value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        onChange={(e) => setPhoneNumber(e.target.value.replace(/\s/g, ""))}
                     >
                         {(inputProps: any) => (
                             <Form.Input
@@ -168,11 +177,17 @@ function ClientInfoForm(props: { onFormSubmit: (clientInfo: ClientInfoRequest) =
                         checked={tocAgreed}
                         onChange={(e) => setTocAgreed(e.target.checked)}
                     >
-                        {'  '}Даю согласие с <a href="#">условиями обработки персональных данных</a>
+                        {"  "}Даю согласие с <a href="https://stushbr.ru/privacy/" target="_blank" rel="noreferrer">условиями
+                        обработки
+                        персональных данных</a>
                     </Form.Checkbox>
                 </Form.Control>
                 {tocAgreedWrong && <Form.Help color="danger">Необходимо отметить галочку</Form.Help>}
             </Form.Field>
+
+            <Notification color="warning" light textAlign="center" textSize={7}>
+                При нажатии на кнопку <b>"Оплатить"</b>, для совершения платежа, вы будете перенаправлены на сайт платёжного шлюза
+            </Notification>
 
             {props.itemInfo && (
                 <Form.Field kind="group" align="center">

@@ -23,7 +23,7 @@ public class ClientItemService : CrudServiceBase<ClientItem>, IClientItemService
         return bill!;
     }
 
-    public async Task<ClientItem> GetOrCreateAndLoadBillAsync(
+    public async Task<ClientItem> GetOrCreateClientItemAsync(
         ClientItem clientItem,
         CancellationToken cancellationToken
     )

@@ -1,5 +1,5 @@
-import {Button, Content, Image, Media, Modal} from "react-bulma-components";
-import React, {useState} from "react";
+import {Modal} from "react-bulma-components";
+import React from "react";
 import {ClientInfoRequest} from "../models/ClientInfoRequest";
 import ClientInfoForm from "./ClientInfoForm";
 import {Item} from "../models/Item";
@@ -14,6 +14,7 @@ function ClientInfoInputModal(props: {
         <Modal
             show={props.isOpen}
             onClose={props.onModalClose}
+            showClose={false}
         >
             <Modal.Card p={2}>
                 <Modal.Card.Header showClose>

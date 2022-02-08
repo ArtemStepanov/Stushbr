@@ -1,6 +1,6 @@
 import {ClientInfoRequest} from "./ClientInfoRequest";
 
 export interface OrderItemRequest {
-    itemId: string
+    id: string
     clientInfo: ClientInfoRequest
 }

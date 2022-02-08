@@ -8,7 +8,7 @@ namespace Stushbr.Shared.ExceptionHandling
 
         public ErrorsResponse Response { get; } = new();
 
-        protected void TryAddErrorMessage(string? message)
+        private void TryAddErrorMessage(string? message)
         {
             if (message != null)
             {

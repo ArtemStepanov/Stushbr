@@ -18,7 +18,24 @@ services
     .ConfigureApiBehaviorOptions(options =>
     {
         options.InvalidModelStateResponseFactory = context =>
-            new BadRequestObjectResult(new ErrorsResponse("Неверное состояние запроса"));
+        {
+            HttpContext httpContext = context.HttpContext;
+            var logger = httpContext.RequestServices
+                .GetRequiredService<ILogger<HttpResponseExceptionFilter>>();
+
+            ErrorsResponse errorsResponse = new BadRequestException(context.ModelState).Response;
+
+            logger.LogWarning(
+                "Handling HttpException (BadRequestException).\n" +
+                "Request: {RequestMethod} {RequestPath}\n" +
+                "Message: {Message}",
+                httpContext.Request.Method,
+                httpContext.Request.Path,
+                errorsResponse.ToString()
+            );
+
+            return new JsonResult(errorsResponse) { StatusCode = 400 };
+        };
     });
 
 var app = builder.Build();

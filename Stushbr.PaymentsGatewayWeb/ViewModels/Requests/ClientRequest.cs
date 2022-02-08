@@ -13,6 +13,6 @@ public class ClientRequest
     [EmailAddress(ErrorMessage = "Адрес электронной почты указан неверно")]
     public string Email { get; set; }
 
-    [Phone(ErrorMessage = "Номер указан неверно")]
+    [StringLength(12, MinimumLength = 12, ErrorMessage = "Номер указан неверно")]
     public string PhoneNumber { get; set; }
 }

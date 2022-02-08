@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {Api} from "../common/Api";
+import React, {useEffect, useState} from "react";
+import {StushbrApi} from "../common/StushbrApi";
 import {Item} from "../models/Item";
 import {toast} from "react-toastify";
 import ItemsDropdown from "./ItemsDropdown";
-import {Columns} from "react-bulma-components";
+import {Block, Heading} from "react-bulma-components";
 import ItemInfo from "./ItemInfo";
 import ClientInfoInputModal from "./ClientInfoInputModal";
 import {ClientInfoRequest} from "../models/ClientInfoRequest";
@@ -14,10 +14,13 @@ function ItemsPage(props: any) {
     const [modalOpen, setModalOpen] = useState<boolean>(false)
 
     const fetchItems = async () => {
-        const items = await toast.promise(() => Api.getAvailableItems(), {
-            pending: 'Загрузка данных...',
-            error: 'При загрузке данных произошла непредвиденная ошибка',
-            success: 'Данные загружены'
+        const items = await toast.promise(() => StushbrApi.getAvailableItems(), {
+            pending: "Загрузка данных...",
+            error: "При загрузке данных произошла непредвиденная ошибка",
+            success: "Данные загружены"
+        }, {
+            autoClose: 2000,
+            pauseOnFocusLoss: false
         })
         setItems(items)
     }
@@ -25,15 +28,17 @@ function ItemsPage(props: any) {
     const handleBuyButtonClick = async () => {
         setModalOpen(true)
     }
-    
-    const handleClientInfoModalBuyButtonClicked = async (clientInfo: ClientInfoRequest) => {
+
+    const handleClientInfoFormSubmit = async (clientInfo: ClientInfoRequest) => {
+        console.log(clientInfo);
+
         if (!chosenItem) {
             toast.warn("Перед совершением оплаты выберите продукт");
             return;
         }
 
-        const resp = await Api.makePayment({
-            itemId: chosenItem.id,
+        const resp = await StushbrApi.makePayment({
+            id: chosenItem.id,
             clientInfo: clientInfo
         })
 
@@ -41,7 +46,8 @@ function ItemsPage(props: any) {
             return;
         }
 
-        window.location.replace(resp.url);
+        window.open(resp.url, "_blank")
+        setModalOpen(false)
     }
 
     useEffect(() => {
@@ -50,20 +56,35 @@ function ItemsPage(props: any) {
     }, []);
 
     return (
-            <Columns>
-                <Columns.Column>
-                    {items && <ItemsDropdown items={items!} onDropdownItemChange={setChosenItem} />}
-                </Columns.Column>
-                {chosenItem && <Columns.Column size="three-quarters">
-                  <ItemInfo item={chosenItem} buyButtonClickHandler={handleBuyButtonClick} />
-                </Columns.Column>}
-                <ClientInfoInputModal
-                    isOpen={modalOpen}
-                    itemInfo={chosenItem}
-                    onModalClose={() => setModalOpen(false)}
-                    onBuyButtonClicked={handleClientInfoModalBuyButtonClicked}
+        <>
+            <Block textAlign="center">
+                <Heading>
+                    Привет!
+                </Heading>
+                <Heading subtitle>
+                    Добро пожаловать
+                </Heading>
+            </Block>
+            {items &&
+              <Block>
+                <ItemsDropdown
+                  items={items!}
+                  onDropdownItemChange={setChosenItem}
                 />
-            </Columns>
+              </Block>
+            }
+            {chosenItem &&
+              <Block>
+                <ItemInfo item={chosenItem} buyButtonClickHandler={handleBuyButtonClick} />
+              </Block>
+            }
+            <ClientInfoInputModal
+                isOpen={modalOpen}
+                itemInfo={chosenItem}
+                onModalClose={() => setModalOpen(false)}
+                onBuyButtonClicked={handleClientInfoFormSubmit}
+            />
+        </>
     );
 }
 
