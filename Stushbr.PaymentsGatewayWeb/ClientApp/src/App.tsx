@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'bulma/css/bulma.min.css';
 
 import ItemsPage from "./components/ItemsPage";
+import ItemPage from "./components/ItemPage";
 
 export default class App extends Component {
     static displayName = App.name;
@@ -15,6 +16,7 @@ export default class App extends Component {
         return (
             <Layout>
                 <Route exact path='/' component={ItemsPage} />
+                <Route exact path='/:id' component={ItemPage} />
             </Layout>
         );
     }

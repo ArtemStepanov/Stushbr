@@ -5,6 +5,10 @@ import {OrderItemRequest} from "../models/OrderItemRequest";
 import {OrderItemResponse} from "../models/OrderItemResponse";
 
 export class StushbrApi {
+    static getItemById(id: string): Promise<Item | null> {
+        return Fetcher.fetchWithHandling<Item>(`items/${id}`)
+    }
+
     static getAvailableItems(): Promise<Item[] | null> {
         return Fetcher.fetchWithHandling<Item[]>("items/available");
     }
@@ -35,6 +39,6 @@ class Fetcher {
 
     private static showErrorPopupFromErrorResponse(errorMessage: ErrorsResponse) {
         const message = `Произошла ошибка: ${errorMessage.errors.map(value => value.msg).join("; ")}`
-        toast.warn(message, { position: "top-right", autoClose: 3000 });
+        toast.warn(message, {position: "top-right", autoClose: 3000});
     }
 }

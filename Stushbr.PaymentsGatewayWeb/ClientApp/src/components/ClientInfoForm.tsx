@@ -34,7 +34,7 @@ const phoneIcon = (
     </Icon>
 )
 
-function ClientInfoForm(props: { onFormSubmit: (clientInfo: ClientInfoRequest) => void, itemInfo: Item | undefined }) {
+function ClientInfoForm(props: { onFormSubmit: (clientInfo: ClientInfoRequest) => void, itemInfo: Item | null }) {
     const [firstName, setFirstName] = useState<string>();
     const [firstNameWrong, setFirstNameWrong] = useState<boolean>(false)
 

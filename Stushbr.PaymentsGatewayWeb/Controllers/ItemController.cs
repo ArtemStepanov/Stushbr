@@ -14,7 +14,7 @@ namespace Stushbr.PaymentsGatewayWeb.Controllers;
 [Route("items")]
 public class ItemController : ControllerBase
 {
-    private ILogger<ItemController> _logger;
+    private readonly ILogger<ItemController> _logger;
     private readonly IClientItemService _clientItemService;
     private readonly IItemService _itemService;
     private readonly IClientService _clientService;
@@ -50,7 +50,9 @@ public class ItemController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<ItemResponse>> GetItemById(string id)
     {
-        var item = await _itemService.GetItemByIdAsync(id);
+        Item? item = await _itemService.GetItemByIdAsync(id);
+        VerifyItem(item);
+
         return _mapper.Map<ItemResponse>(item);
     }
 
@@ -60,10 +62,7 @@ public class ItemController : ControllerBase
         OrderItemResponse result;
 
         Item? item = await _itemService.GetItemByIdAsync(request.Id);
-        if (item == null)
-        {
-            throw new NotFoundException("Продукт не найден");
-        }
+        VerifyItem(item);
 
         // Start transaction
         await using DataConnectionTransaction transaction =
@@ -121,7 +120,7 @@ public class ItemController : ControllerBase
                 "Вы уже оплатили данный продукт." +
                 " Пожалуйста, дождитесь обработки платежа." +
                 " Если вам кажется, что что-то могло пойти не так, напишите мне: @stushbrphoto"
-                );
+            );
         }
 
         qiwiBill = await _qiwiService.GetBillInfoAsync(clientItem.PaymentSystemBillId);
@@ -142,5 +141,20 @@ public class ItemController : ControllerBase
         await _clientItemService.UpdateItemAsync(clientItem);
 
         return qiwiBill;
+    }
+
+    private static void VerifyItem(Item? item)
+    {
+        if (item == null)
+        {
+            throw new NotFoundException("Продукт не найден");
+        }
+
+        if (!item.IsEnabled
+            || DateTime.Now < item.AvailableSince
+            || DateTime.Now > item.AvailableBefore)
+        {
+            throw new BadRequestException("Продукт неактивен");
+        }
     }
 }

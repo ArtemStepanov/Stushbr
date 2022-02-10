@@ -3,17 +3,40 @@ import React from "react";
 import {ClientInfoRequest} from "../models/ClientInfoRequest";
 import ClientInfoForm from "./ClientInfoForm";
 import {Item} from "../models/Item";
+import {toast} from "react-toastify";
+import {StushbrApi} from "../common/StushbrApi";
 
 function ClientInfoInputModal(props: {
     isOpen: boolean,
-    itemInfo: Item | undefined,
+    itemInfo: Item | null,
     onModalClose: () => void,
-    onBuyButtonClicked: (clientInfo: ClientInfoRequest) => void
+    onBuyButtonClicked: () => void
 }) {
+    const {isOpen, itemInfo, onModalClose, onBuyButtonClicked} = props
+
+    const handleFormSubmit = async (clientInfo: ClientInfoRequest) => {
+        if (!itemInfo) {
+            toast.warn("Перед совершением оплаты выберите продукт");
+            return
+        }
+
+        const resp = await StushbrApi.makePayment({
+            id: itemInfo.id,
+            clientInfo: clientInfo
+        })
+
+        if (!resp?.url) {
+            return
+        }
+
+        window.open(resp.url, "_blank")
+        onBuyButtonClicked()
+    }
+
     return (
         <Modal
-            show={props.isOpen}
-            onClose={props.onModalClose}
+            show={isOpen}
+            onClose={onModalClose}
             showClose={false}
         >
             <Modal.Card p={2}>
@@ -21,7 +44,7 @@ function ClientInfoInputModal(props: {
                     <Modal.Card.Title>Расскажите о себе</Modal.Card.Title>
                 </Modal.Card.Header>
                 <Modal.Card.Body>
-                    <ClientInfoForm {...props} onFormSubmit={props.onBuyButtonClicked} />
+                    <ClientInfoForm {...props} onFormSubmit={handleFormSubmit} />
                 </Modal.Card.Body>
             </Modal.Card>
         </Modal>
