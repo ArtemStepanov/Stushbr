@@ -13,7 +13,7 @@ public class MailService : IMailService
 
     private static readonly SendMailUserData StaticFrom = new()
     {
-        Email = "noreply@stushbr.ru",
+        Email = "me@stushbr.ru",
         Name = "Анастасия"
     };
 
@@ -31,14 +31,27 @@ public class MailService : IMailService
         Item item = clientItem.AssociatedItem;
         Client client = clientItem.AssociatedClient;
 
-        (string inviteLink, DateTime? linkExpireDate, string? channelName) = clientItem.TelegramData!;
+        foreach (var telegramClientItemData in clientItem.TelegramData!.Items)
+        {
+            await SendTelegramInviteLinkInnerAsync(item, client, telegramClientItemData);
+        }
+    }
+
+    private async Task SendTelegramInviteLinkInnerAsync(
+        Item item,
+        Client client,
+        TelegramClientItemData telegramClientItemData
+    )
+    {
+        (string inviteLink, DateTime? linkExpireDate, string? channelName) = telegramClientItemData;
 
         string sendPulseTemplateId = item.TelegramItemData!.SendPulseTemplateId;
 
         Dictionary<string, string> templateVariables = new()
         {
             { "link", inviteLink },
-            { "client_name", client.FullName }
+            { "client_name", client.FullName },
+            { "image_link", item.ImageUrl }
         };
 
         if (linkExpireDate.HasValue)
@@ -67,6 +80,6 @@ public class MailService : IMailService
 
     private string GetTelegramMailSubject(string? channelName)
     {
-        return @"Ваше приглашение в Telegram-канал" + (string.IsNullOrEmpty(channelName) ? "" : $" \"{channelName}\"");
+        return @"Привет! Ваше приглашение в Telegram-канал" + (string.IsNullOrEmpty(channelName) ? "" : $" \"{channelName}\"");
     }
 }

@@ -46,7 +46,11 @@ public class ClientItem : IIdentifier
     public JsonNode? Data { get; set; }
 
     [NotColumn]
-    public TelegramClientItemData? TelegramData => Data?.ToObject<TelegramClientItemData>();
+    public TelegramClientItemDataWrapper? TelegramData
+    {
+        get => Data?.ToObject<TelegramClientItemDataWrapper>();
+        set => Data = value?.JsonNodeFromObject();
+    }
 
     public void SetProcessed(bool isProcessed)
     {

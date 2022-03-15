@@ -40,14 +40,14 @@ public class ClientItemStatusUpdaterHostedService : BackgroundService
 
             _logger.LogInformation("{Count} items will be updated", notProcessedClientItems.Count);
 
-            await ProcessClientItemsStatus(notProcessedClientItems, stoppingToken);
+            await ProcessClientItemsPaymentStatus(notProcessedClientItems, stoppingToken);
 
             await _scope.DisposeAsync();
             await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
         }
     }
 
-    private async Task ProcessClientItemsStatus(
+    private async Task ProcessClientItemsPaymentStatus(
         List<ClientItem> notProcessedClientItems,
         CancellationToken stoppingToken
     )

@@ -1,5 +1,4 @@
 ﻿using Stushbr.EntitiesProcessor.Services;
-using Stushbr.Shared.Extensions;
 using Stushbr.Shared.Models;
 using Stushbr.Shared.Services;
 using Telegram.Bot.Types;
@@ -31,22 +30,20 @@ public class TelegramChannelProcessor : ITelegramChannelProcessor
         LogInformation("Processing telegram item", clientItem);
 
         Item item = clientItem.AssociatedItem;
-        TelegramClientItemData? telegramItemData = clientItem.TelegramData;
+        TelegramClientItemDataWrapper? telegramItemData = clientItem.TelegramData;
 
-        if (string.IsNullOrEmpty(telegramItemData?.InviteLink))
+        if (telegramItemData?.Items.Any() == false)
         {
-            LogInformation("Invitation link does not exist and will be generated", clientItem);
+            LogInformation("Invitation links are not exist and will be generated", clientItem);
 
-            telegramItemData = await GenerateInviteLinkAndUpdateClientItemAsync(
+            await GenerateInviteLinksAndUpdateClientItemAsync(
                 clientItem,
-                item.TelegramItemData!.ChannelId
+                item.TelegramItemData!.ChannelIds
             );
         }
 
         LogInformation("Sending link to mail", clientItem);
-        await _mailService.SendTelegramInviteLinkAsync(
-            clientItem
-        );
+        await _mailService.SendTelegramInviteLinkAsync(clientItem);
 
         LogInformation("Updating client item state to processed", clientItem);
         clientItem.SetProcessed(true);
@@ -55,20 +52,27 @@ public class TelegramChannelProcessor : ITelegramChannelProcessor
         LogInformation("Item processed", clientItem);
     }
 
-    private async Task<TelegramClientItemData> GenerateInviteLinkAndUpdateClientItemAsync(
+    private async Task GenerateInviteLinksAndUpdateClientItemAsync(
         ClientItem clientItem,
-        long telegramChannelId
+        long[] telegramChannelIds
     )
     {
-        ChatInviteLink link = await _telegramBotService.CreateInviteLinkAsync(telegramChannelId);
-        Chat chatInfo = await _telegramBotService.GetChatInfoAsync(telegramChannelId);
+        var telegramDataWrapper = new TelegramClientItemDataWrapper();
 
-        var telegramData = new TelegramClientItemData(link.InviteLink, link.ExpireDate, chatInfo.Title);
-        clientItem.Data = telegramData.JsonNodeFromObject()!;
+        foreach (long telegramChannelId in telegramChannelIds)
+        {
+            ChatInviteLink link = await _telegramBotService.CreateInviteLinkAsync(telegramChannelId);
+            Chat chatInfo = await _telegramBotService.GetChatInfoAsync(telegramChannelId);
+            telegramDataWrapper.Items.Add(new TelegramClientItemData(
+                link.InviteLink,
+                link.ExpireDate,
+                chatInfo.Title)
+            );
+        }
+
+        clientItem.TelegramData = telegramDataWrapper;
 
         await _clientItemService.UpdateItemAsync(clientItem);
-
-        return telegramData;
     }
 
     private void LogInformation(string text, ClientItem clientItem)
