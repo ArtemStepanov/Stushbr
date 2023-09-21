@@ -10,7 +10,8 @@
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Stushbr.Com.Application\Stushbr.Com.Application.csproj" />
+    <ProjectReference Include="..\Stushbr.Application\Stushbr.Application.csproj" />
+    <ProjectReference Include="..\Stushbr.Shared\Stushbr.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

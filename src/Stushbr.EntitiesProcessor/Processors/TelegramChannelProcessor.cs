@@ -1,7 +1,6 @@
 ﻿using Stushbr.EntitiesProcessor.Services;
 using Stushbr.Shared.Models;
 using Stushbr.Shared.Services;
-using Telegram.Bot.Types;
 
 namespace Stushbr.EntitiesProcessor.Processors;
 

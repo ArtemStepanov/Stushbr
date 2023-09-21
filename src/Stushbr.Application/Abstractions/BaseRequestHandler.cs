@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Stushbr.Com.Shared.Abstractions;
 
 namespace Stushbr.Com.Application.Abstractions;
 

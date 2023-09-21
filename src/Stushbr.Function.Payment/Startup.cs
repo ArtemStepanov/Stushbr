@@ -2,7 +2,6 @@
 using MediatR.Pipeline;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using Stushbr.Com.Application.Abstractions;
 using Stushbr.Com.Application.Behaviours;

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using LinqToDB.Data;
 using Microsoft.AspNetCore.Mvc;
 using Qiwi.BillPayments.Model.Out;
 using Stushbr.PaymentsGatewayWeb.ViewModels.Requests;

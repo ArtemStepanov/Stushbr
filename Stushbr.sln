@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{896252
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{8C927937-D4A9-44A9-A5BF-AF44C19F26BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stushbr.Com.Application", "src\Stushbr.Com.Application\Stushbr.Com.Application.csproj", "{C0E2A256-C490-49F1-9826-0E7FCABC7C4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stushbr.Application", "src\Stushbr.Application\Stushbr.Application.csproj", "{C0E2A256-C490-49F1-9826-0E7FCABC7C4E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stushbr.Function.Payment", "src\Stushbr.Function.Payment\Stushbr.Function.Payment.csproj", "{4CF63BF8-4B0F-484B-82E4-B5E5AF075522}"
 EndProject

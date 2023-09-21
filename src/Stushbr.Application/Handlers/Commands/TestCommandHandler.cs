@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Stushbr.Com.Application.Abstractions;
-using Stushbr.Com.Shared.Commands;
+using Stushbr.Shared.Commands;
 
 namespace Stushbr.Com.Application.Handlers.Commands;
 
