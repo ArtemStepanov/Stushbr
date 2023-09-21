@@ -1,11 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stushbr.PaymentsGatewayWeb", "Stushbr.PaymentsGatewayWeb\Stushbr.PaymentsGatewayWeb.csproj", "{461247E0-9141-4B04-BF73-87C283BBF5DB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stushbr.Shared", "Stushbr.Shared\Stushbr.Shared.csproj", "{E7F6FA5F-A41E-4631-B365-9AE569CDEED8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stushbr.EntitiesProcessor", "Stushbr.EntitiesProcessor\Stushbr.EntitiesProcessor.csproj", "{5561E1F8-42B5-48D3-B09C-CAADE7EA5375}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution files", "Solution files", "{6A80C692-6192-4B9C-98B4-3F81DD143901}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
@@ -13,27 +7,67 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution files", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stxima.SendPulseClient", "..\..\my\Stxima.SendPulseClient\Stxima.SendPulseClient.csproj", "{10B32617-68D7-4780-A7CC-B80E6E7A5DB6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Functions", "Functions", "{261D93C2-BBF5-4A9F-8B4F-0C5F395ED254}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{89625213-243E-44EC-905A-16718D56C16A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{8C927937-D4A9-44A9-A5BF-AF44C19F26BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stushbr.Com.Application", "src\Stushbr.Com.Application\Stushbr.Com.Application.csproj", "{C0E2A256-C490-49F1-9826-0E7FCABC7C4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stushbr.Function.Payment", "src\Stushbr.Function.Payment\Stushbr.Function.Payment.csproj", "{4CF63BF8-4B0F-484B-82E4-B5E5AF075522}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stushbr.Shared", "src\Stushbr.Shared\Stushbr.Shared.csproj", "{CB51997C-C870-42F2-AB5B-10A02E0EB1FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{64FBB12B-35E3-4350-BF12-9F25BDBE7906}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stushbr.EntitiesProcessor", "src\Stushbr.EntitiesProcessor\Stushbr.EntitiesProcessor.csproj", "{5FE30A30-ADDD-4C37-9B95-54C3200C894A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stushbr.Com.Shared", "src\Stushbr.Com.Shared\Stushbr.Com.Shared.csproj", "{875150B3-F0F4-40C9-987D-98446AD81FC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stushbr.PaymentsGatewayWeb", "src\Stushbr.PaymentsGatewayWeb\Stushbr.PaymentsGatewayWeb.csproj", "{0B6EED5B-D948-4FDC-992F-3525027A60A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{461247E0-9141-4B04-BF73-87C283BBF5DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{461247E0-9141-4B04-BF73-87C283BBF5DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{461247E0-9141-4B04-BF73-87C283BBF5DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{461247E0-9141-4B04-BF73-87C283BBF5DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E7F6FA5F-A41E-4631-B365-9AE569CDEED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E7F6FA5F-A41E-4631-B365-9AE569CDEED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E7F6FA5F-A41E-4631-B365-9AE569CDEED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E7F6FA5F-A41E-4631-B365-9AE569CDEED8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5561E1F8-42B5-48D3-B09C-CAADE7EA5375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5561E1F8-42B5-48D3-B09C-CAADE7EA5375}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5561E1F8-42B5-48D3-B09C-CAADE7EA5375}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5561E1F8-42B5-48D3-B09C-CAADE7EA5375}.Release|Any CPU.Build.0 = Release|Any CPU
 		{10B32617-68D7-4780-A7CC-B80E6E7A5DB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{10B32617-68D7-4780-A7CC-B80E6E7A5DB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10B32617-68D7-4780-A7CC-B80E6E7A5DB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10B32617-68D7-4780-A7CC-B80E6E7A5DB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0E2A256-C490-49F1-9826-0E7FCABC7C4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0E2A256-C490-49F1-9826-0E7FCABC7C4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0E2A256-C490-49F1-9826-0E7FCABC7C4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0E2A256-C490-49F1-9826-0E7FCABC7C4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CF63BF8-4B0F-484B-82E4-B5E5AF075522}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CF63BF8-4B0F-484B-82E4-B5E5AF075522}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CF63BF8-4B0F-484B-82E4-B5E5AF075522}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CF63BF8-4B0F-484B-82E4-B5E5AF075522}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB51997C-C870-42F2-AB5B-10A02E0EB1FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB51997C-C870-42F2-AB5B-10A02E0EB1FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB51997C-C870-42F2-AB5B-10A02E0EB1FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB51997C-C870-42F2-AB5B-10A02E0EB1FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FE30A30-ADDD-4C37-9B95-54C3200C894A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FE30A30-ADDD-4C37-9B95-54C3200C894A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FE30A30-ADDD-4C37-9B95-54C3200C894A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FE30A30-ADDD-4C37-9B95-54C3200C894A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{875150B3-F0F4-40C9-987D-98446AD81FC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{875150B3-F0F4-40C9-987D-98446AD81FC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{875150B3-F0F4-40C9-987D-98446AD81FC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{875150B3-F0F4-40C9-987D-98446AD81FC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B6EED5B-D948-4FDC-992F-3525027A60A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B6EED5B-D948-4FDC-992F-3525027A60A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B6EED5B-D948-4FDC-992F-3525027A60A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B6EED5B-D948-4FDC-992F-3525027A60A5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C0E2A256-C490-49F1-9826-0E7FCABC7C4E} = {8C927937-D4A9-44A9-A5BF-AF44C19F26BD}
+		{4CF63BF8-4B0F-484B-82E4-B5E5AF075522} = {261D93C2-BBF5-4A9F-8B4F-0C5F395ED254}
+		{CB51997C-C870-42F2-AB5B-10A02E0EB1FF} = {89625213-243E-44EC-905A-16718D56C16A}
+		{5FE30A30-ADDD-4C37-9B95-54C3200C894A} = {8C927937-D4A9-44A9-A5BF-AF44C19F26BD}
+		{875150B3-F0F4-40C9-987D-98446AD81FC7} = {89625213-243E-44EC-905A-16718D56C16A}
+		{0B6EED5B-D948-4FDC-992F-3525027A60A5} = {64FBB12B-35E3-4350-BF12-9F25BDBE7906}
 	EndGlobalSection
 EndGlobal
