@@ -2,7 +2,7 @@
 using MediatR.Pipeline;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog;
+using Microsoft.Extensions.Logging;
 using Stushbr.Com.Application.Abstractions;
 using Stushbr.Com.Application.Behaviours;
 using System.Reflection;
@@ -20,15 +20,5 @@ internal class Startup : FunctionsStartup
         builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
         builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
         builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPostProcessorBehavior<,>));
-
-        Log.Logger = new LoggerConfiguration()
-            .Enrich.FromLogContext()
-            .WriteTo.Console()
-            .WriteTo.ApplicationInsights("InstrumentationKey=7022df01-b478-4022-83ad-5e05f16b6fa9;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/", TelemetryConverter.Traces)
-            .CreateLogger();
-
-        builder.Services.AddSingleton(Log.Logger);
-
-        builder.Services.AddLogging(c => c.AddSerilog(Log.Logger));
     }
 }
