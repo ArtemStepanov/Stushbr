@@ -30,9 +30,7 @@
 
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Stushbr.Api\Stushbr.Api.csproj" />
-      <ProjectReference Include="..\shared\Stushbr.Api\Stushbr.Api.csproj" />
-      <ProjectReference Include="..\shared\Stushbr.Application\Stushbr.Application.csproj" />
+      <ProjectReference Include="..\..\shared\Stushbr.Api\Stushbr.Api.csproj" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
