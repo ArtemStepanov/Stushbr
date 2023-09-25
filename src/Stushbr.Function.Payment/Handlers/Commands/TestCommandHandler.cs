@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Stushbr.Application.Abstractions;
-using Stushbr.Com.Function.Commands;
+using Stushbr.Function.Payment.Commands;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Stushbr.Com.Function.Handlers.Commands;
+namespace Stushbr.Function.Payment.Handlers.Commands;
 
 internal class TestCommandHandler : BaseRequestHandler<TestCommand, string>
 {

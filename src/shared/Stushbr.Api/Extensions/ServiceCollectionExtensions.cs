@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MediatR;
+using MediatR.Pipeline;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Stushbr.Application.PipelineBehaviours;
 using Stushbr.Core.Configuration;
 using Stushbr.Data.DataAccess.Postgres;
@@ -18,28 +19,31 @@ public static class ServiceCollectionExtensions
     {
         services.Configure<ApplicationConfiguration>(applicationConfiguration.Bind);
 
-        services.AddDbContextFactory<StushbrDbContext>(opt => { opt.UseNpgsql(applicationConfiguration.GetSection("Postgres").GetConnectionString("ConnectionString")); });
+        services.AddDbContext<StushbrDbContext>(opt =>
+        {
+            opt.UseNpgsql(applicationConfiguration.GetConnectionString("Postgres"));
+        });
 
         var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-        services.AddMediatR(conf =>
-        {
-            conf.RegisterServicesFromAssemblies(assemblies);
-            conf.AddBehavior(typeof(TransactionPipelineBehaviour<,>));
-            conf.AddBehavior(typeof(LoggingPipelineBehaviour<,>));
-        });
+        services.AddMediatR(conf => { conf.RegisterServicesFromAssemblies(assemblies); });
 
-        services.AddSingleton(provider =>
-        {
-            // hack to initialize databases
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehaviour<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipelineBehaviour<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPostProcessorBehavior<,>));
 
-            // Seed postgres tables
-            PostgresTableSeeder.SeedTablesIfRequired(
-                provider.GetRequiredService<StushbrDbContext>(),
-                provider.GetRequiredService<ILogger<PostgresTableSeeder>>()
-            );
-
-            return applicationConfiguration;
-        });
+        // services.AddSingleton(provider =>
+        // {
+        //     // hack to initialize databases
+        //
+        //     // Seed postgres tables
+        //     PostgresTableSeeder.SeedTablesIfRequired(
+        //         provider.GetRequiredService<StushbrDbContext>(),
+        //         provider.GetRequiredService<ILogger<PostgresTableSeeder>>()
+        //     );
+        //
+        //     return applicationConfiguration;
+        // });
 
         services.AddAutoMapper(Assembly.GetCallingAssembly(), Assembly.GetExecutingAssembly());
 

@@ -14,8 +14,8 @@ public class ClientItemService : CrudServiceBase<ClientItem>, IClientItemService
     public async Task<ClientItem> LoadBillAsync(string billId, CancellationToken cancellationToken)
     {
         var bill = await DbContext.ClientItems
-            .Include(b => b.AssociatedClient)
-            .Include(b => b.AssociatedItem)
+            .Include(b => b.Client)
+            .Include(b => b.Item)
             .FirstAsync(b => b.Id == billId, cancellationToken);
 
         return bill;
@@ -32,8 +32,8 @@ public class ClientItemService : CrudServiceBase<ClientItem>, IClientItemService
                 && x.ItemId == clientItem.ItemId
                 && !x.IsPaid && x.PaymentSystemBillDueDate > DateTime.Now
             )
-            .Include(b => b.AssociatedClient)
-            .Include(b => b.AssociatedItem)
+            .Include(b => b.Client)
+            .Include(b => b.Item)
             .FirstOrDefaultAsync(cancellationToken);
 
         // if active bill exists - just return it

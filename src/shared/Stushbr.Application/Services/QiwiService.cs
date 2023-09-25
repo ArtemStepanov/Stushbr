@@ -33,8 +33,8 @@ public class QiwiService : IQiwiService
 
     public async Task<BillResponse> CreateBillAsync(ClientItem loadedClientItem)
     {
-        var item = loadedClientItem.AssociatedItem!;
-        var client = loadedClientItem.AssociatedClient!;
+        var item = loadedClientItem.Item!;
+        var client = loadedClientItem.Client!;
 
         var amount = new MoneyAmount
         {

@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Stushbr.Application.Abstractions;
-using Stushbr.Application.Services;
 using Stushbr.Domain.Models;
 using Stushbr.EntitiesProcessor.Processors;
 
@@ -45,8 +44,8 @@ public class ClientItemProcessorHostedService : BackgroundService
     {
         var freshItems = await ClientItemService
             .GetItemsAsync(b => b.IsPaid && !b.IsProcessed)
-            .Include(b => b.AssociatedClient)
-            .Include(b => b.AssociatedItem)
+            .Include(b => b.Client)
+            .Include(b => b.Item)
             .ToListAsync(cancellationToken);
 
         _logger.LogInformation("{Count} fresh client items were found", freshItems.Count);
@@ -54,7 +53,7 @@ public class ClientItemProcessorHostedService : BackgroundService
         foreach (var clientItem in freshItems)
         {
             _logger.LogInformation("Processing client item '{Id}'", clientItem.Id);
-            switch (clientItem.AssociatedItem!.Type)
+            switch (clientItem.Item!.Type)
             {
                 case ItemType.TelegramChannel:
                     await TelegramChannelProcessor.ProcessClientItemAsync(clientItem, cancellationToken);

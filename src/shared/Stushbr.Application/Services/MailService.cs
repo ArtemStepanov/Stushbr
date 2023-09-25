@@ -29,8 +29,8 @@ public class MailService : IMailService
 
     public async Task SendTelegramInviteLinkAsync(ClientItem clientItem)
     {
-        var item = clientItem.AssociatedItem!;
-        var client = clientItem.AssociatedClient!;
+        var item = clientItem.Item!;
+        var client = clientItem.Client!;
 
         foreach (var telegramClientItemData in clientItem.TelegramData!.Items)
         {

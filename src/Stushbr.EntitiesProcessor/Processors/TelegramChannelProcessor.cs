@@ -1,5 +1,4 @@
 ﻿using Stushbr.Application.Abstractions;
-using Stushbr.Application.Services;
 using Stushbr.Domain.Models;
 using Stushbr.EntitiesProcessor.Services;
 
@@ -29,7 +28,7 @@ public class TelegramChannelProcessor : ITelegramChannelProcessor
     {
         LogInformation("Processing telegram item", clientItem);
 
-        var item = clientItem.AssociatedItem;
+        var item = clientItem.Item;
         var telegramItemData = clientItem.TelegramData;
 
         if (telegramItemData?.Items.Any() == false)

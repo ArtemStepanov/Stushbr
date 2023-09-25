@@ -13,13 +13,6 @@ public sealed class ClientItemTypeConfiguration : IEntityTypeConfiguration<Clien
         // Primary Key Configuration
         builder.HasKey(c => c.Id);
 
-        // Property Configurations
-        builder.Property(c => c.ClientId)
-            .IsRequired();
-
-        builder.Property(c => c.ItemId)
-            .IsRequired();
-
         builder.Property(c => c.PaymentSystemBillId);
 
         builder.Property(c => c.PaymentSystemBillDueDate);
@@ -47,12 +40,10 @@ public sealed class ClientItemTypeConfiguration : IEntityTypeConfiguration<Clien
         builder.Ignore(c => c.TelegramData);
 
         // Relationship Configurations
-        builder.HasOne(c => c.AssociatedClient)
-            .WithMany()
-            .HasForeignKey(c => c.ClientId);
+        builder.HasOne(c => c.Client)
+            .WithMany(x => x.ClientItems).OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasOne(c => c.AssociatedItem)
-            .WithMany()
-            .HasForeignKey(c => c.ItemId);
+        builder.HasOne(c => c.Item)
+            .WithMany(i => i.ClientItems).OnDelete(DeleteBehavior.Cascade);
     }
 }

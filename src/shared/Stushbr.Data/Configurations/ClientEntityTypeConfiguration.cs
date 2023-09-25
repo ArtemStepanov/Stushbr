@@ -12,20 +12,24 @@ public sealed class ClientEntityTypeConfiguration : IEntityTypeConfiguration<Cli
 
         builder.Property(c => c.FirstName)
             .IsRequired()
-            .HasColumnType("nvarchar(100)");
+            .HasMaxLength(100);
 
         builder.Property(c => c.SecondName)
             .IsRequired()
-            .HasColumnType("nvarchar(100)");
+            .HasMaxLength(100);
 
         builder.Property(c => c.Email)
             .IsRequired()
-            .HasColumnType("nvarchar(100)");
+            .HasMaxLength(100);
 
         builder.Property(c => c.PhoneNumber)
             .IsRequired()
-            .HasColumnType("nvarchar(20)");
+            .HasMaxLength(20);
 
         builder.Ignore(c => c.FullName);
+
+        builder.HasMany(c => c.ClientItems)
+            .WithOne(x => x.Client)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -44,10 +44,5 @@ public sealed class ItemEntityTypeConfiguration : IEntityTypeConfiguration<Item>
 
         // Ignore the TelegramItemData property
         builder.Ignore(c => c.TelegramItemData);
-
-        // Relationship Configurations
-        builder.HasMany(c => c.ClientItems)
-            .WithOne(i => i.AssociatedItem)
-            .HasForeignKey(c => c.ItemId);
     }
 }

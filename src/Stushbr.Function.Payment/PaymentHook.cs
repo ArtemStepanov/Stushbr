@@ -1,23 +1,26 @@
 using MediatR;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Stushbr.Com.Function.Commands;
+using Stushbr.Data.DataAccess.Postgres;
+using Stushbr.Function.Payment.Commands;
+using System.Threading.Tasks;
 
-namespace Stushbr.Com.Function
+namespace Stushbr.Function.Payment
 {
     public class PaymentHook
     {
         private readonly IMediator _mediator;
         private readonly ILogger _logger;
+        private readonly StushbrDbContext _dbContext;
 
-        public PaymentHook(IMediator mediator, ILogger<PaymentHook> logger)
+        public PaymentHook(IMediator mediator, ILogger<PaymentHook> logger, StushbrDbContext dbContext)
         {
             _mediator = mediator;
             _logger = logger;
+            _dbContext = dbContext;
         }
 
         [FunctionName("PaymentHook")]

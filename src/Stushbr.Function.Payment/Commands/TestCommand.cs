@@ -1,4 +1,5 @@
 ﻿using Stushbr.Application.Abstractions;
 
-namespace Stushbr.Com.Function.Commands;
+namespace Stushbr.Function.Payment.Commands;
+
 public sealed record TestCommand(string Blah) : ICommand<string>;

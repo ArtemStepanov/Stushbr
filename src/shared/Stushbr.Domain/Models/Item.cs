@@ -1,5 +1,6 @@
 ﻿using Stushbr.Core.Extensions;
 using Stushbr.Domain.Abstractions;
+using System.Runtime.Serialization;
 using System.Text.Json.Nodes;
 
 namespace Stushbr.Domain.Models;
@@ -8,9 +9,9 @@ public class Item : IIdentifier
 {
     public string Id { get; set; } = Guid.NewGuid().ToString("N");
 
-    public string DisplayName { get; set; }
+    public string DisplayName { get; set; } = default!;
 
-    public string Description { get; set; }
+    public string Description { get; set; } = default!;
 
     public string? ImageUrl { get; set; }
 
@@ -29,5 +30,6 @@ public class Item : IIdentifier
     public virtual ICollection<ClientItem> ClientItems { get; set; } = new List<ClientItem>();
 
     // Unmapped property
+    [IgnoreDataMember]
     public TelegramItemData? TelegramItemData => Data?.ToObject<TelegramItemData>();
 }

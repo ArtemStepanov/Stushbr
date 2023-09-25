@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Stushbr.Domain.Abstractions;
+using Microsoft.EntityFrameworkCore.Design;
 using Stushbr.Domain.Models;
 
 namespace Stushbr.Data.DataAccess.Postgres;
@@ -18,6 +18,17 @@ public sealed class StushbrDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(IIdentifier).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+    }
+}
+
+public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<StushbrDbContext>
+{
+    public StushbrDbContext CreateDbContext(string[] args)
+    {
+        var builder = new DbContextOptionsBuilder<StushbrDbContext>();
+        var connectionString = "Host=localhost;Database=stushbr;Username=stushbr;Password=stushbr";
+        builder.UseNpgsql(connectionString);
+        return new StushbrDbContext(builder.Options);
     }
 }
