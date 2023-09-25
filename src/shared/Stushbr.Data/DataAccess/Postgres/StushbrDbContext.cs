@@ -27,7 +27,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<StushbrDbC
     public StushbrDbContext CreateDbContext(string[] args)
     {
         var builder = new DbContextOptionsBuilder<StushbrDbContext>();
-        var connectionString = "Host=localhost;Database=stushbr;Username=stushbr;Password=stushbr";
+        var connectionString = Environment.GetEnvironmentVariable("Postgres_ConnectionString")!;
         builder.UseNpgsql(connectionString);
         return new StushbrDbContext(builder.Options);
     }
