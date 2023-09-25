@@ -1,14 +1,15 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Qiwi.BillPayments.Model.Out;
+using Stushbr.Api.ExceptionHandling;
+using Stushbr.Application.Abstractions;
+using Stushbr.Domain.Models;
 using Stushbr.PaymentsGatewayWeb.ViewModels.Requests;
 using Stushbr.PaymentsGatewayWeb.ViewModels.Responses;
-using Stushbr.Shared.ExceptionHandling;
-using Stushbr.Shared.Models;
-using Stushbr.Shared.Services;
 
 namespace Stushbr.PaymentsGatewayWeb.Controllers;
 
+// todo: rewrite using MediatR
 [ApiController]
 [Route("items")]
 public class ItemController : ControllerBase
@@ -58,25 +59,10 @@ public class ItemController : ControllerBase
     [HttpPost("order")]
     public async Task<ActionResult<OrderItemResponse>> OrderItem([FromBody] OrderItemRequest request)
     {
-        OrderItemResponse result;
-
         var item = await _itemService.GetItemByIdAsync(request.Id);
         VerifyItem(item);
 
-        // Start transaction
-        await using var transaction =
-            await _clientService.StartTransactionAsync(HttpContext.RequestAborted);
-
-        try
-        {
-            result = await OrderItemInnerAsync(item.Id, request.ClientInfo);
-            await transaction.CommitAsync(HttpContext.RequestAborted);
-        }
-        catch
-        {
-            await transaction.RollbackAsync(HttpContext.RequestAborted);
-            throw;
-        }
+        var result = await OrderItemInnerAsync(item!.Id, request.ClientInfo);
 
         return Ok(result);
     }

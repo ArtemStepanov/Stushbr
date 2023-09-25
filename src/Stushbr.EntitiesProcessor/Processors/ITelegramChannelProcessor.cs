@@ -1,4 +1,4 @@
-﻿using Stushbr.Shared.Models;
+﻿using Stushbr.Domain.Models;
 
 namespace Stushbr.EntitiesProcessor.Processors;
 

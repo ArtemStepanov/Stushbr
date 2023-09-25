@@ -1,15 +1,31 @@
 using Microsoft.AspNetCore.Mvc;
-using Stushbr.Shared.Configuration;
-using Stushbr.Shared.ExceptionHandling;
-using Stushbr.Shared.Extensions;
+using Microsoft.EntityFrameworkCore;
+using Qiwi.BillPayments.Client;
+using Stushbr.Api.ExceptionHandling;
+using Stushbr.Api.Extensions;
+using Stushbr.Application.Abstractions;
+using Stushbr.Application.Services;
+using Stushbr.Core.Configuration;
+using Stushbr.Data.DataAccess.Postgres;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
-var configuration = builder.Configuration.Get<ApplicationConfiguration>();
-
-services.AddEssentials(configuration);
+services.AddEssentials(builder.Configuration);
 services.AddSwaggerGen();
+
+#region Services
+
+services.AddSingleton(provider => BillPaymentsClientFactory.Create(
+        provider.GetRequiredService<ApplicationConfiguration>().Qiwi!.SecretToken
+    )
+);
+services.AddSingleton<IQiwiService, QiwiService>();
+services.AddScoped<IItemService, ItemService>();
+services.AddScoped<IClientService, ClientService>();
+services.AddScoped<IClientItemService, ClientItemService>();
+
+#endregion
 
 // Add services to the container.
 
@@ -54,6 +70,10 @@ else
         options.DisplayRequestDuration();
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
     });
+
+    await using var serviceScope = app.Services.CreateAsyncScope();
+    var context = serviceScope.ServiceProvider.GetRequiredService<StushbrDbContext>();
+    await context.Database.MigrateAsync();
 }
 
 app.UseHttpsRedirection();

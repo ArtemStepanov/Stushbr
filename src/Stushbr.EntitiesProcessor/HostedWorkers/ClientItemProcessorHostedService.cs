@@ -1,7 +1,8 @@
-﻿using LinqToDB;
+﻿using Microsoft.EntityFrameworkCore;
+using Stushbr.Application.Abstractions;
+using Stushbr.Application.Services;
+using Stushbr.Domain.Models;
 using Stushbr.EntitiesProcessor.Processors;
-using Stushbr.Shared.Models;
-using Stushbr.Shared.Services;
 
 namespace Stushbr.EntitiesProcessor.HostedWorkers;
 
@@ -44,8 +45,8 @@ public class ClientItemProcessorHostedService : BackgroundService
     {
         var freshItems = await ClientItemService
             .GetItemsAsync(b => b.IsPaid && !b.IsProcessed)
-            .LoadWith(b => b.AssociatedClient)
-            .LoadWith(b => b.AssociatedItem)
+            .Include(b => b.AssociatedClient)
+            .Include(b => b.AssociatedItem)
             .ToListAsync(cancellationToken);
 
         _logger.LogInformation("{Count} fresh client items were found", freshItems.Count);
@@ -53,7 +54,7 @@ public class ClientItemProcessorHostedService : BackgroundService
         foreach (var clientItem in freshItems)
         {
             _logger.LogInformation("Processing client item '{Id}'", clientItem.Id);
-            switch (clientItem.AssociatedItem.Type)
+            switch (clientItem.AssociatedItem!.Type)
             {
                 case ItemType.TelegramChannel:
                     await TelegramChannelProcessor.ProcessClientItemAsync(clientItem, cancellationToken);

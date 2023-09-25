@@ -1,6 +1,7 @@
-﻿using Stushbr.EntitiesProcessor.Services;
-using Stushbr.Shared.Models;
-using Stushbr.Shared.Services;
+﻿using Stushbr.Application.Abstractions;
+using Stushbr.Application.Services;
+using Stushbr.Domain.Models;
+using Stushbr.EntitiesProcessor.Services;
 
 namespace Stushbr.EntitiesProcessor.Processors;
 

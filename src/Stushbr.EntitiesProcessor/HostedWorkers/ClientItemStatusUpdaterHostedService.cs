@@ -1,7 +1,7 @@
-using LinqToDB;
+using Microsoft.EntityFrameworkCore;
 using Qiwi.BillPayments.Model;
-using Stushbr.Shared.Models;
-using Stushbr.Shared.Services;
+using Stushbr.Application.Abstractions;
+using Stushbr.Domain.Models;
 
 namespace Stushbr.EntitiesProcessor.HostedWorkers;
 
@@ -34,7 +34,7 @@ public class ClientItemStatusUpdaterHostedService : BackgroundService
             _scope = _serviceProvider.CreateAsyncScope();
 
             _logger.LogInformation("Updating item state for not processed client items");
-            List<ClientItem> notProcessedClientItems = await ClientItemService
+            var notProcessedClientItems = await ClientItemService
                 .GetItemsAsync(x => !x.IsPaid && !string.IsNullOrEmpty(x.PaymentSystemBillId))
                 .ToListAsync(stoppingToken);
 
@@ -69,7 +69,7 @@ public class ClientItemStatusUpdaterHostedService : BackgroundService
                 LogInformation(clientItem, "Has been payed and will be updated");
                 clientItem.IsPaid = true;
                 clientItem.PaymentDate = qiwiBillInfo.Status.ChangedDateTime;
-                await ClientItemService.UpdateItemAsync(clientItem);
+                await ClientItemService.UpdateItemAsync(clientItem, stoppingToken);
                 await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
                 continue;
             }
@@ -77,7 +77,7 @@ public class ClientItemStatusUpdaterHostedService : BackgroundService
             if (new[] { BillStatusEnum.Rejected, BillStatusEnum.Expired }.Contains(qiwiBillInfo.Status.ValueEnum))
             {
                 LogInformation(clientItem, "Can no longer be paid and will be removed");
-                await ClientItemService.DeleteItemAsync(clientItem.Id);
+                await ClientItemService.DeleteItemAsync(clientItem.Id, stoppingToken);
                 await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
             }
         }

@@ -5,7 +5,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Stushbr.Shared.Commands;
+using Stushbr.Com.Function.Commands;
 
 namespace Stushbr.Com.Function
 {
