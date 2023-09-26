@@ -4,6 +4,7 @@
 name: .NET
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "master" ]
   pull_request:
@@ -27,6 +28,8 @@ jobs:
         key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
         restore-keys: |
           ${{ runner.os }}-nuget-
+    - name: Add Stxima.SendPulse nuget source
+      run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.NUGET_ACCESS }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/ArtemStepanov/index.json"
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
