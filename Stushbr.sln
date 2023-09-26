@@ -5,8 +5,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution files", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stxima.SendPulseClient", "..\..\my\Stxima.SendPulseClient\Stxima.SendPulseClient.csproj", "{10B32617-68D7-4780-A7CC-B80E6E7A5DB6}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Functions", "Functions", "{261D93C2-BBF5-4A9F-8B4F-0C5F395ED254}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{89625213-243E-44EC-905A-16718D56C16A}"
@@ -39,10 +37,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{10B32617-68D7-4780-A7CC-B80E6E7A5DB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{10B32617-68D7-4780-A7CC-B80E6E7A5DB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{10B32617-68D7-4780-A7CC-B80E6E7A5DB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{10B32617-68D7-4780-A7CC-B80E6E7A5DB6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4CF63BF8-4B0F-484B-82E4-B5E5AF075522}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4CF63BF8-4B0F-484B-82E4-B5E5AF075522}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CF63BF8-4B0F-484B-82E4-B5E5AF075522}.Release|Any CPU.ActiveCfg = Release|Any CPU
