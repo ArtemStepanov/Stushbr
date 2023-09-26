@@ -11,13 +11,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\my\Stxima.SendPulseClient\Stxima.SendPulseClient.csproj" />
     <ProjectReference Include="..\Stushbr.Data\Stushbr.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.1.1" />
     <PackageReference Include="Qiwi.BillPayments" Version="0.1.5" />
+    <PackageReference Include="Stxima.SendPulseClient" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

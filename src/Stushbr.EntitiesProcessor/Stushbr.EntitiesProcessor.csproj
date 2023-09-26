@@ -15,7 +15,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\..\my\Stxima.SendPulseClient\Stxima.SendPulseClient.csproj" />
       <ProjectReference Include="..\..\Stushbr.Api\Stushbr.Api.csproj" />
       <ProjectReference Include="..\shared\Stushbr.Api\Stushbr.Api.csproj" />
       <ProjectReference Include="..\shared\Stushbr.Application\Stushbr.Application.csproj" />
