@@ -41,7 +41,7 @@ namespace Stushbr.Function.Payment
 
             // if it is about video, then add user to video
             // if it is about files, add user to access to the folder specified
-            
+
             // test channel id: -1001697690171
 
             var json = await req.ReadAsStringAsync();

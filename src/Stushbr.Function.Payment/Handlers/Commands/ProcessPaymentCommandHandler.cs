@@ -4,6 +4,7 @@ using Stushbr.Application.Abstractions;
 using Stushbr.Data.DataAccess.Sql;
 using Stushbr.Function.Payment.Commands;
 using Stushbr.Function.Payment.HttpClients;
+using Stushbr.Function.Payment.HttpClients.Requests;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -38,7 +39,7 @@ internal class ProcessPaymentCommandHandler : BaseRequestHandler<ProcessPaymentC
         if (item == null)
         {
             _logger.LogWarning("Item with identifier {ItemIdentifier} not found", request.ItemIdentifier);
-            return new ProcessPaymentResult(false, new List<string>());
+            return new ProcessPaymentResult(false);
         }
 
         var links = new List<string>();
@@ -48,6 +49,8 @@ internal class ProcessPaymentCommandHandler : BaseRequestHandler<ProcessPaymentC
             links.Add(link.InviteLink);
         }
 
-        return new ProcessPaymentResult(true, links);
+        await _sendPulseWebHookClient.CallWebhookAsync(new CallTelegramWebhookRequest(request.Email, request.Phone, string.Join(",", links)), cancellationToken);
+
+        return new ProcessPaymentResult(true);
     }
 }
