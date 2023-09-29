@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Stushbr.Application.Abstractions;
-using Stushbr.Data.DataAccess.Postgres;
+using Stushbr.Data.DataAccess.Sql;
 using Stushbr.Domain.Models;
 
 namespace Stushbr.Application.Services;

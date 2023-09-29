@@ -7,6 +7,7 @@ using Qiwi.BillPayments.Model.In;
 using Qiwi.BillPayments.Model.Out;
 using Stushbr.Application.Abstractions;
 using Stushbr.Core.Configuration;
+using Stushbr.Core.Enums;
 using Stushbr.Domain.Models;
 
 namespace Stushbr.Application.Services;

@@ -1,4 +1,5 @@
-﻿using Stushbr.Core.Extensions;
+﻿using Stushbr.Core.Enums;
+using Stushbr.Core.Extensions;
 using Stushbr.Domain.Abstractions;
 using System.Runtime.Serialization;
 using System.Text.Json.Nodes;

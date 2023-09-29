@@ -26,7 +26,6 @@ public sealed class ClientItemTypeConfiguration : IEntityTypeConfiguration<Clien
         builder.Property(c => c.ProcessDate);
 
         builder.Property(c => c.Data)
-            .HasColumnType("jsonb")
             .HasConversion(
                 v => v == null
                     ? null
