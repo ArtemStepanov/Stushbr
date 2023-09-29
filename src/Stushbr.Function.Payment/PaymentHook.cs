@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using Stushbr.Data.DataAccess.Sql;
-using Stushbr.Function.Payment.Commands;
 using System.Threading.Tasks;
 
 namespace Stushbr.Function.Payment
@@ -14,30 +12,42 @@ namespace Stushbr.Function.Payment
     {
         private readonly IMediator _mediator;
         private readonly ILogger _logger;
-        private readonly StushbrDbContext _dbContext;
 
-        public PaymentHook(IMediator mediator, ILogger<PaymentHook> logger, StushbrDbContext dbContext)
+        public PaymentHook(
+            IMediator mediator,
+            ILogger<PaymentHook> logger
+        )
         {
             _mediator = mediator;
             _logger = logger;
-            _dbContext = dbContext;
         }
 
+        // call this function from Tilda
         [FunctionName("PaymentHook")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]
-            HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "payment/hook")]
+            HttpRequest req
+        )
         {
-            _logger.LogInformation("C# HTTP trigger function processed a request");
-            string name = req.Query["name"];
+            // parse request
+            // if it is about telegram, then create telegram channel invite link and send an event to sendpulse
+            // https://events.sendpulse.com/events/id/830cf27f8ca543a8e3babbc5264cfbec/7937666
+            // {
+            //   "email": "stushaborz@icloud.com",
+            //   "phone": "+123456789",
+            //   "link": "link value",
+            //   "event_date": "2023-09-29"
+            // }
 
-            var result = await _mediator.Send(new TestCommand(name));
+            // if it is about video, then add user to video
+            // if it is about files, add user to access to the folder specified
 
-            var responseMessage = string.IsNullOrEmpty(name)
-                ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
-                : $"Hello, {result}. This HTTP triggered function executed successfully.";
+            // test channel id: -1001697690171
 
-            return new OkObjectResult(responseMessage);
+            var json = await req.ReadAsStringAsync();
+            _logger.LogTrace("Request body: {Json}", json);
+
+            return new OkObjectResult(new { Result = true, Body = "https://google.com" });
         }
     }
 }

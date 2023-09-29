@@ -1,25 +1,24 @@
 ﻿using Stushbr.Application.Abstractions;
-using Stushbr.Domain.Models;
-using Stushbr.EntitiesProcessor.Services;
+using Stushbr.Domain.Models.Clients;
 
 namespace Stushbr.EntitiesProcessor.Processors;
 
 public class TelegramChannelProcessor : ITelegramChannelProcessor
 {
     private readonly ILogger<TelegramChannelProcessor> _logger;
-    private readonly ITelegramBotService _telegramBotService;
+    private readonly ITelegramService _telegramService;
     private readonly IClientItemService _clientItemService;
     private readonly IMailService _mailService;
 
     public TelegramChannelProcessor(
         ILogger<TelegramChannelProcessor> logger,
-        ITelegramBotService telegramBotService,
+        ITelegramService telegramService,
         IClientItemService clientItemService,
         IMailService mailService
     )
     {
         _logger = logger;
-        _telegramBotService = telegramBotService;
+        _telegramService = telegramService;
         _clientItemService = clientItemService;
         _mailService = mailService;
     }
@@ -31,13 +30,13 @@ public class TelegramChannelProcessor : ITelegramChannelProcessor
         var item = clientItem.Item;
         var telegramItemData = clientItem.TelegramData;
 
-        if (telegramItemData?.Items.Any() == false)
+        if (!telegramItemData.Any())
         {
             LogInformation("Invitation links are not exist and will be generated", clientItem);
 
             await GenerateInviteLinksAndUpdateClientItemAsync(
                 clientItem,
-                item!.TelegramItemData!.ChannelIds
+                item!.TelegramItem!.ChannelIds.Select(x => x.ChannelId)
             );
         }
 
@@ -46,30 +45,27 @@ public class TelegramChannelProcessor : ITelegramChannelProcessor
 
         LogInformation("Updating client item state to processed", clientItem);
         clientItem.SetProcessed(true);
-        await _clientItemService.UpdateItemAsync(clientItem);
+        await _clientItemService.UpdateItemAsync(clientItem, cancellationToken);
 
         LogInformation("Item processed", clientItem);
     }
 
     private async Task GenerateInviteLinksAndUpdateClientItemAsync(
         ClientItem clientItem,
-        long[] telegramChannelIds
+        IEnumerable<long> telegramChannelIds
     )
     {
-        var telegramDataWrapper = new TelegramClientItemDataWrapper();
-
         foreach (var telegramChannelId in telegramChannelIds)
         {
-            var link = await _telegramBotService.CreateInviteLinkAsync(telegramChannelId);
-            var chatInfo = await _telegramBotService.GetChatInfoAsync(telegramChannelId);
-            telegramDataWrapper.Items.Add(new TelegramClientItemData(
-                link.InviteLink,
-                link.ExpireDate,
-                chatInfo.Title)
-            );
+            var link = await _telegramService.CreateInviteLinkAsync(telegramChannelId);
+            var chatInfo = await _telegramService.GetChatInfoAsync(telegramChannelId);
+            clientItem.TelegramData.Add(new TelegramClientItem()
+            {
+                InviteLink = link.InviteLink,
+                LinkExpireDate = link.ExpireDate,
+                ChannelName = chatInfo.Title ?? throw new ArgumentException("Chat title is null", nameof(chatInfo.Title))
+            });
         }
-
-        clientItem.TelegramData = telegramDataWrapper;
 
         await _clientItemService.UpdateItemAsync(clientItem);
     }

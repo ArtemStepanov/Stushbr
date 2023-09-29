@@ -4,6 +4,8 @@ using Qiwi.BillPayments.Model.Out;
 using Stushbr.Api.ExceptionHandling;
 using Stushbr.Application.Abstractions;
 using Stushbr.Domain.Models;
+using Stushbr.Domain.Models.Clients;
+using Stushbr.Domain.Models.Items;
 using Stushbr.PaymentsGatewayWeb.ViewModels.Requests;
 using Stushbr.PaymentsGatewayWeb.ViewModels.Responses;
 
@@ -47,8 +49,8 @@ public class ItemController : ControllerBase
             .ToArray();
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<ItemResponse>> GetItemById(string id)
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<ItemResponse>> GetItemById(int id)
     {
         var item = await _itemService.GetItemByIdAsync(id);
         VerifyItem(item);
@@ -67,7 +69,7 @@ public class ItemController : ControllerBase
         return Ok(result);
     }
 
-    private async Task<OrderItemResponse> OrderItemInnerAsync(string itemId, ClientRequest clientInfoRequest)
+    private async Task<OrderItemResponse> OrderItemInnerAsync(int itemId, ClientRequest clientInfoRequest)
     {
         _logger.LogInformation("Getting or creating client \"{Email}\" info", clientInfoRequest.Email);
         var client = await _clientService.TryGetClientByEmailAsync(clientInfoRequest.Email)

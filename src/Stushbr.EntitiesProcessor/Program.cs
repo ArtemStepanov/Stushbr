@@ -4,13 +4,10 @@ using Stushbr.Api.Extensions;
 using Stushbr.Application.Abstractions;
 using Stushbr.Application.Services;
 using Stushbr.Core.Configuration;
-using Stushbr.EntitiesProcessor.Configuration;
 using Stushbr.EntitiesProcessor.HostedWorkers;
 using Stushbr.EntitiesProcessor.Processors;
-using Stushbr.EntitiesProcessor.Services;
 using Stxima.SendPulseClient;
 using Stxima.SendPulseClient.Configuration;
-using Telegram.Bot;
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
@@ -32,10 +29,7 @@ var host = Host.CreateDefaultBuilder(args)
             )
         );
 
-        services.AddSingleton<ITelegramBotService>(provider => new TelegramBotService(
-            provider.GetRequiredService<ILogger<TelegramBotService>>(),
-            new TelegramBotClient(provider.GetRequiredService<IOptions<TelegramConfiguration>>().Value.AccessToken)
-        ));
+        services.AddSingleton<ITelegramService, TelegramService>();
         services.AddScoped<ITelegramChannelProcessor, TelegramChannelProcessor>();
         services.AddScoped<IMailService, MailService>();
 

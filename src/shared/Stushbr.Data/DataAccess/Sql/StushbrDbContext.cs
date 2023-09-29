@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Stushbr.Domain.Models;
+using Stushbr.Domain.Models.Clients;
+using Stushbr.Domain.Models.Items;
 
 namespace Stushbr.Data.DataAccess.Sql;
 
@@ -28,7 +30,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<StushbrDbC
     {
         var builder = new DbContextOptionsBuilder<StushbrDbContext>();
         var connectionString = Environment.GetEnvironmentVariable("Sql_ConnectionString")!;
-        builder.UseNpgsql(connectionString);
+        builder.UseSqlServer(connectionString);
         return new StushbrDbContext(builder.Options);
     }
 }
