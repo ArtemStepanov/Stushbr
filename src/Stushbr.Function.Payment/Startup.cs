@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Stushbr.Api.Extensions;
 using Stushbr.Core.Configuration;
 using Stushbr.Function.Payment;
 using Stushbr.Function.Payment.Configurations;
@@ -16,6 +17,8 @@ internal class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)
     {
+        builder.Services.AddEssentials(builder.GetContext().Configuration);
+
         builder.Services.Configure<SendPulseConfiguration>(builder.GetContext().Configuration.GetSection("SendPulse").Bind);
         builder.Services.Configure<TelegramConfiguration>(builder.GetContext().Configuration.GetSection("Telegram").Bind);
 
