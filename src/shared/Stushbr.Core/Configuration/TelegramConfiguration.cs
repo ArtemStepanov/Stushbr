@@ -1,4 +1,4 @@
-﻿namespace Stushbr.EntitiesProcessor.Configuration;
+﻿namespace Stushbr.Core.Configuration;
 
 public class TelegramConfiguration
 {

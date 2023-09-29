@@ -1,25 +1,24 @@
 ﻿using Stushbr.Application.Abstractions;
 using Stushbr.Domain.Models;
-using Stushbr.EntitiesProcessor.Services;
 
 namespace Stushbr.EntitiesProcessor.Processors;
 
 public class TelegramChannelProcessor : ITelegramChannelProcessor
 {
     private readonly ILogger<TelegramChannelProcessor> _logger;
-    private readonly ITelegramBotService _telegramBotService;
+    private readonly ITelegramService _telegramService;
     private readonly IClientItemService _clientItemService;
     private readonly IMailService _mailService;
 
     public TelegramChannelProcessor(
         ILogger<TelegramChannelProcessor> logger,
-        ITelegramBotService telegramBotService,
+        ITelegramService telegramService,
         IClientItemService clientItemService,
         IMailService mailService
     )
     {
         _logger = logger;
-        _telegramBotService = telegramBotService;
+        _telegramService = telegramService;
         _clientItemService = clientItemService;
         _mailService = mailService;
     }
@@ -46,7 +45,7 @@ public class TelegramChannelProcessor : ITelegramChannelProcessor
 
         LogInformation("Updating client item state to processed", clientItem);
         clientItem.SetProcessed(true);
-        await _clientItemService.UpdateItemAsync(clientItem);
+        await _clientItemService.UpdateItemAsync(clientItem, cancellationToken);
 
         LogInformation("Item processed", clientItem);
     }
@@ -60,8 +59,8 @@ public class TelegramChannelProcessor : ITelegramChannelProcessor
 
         foreach (var telegramChannelId in telegramChannelIds)
         {
-            var link = await _telegramBotService.CreateInviteLinkAsync(telegramChannelId);
-            var chatInfo = await _telegramBotService.GetChatInfoAsync(telegramChannelId);
+            var link = await _telegramService.CreateInviteLinkAsync(telegramChannelId);
+            var chatInfo = await _telegramService.GetChatInfoAsync(telegramChannelId);
             telegramDataWrapper.Items.Add(new TelegramClientItemData(
                 link.InviteLink,
                 link.ExpireDate,

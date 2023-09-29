@@ -2,4 +2,4 @@
 
 namespace Stushbr.Function.Payment.Commands;
 
-public sealed record TestCommand(string Blah) : ICommand<string>;
+public sealed record ProcessPaymentCommand(string Blah) : ICommand<string>;

@@ -11,13 +11,15 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-        <PackageReference Include="Telegram.Bot" Version="19.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Stushbr.Api\Stushbr.Api.csproj" />
       <ProjectReference Include="..\shared\Stushbr.Api\Stushbr.Api.csproj" />
       <ProjectReference Include="..\shared\Stushbr.Application\Stushbr.Application.csproj" />
       <ProjectReference Include="..\shared\Stushbr.Core\Stushbr.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Configuration\" />
     </ItemGroup>
 </Project>
