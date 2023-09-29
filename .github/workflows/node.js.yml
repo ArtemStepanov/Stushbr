@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'src/payments-gateway/Stushbr.PaymentsGatewayWeb/ClientApp/**'
   workflow_dispatch:
 
 jobs:
