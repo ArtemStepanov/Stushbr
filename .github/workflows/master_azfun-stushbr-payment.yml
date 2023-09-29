@@ -19,15 +19,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Cache dependencies
-        uses: actions/cache@v2
+      - name: Cache
+        uses: actions/cache@v3
         with:
-          path: |
-            ~/.nuget/packages
-            ~/.dotnet
-          key: ${{ runner.os }}-dotnet-${{ hashFiles('**/*.csproj') }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-dotnet-
             ${{ runner.os }}-nuget-
 
       - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
