@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Stushbr.Data.DataAccess.Postgres;
+using Stushbr.Data.DataAccess.Sql;
 using System.Data;
 
 namespace Stushbr.Application.PipelineBehaviours;

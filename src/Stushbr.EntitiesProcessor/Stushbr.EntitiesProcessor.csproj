@@ -7,6 +7,7 @@
         <UserSecretsId>dotnet-Stushbr.Scheduler-BD073EDA-6A45-4E22-8AFB-14E040540F17</UserSecretsId>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <RootNamespace>Stushbr.EntitiesProcessor</RootNamespace>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 
     <ItemGroup>

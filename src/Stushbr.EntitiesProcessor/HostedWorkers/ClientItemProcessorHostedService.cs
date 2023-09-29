@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Stushbr.Application.Abstractions;
-using Stushbr.Domain.Models;
+using Stushbr.Core.Enums;
 using Stushbr.EntitiesProcessor.Processors;
 
 namespace Stushbr.EntitiesProcessor.HostedWorkers;

@@ -27,7 +27,6 @@ public sealed class ItemEntityTypeConfiguration : IEntityTypeConfiguration<Item>
         builder.Property(c => c.Type);
 
         builder.Property(c => c.Data)
-            .HasColumnType("jsonb")
             .HasConversion(
                 v => v == null
                     ? null

@@ -4,6 +4,7 @@
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
     <RootNamespace>Stushbr.Function.Payment</RootNamespace>
     <UserSecretsId>15bb3065-8543-4f62-adb1-4d1f92b09c43</UserSecretsId>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
@@ -25,6 +26,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\shared\Stushbr.Application\Stushbr.Application.csproj" />
     <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>

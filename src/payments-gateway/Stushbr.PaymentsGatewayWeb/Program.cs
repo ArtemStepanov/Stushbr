@@ -6,7 +6,7 @@ using Stushbr.Api.Extensions;
 using Stushbr.Application.Abstractions;
 using Stushbr.Application.Services;
 using Stushbr.Core.Configuration;
-using Stushbr.Data.DataAccess.Postgres;
+using Stushbr.Data.DataAccess.Sql;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
