@@ -19,8 +19,4 @@
       <ProjectReference Include="..\shared\Stushbr.Application\Stushbr.Application.csproj" />
       <ProjectReference Include="..\shared\Stushbr.Core\Stushbr.Core.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Configuration\" />
-    </ItemGroup>
 </Project>

@@ -9,6 +9,8 @@ using Stushbr.Application.Abstractions;
 using Stushbr.Core.Configuration;
 using Stushbr.Core.Enums;
 using Stushbr.Domain.Models;
+using Stushbr.Domain.Models.Clients;
+using Stushbr.Domain.Models.Items;
 
 namespace Stushbr.Application.Services;
 
@@ -54,7 +56,7 @@ public class QiwiService : IQiwiService
                 Amount = amount,
                 Comment = FormatComment(item, client),
                 Customer = _mapper.Map<Customer>(client),
-                BillId = loadedClientItem.Id,
+                BillId = loadedClientItem.Id.ToString(),
                 SuccessUrl = new Uri(_configuration.SuccessUrl),
                 ExpirationDateTime = DateTime.Now.AddDays(10)
             });

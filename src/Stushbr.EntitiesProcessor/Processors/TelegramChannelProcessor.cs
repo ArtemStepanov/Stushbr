@@ -1,5 +1,5 @@
 ﻿using Stushbr.Application.Abstractions;
-using Stushbr.Domain.Models;
+using Stushbr.Domain.Models.Clients;
 
 namespace Stushbr.EntitiesProcessor.Processors;
 
@@ -30,13 +30,13 @@ public class TelegramChannelProcessor : ITelegramChannelProcessor
         var item = clientItem.Item;
         var telegramItemData = clientItem.TelegramData;
 
-        if (telegramItemData?.Items.Any() == false)
+        if (!telegramItemData.Any())
         {
             LogInformation("Invitation links are not exist and will be generated", clientItem);
 
             await GenerateInviteLinksAndUpdateClientItemAsync(
                 clientItem,
-                item!.TelegramItemData!.ChannelIds
+                item!.TelegramItem!.ChannelIds.Select(x => x.ChannelId)
             );
         }
 
@@ -52,23 +52,20 @@ public class TelegramChannelProcessor : ITelegramChannelProcessor
 
     private async Task GenerateInviteLinksAndUpdateClientItemAsync(
         ClientItem clientItem,
-        long[] telegramChannelIds
+        IEnumerable<long> telegramChannelIds
     )
     {
-        var telegramDataWrapper = new TelegramClientItemDataWrapper();
-
         foreach (var telegramChannelId in telegramChannelIds)
         {
             var link = await _telegramService.CreateInviteLinkAsync(telegramChannelId);
             var chatInfo = await _telegramService.GetChatInfoAsync(telegramChannelId);
-            telegramDataWrapper.Items.Add(new TelegramClientItemData(
-                link.InviteLink,
-                link.ExpireDate,
-                chatInfo.Title)
-            );
+            clientItem.TelegramData.Add(new TelegramClientItem()
+            {
+                InviteLink = link.InviteLink,
+                LinkExpireDate = link.ExpireDate,
+                ChannelName = chatInfo.Title ?? throw new ArgumentException("Chat title is null", nameof(chatInfo.Title))
+            });
         }
-
-        clientItem.TelegramData = telegramDataWrapper;
 
         await _clientItemService.UpdateItemAsync(clientItem);
     }

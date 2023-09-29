@@ -26,11 +26,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\shared\Stushbr.Application\Stushbr.Application.csproj" />
-    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\shared\Stushbr.Application\Stushbr.Application.csproj" />

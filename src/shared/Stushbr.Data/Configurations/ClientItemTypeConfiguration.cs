@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Stushbr.Domain.Models;
+using Stushbr.Domain.Models.Clients;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
@@ -13,18 +14,6 @@ public sealed class ClientItemTypeConfiguration : IEntityTypeConfiguration<Clien
         // Primary Key Configuration
         builder.HasKey(c => c.Id);
 
-        builder.Property(c => c.PaymentSystemBillId);
-
-        builder.Property(c => c.PaymentSystemBillDueDate);
-
-        builder.Property(c => c.IsPaid);
-
-        builder.Property(c => c.IsProcessed);
-
-        builder.Property(c => c.PaymentDate);
-
-        builder.Property(c => c.ProcessDate);
-
         builder.Property(c => c.Data)
             .HasConversion(
                 v => v == null
@@ -36,7 +25,8 @@ public sealed class ClientItemTypeConfiguration : IEntityTypeConfiguration<Clien
             );
 
         // Ignore the TelegramData property
-        builder.Ignore(c => c.TelegramData);
+        builder.HasMany(c => c.TelegramData)
+            .WithOne(x => x.ClientItem).OnDelete(DeleteBehavior.Cascade);
 
         // Relationship Configurations
         builder.HasOne(c => c.Client)

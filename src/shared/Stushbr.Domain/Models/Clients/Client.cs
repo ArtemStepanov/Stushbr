@@ -1,10 +1,10 @@
 ﻿using Stushbr.Domain.Abstractions;
 
-namespace Stushbr.Domain.Models;
+namespace Stushbr.Domain.Models.Clients;
 
 public class Client : IIdentifier
 {
-    public string Id { get; set; } = Guid.NewGuid().ToString("N");
+    public int Id { get; set; }
 
     public string FirstName { get; set; } = default!;
 

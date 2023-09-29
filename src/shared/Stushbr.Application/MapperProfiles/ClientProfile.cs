@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Qiwi.BillPayments.Model.In;
 using Stushbr.Domain.Models;
+using Stushbr.Domain.Models.Clients;
 
 namespace Stushbr.Application.MapperProfiles;
 

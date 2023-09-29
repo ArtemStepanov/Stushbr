@@ -4,7 +4,7 @@ namespace Stushbr.Application.Abstractions
 {
     public interface ICrudService<TModel> where TModel : notnull
     {
-        Task<TModel?> GetItemByIdAsync(string id, CancellationToken cancellationToken = default);
+        Task<TModel?> GetItemByIdAsync(int id, CancellationToken cancellationToken = default);
 
         IQueryable<TModel> GetItemsAsync(Expression<Func<TModel, bool>> predicate);
 
@@ -16,8 +16,8 @@ namespace Stushbr.Application.Abstractions
 
         Task<TModel> UpdateItemAsync(TModel item, CancellationToken cancellationToken = default);
 
-        Task DeleteItemAsync(string id, CancellationToken cancellationToken = default);
+        Task DeleteItemAsync(int id, CancellationToken cancellationToken = default);
 
-        Task DeleteItemsAsync(IEnumerable<string> ids, CancellationToken cancellationToken = default);
+        Task DeleteItemsAsync(IEnumerable<int> ids, CancellationToken cancellationToken = default);
     }
 }

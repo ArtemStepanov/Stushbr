@@ -26,6 +26,6 @@ internal class ProcessPaymentCommandHandler : BaseRequestHandler<ProcessPaymentC
 
     public override Task<string> Handle(ProcessPaymentCommand request, CancellationToken cancellationToken)
     {
-        return Task.FromResult(request.Blah);
+        return Task.FromResult(request.Email);
     }
 }

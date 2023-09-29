@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Stushbr.Domain.Models;
+using Stushbr.Domain.Models.Items;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
@@ -14,17 +15,11 @@ public sealed class ItemEntityTypeConfiguration : IEntityTypeConfiguration<Item>
         builder.HasKey(c => c.Id);
 
         // Property Configurations
-        builder.Property(c => c.DisplayName)
-            .IsRequired();
+        builder.Property(c => c.DisplayName).IsRequired();
 
-        builder.Property(c => c.Description)
-            .IsRequired();
+        builder.Property(c => c.Description).IsRequired();
 
-        builder.Property(c => c.ImageUrl);
-
-        builder.Property(c => c.Price);
-
-        builder.Property(c => c.Type);
+        builder.Property(c => c.Price).IsRequired();
 
         builder.Property(c => c.Data)
             .HasConversion(
@@ -35,13 +30,12 @@ public sealed class ItemEntityTypeConfiguration : IEntityTypeConfiguration<Item>
                     ? null
                     : JsonSerializer.Deserialize<JsonNode>(v, (JsonSerializerOptions?)null));
 
-        builder.Property(c => c.IsEnabled);
+        builder.Property(c => c.AvailableSince).IsRequired().HasDefaultValue(DateTime.UtcNow);
 
-        builder.Property(c => c.AvailableSince);
-
-        builder.Property(c => c.AvailableBefore);
+        builder.Property(i => i.ItemIdentifier).IsRequired();
 
         // Ignore the TelegramItemData property
-        builder.Ignore(c => c.TelegramItemData);
+        builder.HasOne(c => c.TelegramItem)
+            .WithOne(x => x.Item).OnDelete(DeleteBehavior.Cascade);
     }
 }

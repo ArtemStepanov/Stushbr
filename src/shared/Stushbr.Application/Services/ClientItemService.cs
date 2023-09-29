@@ -2,6 +2,7 @@
 using Stushbr.Application.Abstractions;
 using Stushbr.Data.DataAccess.Sql;
 using Stushbr.Domain.Models;
+using Stushbr.Domain.Models.Clients;
 
 namespace Stushbr.Application.Services;
 
@@ -11,7 +12,7 @@ public class ClientItemService : CrudServiceBase<ClientItem>, IClientItemService
     {
     }
 
-    public async Task<ClientItem> LoadBillAsync(string billId, CancellationToken cancellationToken)
+    public async Task<ClientItem> LoadBillAsync(int billId, CancellationToken cancellationToken)
     {
         var bill = await DbContext.ClientItems
             .Include(b => b.Client)
