@@ -1,4 +1,4 @@
-﻿namespace Stushbr.Domain.Models;
+﻿namespace Stushbr.Core.Enums;
 
 public enum ItemType
 {

@@ -1,4 +1,4 @@
-﻿using Stushbr.Domain.Models;
+﻿using Stushbr.Core.Enums;
 
 namespace Stushbr.PaymentsGatewayWeb.ViewModels.Responses;
 

@@ -5,7 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Stushbr.Application.PipelineBehaviours;
 using Stushbr.Core.Configuration;
-using Stushbr.Data.DataAccess.Postgres;
+using Stushbr.Core.Enums;
+using Stushbr.Data.DataAccess.Sql;
 using System.Reflection;
 
 namespace Stushbr.Api.Extensions;
@@ -17,11 +18,24 @@ public static class ServiceCollectionExtensions
         IConfiguration applicationConfiguration
     )
     {
+        var appConfig = new ApplicationConfiguration();
+        applicationConfiguration.Bind(appConfig);
+
         services.Configure<ApplicationConfiguration>(applicationConfiguration.Bind);
 
         services.AddDbContext<StushbrDbContext>(opt =>
         {
-            opt.UseNpgsql(applicationConfiguration.GetConnectionString("Postgres"));
+            switch (appConfig.DatabaseType)
+            {
+                case DatabaseType.Postgres:
+                    opt.UseNpgsql(applicationConfiguration.GetConnectionString("Postgres"));
+                    break;
+                case DatabaseType.SqlServer:
+                    opt.UseSqlServer(applicationConfiguration.GetConnectionString("SqlServer"));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         });
 
         var assemblies = AppDomain.CurrentDomain.GetAssemblies();

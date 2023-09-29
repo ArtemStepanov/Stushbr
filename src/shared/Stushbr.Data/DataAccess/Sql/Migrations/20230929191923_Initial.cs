@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Stushbr.Data.Migrations
+namespace Stushbr.Data.DataAccess.Sql.Migrations
 {
     public partial class Initial : Migration
     {
@@ -34,7 +34,7 @@ namespace Stushbr.Data.Migrations
                     ImageUrl = table.Column<string>(type: "text", nullable: true),
                     Price = table.Column<double>(type: "double precision", nullable: false),
                     Type = table.Column<int>(type: "integer", nullable: false),
-                    Data = table.Column<string>(type: "jsonb", nullable: true),
+                    Data = table.Column<string>(type: "text", nullable: true),
                     IsEnabled = table.Column<bool>(type: "boolean", nullable: false),
                     AvailableSince = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     AvailableBefore = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
@@ -57,7 +57,7 @@ namespace Stushbr.Data.Migrations
                     IsProcessed = table.Column<bool>(type: "boolean", nullable: false),
                     PaymentDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     ProcessDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    Data = table.Column<string>(type: "jsonb", nullable: true)
+                    Data = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
