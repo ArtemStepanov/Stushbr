@@ -37,7 +37,7 @@ public class TelegramChannelProcessor : ITelegramChannelProcessor
 
             await GenerateInviteLinksAndUpdateClientItemAsync(
                 clientItem,
-                item.TelegramItemData!.ChannelIds
+                item!.TelegramItemData!.ChannelIds
             );
         }
 
