@@ -4,6 +4,9 @@
 name: Build and deploy dotnet core project to Azure Function App - azfun-stushbr-payment
 
 on:
+  push:
+    branches:
+      - master
   workflow_dispatch:
 
 env:
