@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Stushbr.Domain.Models;
 
-namespace Stushbr.Data.DataAccess.Postgres;
+namespace Stushbr.Data.DataAccess.Sql;
 
 public sealed class StushbrDbContext : DbContext
 {
@@ -27,7 +27,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<StushbrDbC
     public StushbrDbContext CreateDbContext(string[] args)
     {
         var builder = new DbContextOptionsBuilder<StushbrDbContext>();
-        var connectionString = Environment.GetEnvironmentVariable("Postgres_ConnectionString")!;
+        var connectionString = Environment.GetEnvironmentVariable("Sql_ConnectionString")!;
         builder.UseNpgsql(connectionString);
         return new StushbrDbContext(builder.Options);
     }

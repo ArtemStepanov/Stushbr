@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Stushbr.Data.DataAccess.Postgres;
+using Stushbr.Data.DataAccess.Sql;
 
 #nullable disable
 
-namespace Stushbr.Data.Migrations
+namespace Stushbr.Data.DataAccess.Sql.Migrations
 {
     [DbContext(typeof(StushbrDbContext))]
     partial class StushbrDbContextModelSnapshot : ModelSnapshot
@@ -62,7 +62,7 @@ namespace Stushbr.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Data")
-                        .HasColumnType("jsonb");
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsPaid")
                         .HasColumnType("boolean");
@@ -107,7 +107,7 @@ namespace Stushbr.Data.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Data")
-                        .HasColumnType("jsonb");
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .IsRequired()
