@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Stushbr.Application.Abstractions;
-using Stushbr.Domain.Models;
+using Stushbr.Domain.Models.Clients;
+using Stushbr.Domain.Models.Items;
 using Stxima.SendPulseClient;
 using Stxima.SendPulseClient.Models;
 using Stxima.SendPulseClient.Models.Request;
@@ -32,7 +33,7 @@ public class MailService : IMailService
         var item = clientItem.Item!;
         var client = clientItem.Client!;
 
-        foreach (var telegramClientItemData in clientItem.TelegramData!.Items)
+        foreach (var telegramClientItemData in clientItem.TelegramData)
         {
             await SendTelegramInviteLinkInnerAsync(item, client, telegramClientItemData);
         }
@@ -41,31 +42,34 @@ public class MailService : IMailService
     private async Task SendTelegramInviteLinkInnerAsync(
         Item item,
         Client client,
-        TelegramClientItemData telegramClientItemData
+        TelegramClientItem telegramClientItem
     )
     {
-        var (inviteLink, linkExpireDate, channelName) = telegramClientItemData;
-
-        var sendPulseTemplateId = item.TelegramItemData!.SendPulseTemplateId;
+        var sendPulseTemplateId = item.TelegramItem?.SendPulseTemplateId;
+        if (string.IsNullOrWhiteSpace(sendPulseTemplateId))
+        {
+            _logger.LogWarning("SendPulse template id is not set for item {ItemId}", item.Id);
+            return;
+        }
 
         Dictionary<string, string> templateVariables = new()
         {
-            { "link", inviteLink },
+            { "link", telegramClientItem.InviteLink },
             { "client_name", client.FullName },
             { "image_link", item.ImageUrl! }
         };
 
-        if (linkExpireDate.HasValue)
+        if (telegramClientItem.LinkExpireDate is not null and var expireDate)
         {
             templateVariables.Add(
                 "expire_date",
-                linkExpireDate.Value.ToString("F")
+                expireDate.Value.ToString("F")
             );
         }
 
         await _sendPulseEmailHttpClient.SendMailAsync(new SendMailRequest
         {
-            Subject = GetTelegramMailSubject(channelName),
+            Subject = GetTelegramMailSubject(telegramClientItem.ChannelName),
             Template = new MailTemplateRequest
             {
                 Id = sendPulseTemplateId,
@@ -81,6 +85,8 @@ public class MailService : IMailService
 
     private string GetTelegramMailSubject(string? channelName)
     {
-        return "Привет! Ваше приглашение в Telegram-канал" + (string.IsNullOrEmpty(channelName) ? "" : $" \"{channelName}\"");
+        return "Привет! Ваше приглашение в Telegram-канал" + (string.IsNullOrEmpty(channelName)
+            ? ""
+            : $" \"{channelName}\"");
     }
 }

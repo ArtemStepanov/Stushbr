@@ -1,14 +1,15 @@
 ﻿using Stushbr.Core.Enums;
 using Stushbr.Core.Extensions;
 using Stushbr.Domain.Abstractions;
+using Stushbr.Domain.Models.Clients;
 using System.Runtime.Serialization;
 using System.Text.Json.Nodes;
 
-namespace Stushbr.Domain.Models;
+namespace Stushbr.Domain.Models.Items;
 
 public class Item : IIdentifier
 {
-    public string Id { get; set; } = Guid.NewGuid().ToString("N");
+    public int Id { get; set; }
 
     public string DisplayName { get; set; } = default!;
 
@@ -17,6 +18,8 @@ public class Item : IIdentifier
     public string? ImageUrl { get; set; }
 
     public double Price { get; set; }
+
+    public string ItemIdentifier { get; set; } = default!;
 
     public ItemType Type { get; set; }
 
@@ -30,7 +33,5 @@ public class Item : IIdentifier
 
     public virtual ICollection<ClientItem> ClientItems { get; set; } = new List<ClientItem>();
 
-    // Unmapped property
-    [IgnoreDataMember]
-    public TelegramItemData? TelegramItemData => Data?.ToObject<TelegramItemData>();
+    public TelegramItem? TelegramItem { get; set; }
 }

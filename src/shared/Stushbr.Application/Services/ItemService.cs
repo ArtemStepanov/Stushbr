@@ -2,6 +2,7 @@
 using Stushbr.Application.Abstractions;
 using Stushbr.Data.DataAccess.Sql;
 using Stushbr.Domain.Models;
+using Stushbr.Domain.Models.Items;
 
 namespace Stushbr.Application.Services;
 

@@ -18,7 +18,7 @@ namespace Stushbr.Application.Services
             DbContext = dbContext;
         }
 
-        public virtual Task<TModel?> GetItemByIdAsync(string id, CancellationToken cancellationToken)
+        public virtual Task<TModel?> GetItemByIdAsync(int id, CancellationToken cancellationToken)
         {
             return Table.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
@@ -36,7 +36,7 @@ namespace Stushbr.Application.Services
         public virtual async Task<TModel> CreateItemAsync(TModel item, CancellationToken cancellationToken)
         {
             var id = await DbContext.AddAsync(item, cancellationToken);
-            item.Id = id.ToString();
+            item.Id = id.Entity.Id;
             await DbContext.SaveChangesAsync(cancellationToken);
             return item;
         }
@@ -56,14 +56,14 @@ namespace Stushbr.Application.Services
             return item;
         }
 
-        public virtual async Task DeleteItemAsync(string id, CancellationToken cancellationToken)
+        public virtual async Task DeleteItemAsync(int id, CancellationToken cancellationToken)
         {
             var item = await GetItemByIdAsync(id, cancellationToken);
             DbContext.Remove(item!);
             await DbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public virtual async Task DeleteItemsAsync(IEnumerable<string> ids, CancellationToken cancellationToken)
+        public virtual async Task DeleteItemsAsync(IEnumerable<int> ids, CancellationToken cancellationToken)
         {
             var items = await GetItemsAsync(x => ids.Contains(x.Id)).ToListAsync(cancellationToken);
             DbContext.RemoveRange(items);

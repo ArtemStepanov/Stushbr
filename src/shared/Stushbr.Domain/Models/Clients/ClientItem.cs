@@ -1,19 +1,20 @@
 ﻿using Stushbr.Core.Extensions;
 using Stushbr.Domain.Abstractions;
+using Stushbr.Domain.Models.Items;
 using System.Runtime.Serialization;
 using System.Text.Json.Nodes;
 
-namespace Stushbr.Domain.Models;
+namespace Stushbr.Domain.Models.Clients;
 
 public class ClientItem : IIdentifier
 {
-    public string Id { get; set; } = Guid.NewGuid().ToString("N");
+    public int Id { get; set; }
 
-    public string ClientId { get; set; } = default!;
+    public int ClientId { get; set; } = default!;
 
     public Client? Client { get; set; }
 
-    public string ItemId { get; set; } = default!;
+    public int ItemId { get; set; } = default!;
 
     public Item? Item { get; set; }
 
@@ -31,12 +32,7 @@ public class ClientItem : IIdentifier
 
     public JsonNode? Data { get; set; }
 
-    [IgnoreDataMember]
-    public TelegramClientItemDataWrapper? TelegramData
-    {
-        get => Data?.ToObject<TelegramClientItemDataWrapper>();
-        set => Data = value?.JsonNodeFromObject();
-    }
+    public virtual ICollection<TelegramClientItem> TelegramData { get; set; } = new List<TelegramClientItem>();
 
     public void SetProcessed(bool isProcessed)
     {
