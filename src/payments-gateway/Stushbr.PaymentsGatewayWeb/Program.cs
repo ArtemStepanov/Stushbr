@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Qiwi.BillPayments.Client;
-using Stushbr.Api.ExceptionHandling;
 using Stushbr.Api.Extensions;
 using Stushbr.Application.Abstractions;
+using Stushbr.Application.ExceptionHandling;
 using Stushbr.Application.Services;
 using Stushbr.Core.Configuration;
 using Stushbr.Data.DataAccess.Sql;
@@ -21,9 +21,6 @@ services.AddSingleton(provider => BillPaymentsClientFactory.Create(
     )
 );
 services.AddSingleton<IQiwiService, QiwiService>();
-services.AddScoped<IItemService, ItemService>();
-services.AddScoped<IClientService, ClientService>();
-services.AddScoped<IClientItemService, ClientItemService>();
 
 #endregion
 
