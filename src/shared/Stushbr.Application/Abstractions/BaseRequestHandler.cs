@@ -7,7 +7,7 @@ public abstract class BaseRequestHandler<TRequest, TResult> : IRequestHandler<TR
 {
     protected StushbrDbContext DbContext { get; }
 
-    public BaseRequestHandler(StushbrDbContext dbContext)
+    protected BaseRequestHandler(StushbrDbContext dbContext)
     {
         DbContext = dbContext;
     }

@@ -19,6 +19,7 @@ public sealed class TransactionPipelineBehaviour<TRequest, TResult> : IPipelineB
         {
             var transaction = await _dbContext.Database.BeginTransactionAsync(IsolationLevel.ReadCommitted, xct);
             var result = await next();
+            await _dbContext.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(xct);
             return result;
         }, cancellationToken);

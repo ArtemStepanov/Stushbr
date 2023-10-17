@@ -12,30 +12,31 @@ public sealed class ItemEntityTypeConfiguration : IEntityTypeConfiguration<Item>
     public void Configure(EntityTypeBuilder<Item> builder)
     {
         // Primary Key Configuration
-        builder.HasKey(c => c.Id);
+        builder.HasKey(x => x.Id);
 
         // Property Configurations
-        builder.Property(c => c.DisplayName).IsRequired();
+        builder.Property(x => x.DisplayName).IsRequired();
 
-        builder.Property(c => c.Description).IsRequired();
+        builder.Property(x => x.Description).IsRequired();
 
-        builder.Property(c => c.Price).IsRequired();
+        builder.Property(x => x.Price).IsRequired();
 
-        builder.Property(c => c.Data)
+        builder.Property(i => i.Data)
             .HasConversion(
-                v => v == null
+                x => x == null
                     ? null
-                    : JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
-                v => string.IsNullOrEmpty(v)
+                    : JsonSerializer.Serialize(x, (JsonSerializerOptions?)null),
+                x => string.IsNullOrEmpty(x)
                     ? null
-                    : JsonSerializer.Deserialize<JsonNode>(v, (JsonSerializerOptions?)null));
+                    : JsonSerializer.Deserialize<JsonNode>(x, (JsonSerializerOptions?)null));
 
-        builder.Property(c => c.AvailableSince).IsRequired().HasDefaultValue(DateTime.UtcNow);
+        builder.Property(x => x.AvailableSince).IsRequired().HasDefaultValue(DateTime.UtcNow);
 
-        builder.Property(i => i.ItemIdentifier).IsRequired();
+        builder.HasIndex(x => x.ItemIdentifier).IsUnique(false);
 
-        // Ignore the TelegramItemData property
-        builder.HasOne(c => c.TelegramItem)
+        builder.HasOne(x => x.TelegramItem)
             .WithOne(x => x.Item).OnDelete(DeleteBehavior.Cascade);
+
+        builder.Ignore(x => x.IsAvailable);
     }
 }

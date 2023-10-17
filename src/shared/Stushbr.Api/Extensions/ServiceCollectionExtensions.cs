@@ -25,8 +25,7 @@ public static class ServiceCollectionExtensions
         services.AddDbContext<StushbrDbContext>(opt =>
         {
             opt.UseSqlServer(applicationConfiguration.GetConnectionString("SqlServer"));
-
-        });
+        }, ServiceLifetime.Transient, ServiceLifetime.Transient);
 
         var assemblies = AppDomain.CurrentDomain.GetAssemblies();
         services.AddMediatR(conf => { conf.RegisterServicesFromAssemblies(assemblies); });

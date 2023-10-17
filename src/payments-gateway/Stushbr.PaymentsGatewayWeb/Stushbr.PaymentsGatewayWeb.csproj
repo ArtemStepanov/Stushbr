@@ -32,6 +32,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\shared\Stushbr.Api\Stushbr.Api.csproj" />
+      <ProjectReference Include="..\Stushbr.PaymentsGatewayWeb.Application\Stushbr.PaymentsGatewayWeb.Application.csproj" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
