@@ -24,11 +24,11 @@ public class ClientItem : IIdentifier
 
     public bool IsPaid { get; set; }
 
-    public bool IsProcessed { get; set; }
+    public bool IsProcessed { get; private set; }
 
     public DateTime? PaymentDate { get; set; }
 
-    public DateTime? ProcessDate { get; set; }
+    public DateTime? ProcessDate { get; private set; }
 
     public JsonNode? Data { get; set; }
 

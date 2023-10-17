@@ -34,4 +34,6 @@ public class Item : IIdentifier
     public virtual ICollection<ClientItem> ClientItems { get; set; } = new List<ClientItem>();
 
     public TelegramItem? TelegramItem { get; set; }
+
+    public bool IsAvailable => IsEnabled && DateTime.Now > AvailableSince && (AvailableBefore == null || DateTime.Now < AvailableBefore);
 }

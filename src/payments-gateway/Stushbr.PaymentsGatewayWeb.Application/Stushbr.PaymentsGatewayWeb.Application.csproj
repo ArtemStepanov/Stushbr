@@ -7,4 +7,8 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\shared\Stushbr.Application\Stushbr.Application.csproj" />
+  </ItemGroup>
+
 </Project>
