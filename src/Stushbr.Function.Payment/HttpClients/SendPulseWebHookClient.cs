@@ -30,7 +30,6 @@ public sealed class SendPulseWebHookClient
         }
 
         string serialized = JsonSerializer.Serialize(dynamic);
-        // convert dynamic to json and print debug
         _logger.LogDebug("Response: {Response}", serialized);
     }
 

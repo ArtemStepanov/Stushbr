@@ -45,7 +45,7 @@ namespace Stushbr.Function.Payment
             // test channel id: -1001697690171
 
             var json = await req.ReadAsStringAsync();
-            _logger.LogTrace("Request body: {Json}", json);
+            _logger.LogDebug("Request body: {Json}", json);
 
             return new OkObjectResult(new { Result = true, Body = "https://google.com" });
         }
