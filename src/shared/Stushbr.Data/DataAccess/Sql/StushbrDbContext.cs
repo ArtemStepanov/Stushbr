@@ -30,6 +30,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<StushbrDbC
     {
         var builder = new DbContextOptionsBuilder<StushbrDbContext>();
         var connectionString = Environment.GetEnvironmentVariable("Sql_ConnectionString")!;
+        Console.WriteLine($"Using connection string: {connectionString}");
         builder.UseSqlServer(connectionString);
         return new StushbrDbContext(builder.Options);
     }
