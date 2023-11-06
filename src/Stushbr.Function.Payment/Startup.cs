@@ -8,6 +8,7 @@ using Stushbr.Function.Payment;
 using Stushbr.Function.Payment.Configurations;
 using Stushbr.Function.Payment.HttpClients;
 using System;
+using ApplicationConfiguration = Stushbr.Function.Payment.Configurations.ApplicationConfiguration;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 
@@ -21,6 +22,8 @@ internal class Startup : FunctionsStartup
 
         builder.Services.Configure<SendPulseConfiguration>(builder.GetContext().Configuration.GetSection("SendPulse").Bind);
         builder.Services.Configure<TelegramConfiguration>(builder.GetContext().Configuration.GetSection("Telegram").Bind);
+        builder.Services.Configure<TildaConfiguration>(builder.GetContext().Configuration.GetSection("Tilda").Bind);
+        builder.Services.Configure<ApplicationConfiguration>(builder.GetContext().Configuration.GetSection("Application").Bind);
 
         builder.Services.AddHttpClient<SendPulseWebHookClient>((provider, opt) =>
         {

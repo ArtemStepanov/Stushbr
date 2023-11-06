@@ -35,19 +35,6 @@ public static class ServiceCollectionExtensions
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipelineBehaviour<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPostProcessorBehavior<,>));
 
-        // services.AddSingleton(provider =>
-        // {
-        //     // hack to initialize databases
-        //
-        //     // Seed postgres tables
-        //     PostgresTableSeeder.SeedTablesIfRequired(
-        //         provider.GetRequiredService<StushbrDbContext>(),
-        //         provider.GetRequiredService<ILogger<PostgresTableSeeder>>()
-        //     );
-        //
-        //     return applicationConfiguration;
-        // });
-
         services.AddAutoMapper(Assembly.GetCallingAssembly(), Assembly.GetExecutingAssembly());
 
         return services;
