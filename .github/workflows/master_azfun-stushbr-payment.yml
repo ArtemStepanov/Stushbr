@@ -4,11 +4,6 @@
 name: Build and deploy Payment Function App
 
 on:
-  push:
-    branches:
-      - master
-    paths:
-      - 'src/Stushbr.Function.Payment/**'
   workflow_dispatch:
 
 env:

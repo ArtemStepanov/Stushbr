@@ -32,7 +32,7 @@ public sealed class ItemEntityTypeConfiguration : IEntityTypeConfiguration<Item>
 
         builder.Property(x => x.AvailableSince).IsRequired().HasDefaultValue(DateTime.UtcNow);
 
-        builder.HasIndex(x => x.ItemIdentifier).IsUnique(false);
+        builder.HasIndex(x => x.ItemIdentifier).IsUnique();
 
         builder.HasOne(x => x.TelegramItem)
             .WithOne(x => x.Item).OnDelete(DeleteBehavior.Cascade);
