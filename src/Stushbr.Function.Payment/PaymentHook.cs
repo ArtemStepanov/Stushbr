@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using Stushbr.Application.Commands.Service;
 using Stushbr.Function.Payment.Commands;
 using Stushbr.Function.Payment.Configurations;
+using Stushbr.Function.Payment.Enums;
 using Stushbr.Function.Payment.Tilda.Requests;
 using System.Linq;
 using System.Text.Json;
@@ -20,23 +21,16 @@ namespace Stushbr.Function.Payment
         private readonly IMediator _mediator;
         private readonly ILogger _logger;
         private readonly TildaConfiguration _tildaConfiguration;
-        private readonly ApplicationConfiguration _appConfiguration;
 
         public PaymentHook(
             IMediator mediator,
             ILogger<PaymentHook> logger,
-            IOptions<TildaConfiguration> tildaConfiguration,
-            IOptions<ApplicationConfiguration> applicationConfiguration
+            IOptions<TildaConfiguration> tildaConfiguration
         )
         {
             _mediator = mediator;
             _logger = logger;
             _tildaConfiguration = tildaConfiguration.Value;
-            _appConfiguration = applicationConfiguration.Value;
-            if (_appConfiguration.MigrationMode)
-            {
-                _logger.LogWarning("Migration mode is enabled");
-            }
         }
 
         // call this function from Tilda
@@ -90,27 +84,13 @@ namespace Stushbr.Function.Payment
         {
             // read body as json and get Command field from it
             var json = await JsonDocument.ParseAsync(req.Body);
-            var command = json.RootElement.GetProperty("Command").GetString();
-            if (command is null)
-            {
-                _logger.LogWarning("Invalid request: {Json}", await req.ReadAsStringAsync());
-                return new BadRequestObjectResult(new { Message = "Invalid request" });
-            }
+            var command = json.RootElement.GetProperty("Command").Deserialize<CommandType>();
 
             var message = "Unknown command";
             switch (command)
             {
-                case "Migrate":
-                    if (_appConfiguration.MigrationMode)
-                    {
-                        message = await _mediator.Send(new MigrateCommand());
-                    }
-                    else
-                    {
-                        _logger.LogWarning("Migration mode is disabled");
-                        message = "Migration mode is disabled";
-                    }
-
+                case CommandType.Migrate:
+                    message = await _mediator.Send(new MigrateCommand());
                     break;
             }
 
