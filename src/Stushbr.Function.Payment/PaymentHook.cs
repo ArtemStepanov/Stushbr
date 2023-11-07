@@ -97,22 +97,24 @@ namespace Stushbr.Function.Payment
                 return new BadRequestObjectResult(new { Message = "Invalid request" });
             }
 
+            var message = "Unknown command";
             switch (command)
             {
                 case "Migrate":
                     if (_appConfiguration.MigrationMode)
                     {
-                        await _mediator.Send(new MigrateCommand());
+                        message = await _mediator.Send(new MigrateCommand());
                     }
                     else
                     {
                         _logger.LogWarning("Migration mode is disabled");
+                        message = "Migration mode is disabled";
                     }
 
                     break;
             }
 
-            return new OkResult();
+            return new OkObjectResult(new { Message = message });
         }
     }
 }

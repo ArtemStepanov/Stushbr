@@ -6,7 +6,7 @@ using Stushbr.Data.DataAccess.Sql;
 
 namespace Stushbr.Application.CommandHandlers.Service;
 
-public sealed class MigrateCommandHandler : BaseRequestHandler<MigrateCommand, bool>
+public sealed class MigrateCommandHandler : BaseRequestHandler<MigrateCommand, string>
 {
     private readonly ILogger<MigrateCommandHandler> _logger;
 
@@ -18,7 +18,7 @@ public sealed class MigrateCommandHandler : BaseRequestHandler<MigrateCommand, b
         _logger = logger;
     }
 
-    public override async Task<bool> Handle(MigrateCommand request, CancellationToken cancellationToken)
+    public override async Task<string> Handle(MigrateCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -27,9 +27,9 @@ public sealed class MigrateCommandHandler : BaseRequestHandler<MigrateCommand, b
         catch (Exception e)
         {
             _logger.LogError(e, "Failed to migrate database");
-            return false;
+            return e.Message;
         }
 
-        return true;
+        return "Database migrated successfully";
     }
 }
