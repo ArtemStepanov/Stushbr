@@ -33,10 +33,18 @@ jobs:
         run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.NUGET_ACCESS }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/ArtemStepanov/index.json"
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        shell: bash
+        run: |
+          pushd '${{ env.APP_ROOT }}'
+          dotnet build --configuration Release --output ./output
+          popd
 
-      - name: dotnet publish
-        run: dotnet publish -c Release -o ./output
+      - name: Publish with dotnet
+        shell: bash
+        run: |
+          pushd '${{ env.APP_ROOT }}'
+          dotnet publish --configuration Release --output ./output
+          popd
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
