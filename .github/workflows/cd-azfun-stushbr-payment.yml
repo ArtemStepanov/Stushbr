@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: ./src/Stushbr.Function.Payment
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: src/Stushbr.Function.Payment
   FUNCTION_NAME: azfun-stushbr-payment
   RG_NAME: rg-stushbr
 
@@ -37,14 +37,14 @@ jobs:
         shell: bash
         run: |
           pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          dotnet build --configuration Release --output /output
+          dotnet build --configuration Release --output ./output
           popd
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.FUNCTION_NAME }}
-          path: /output
+          path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output
 
 
   deploy:

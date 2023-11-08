@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  APP_ROOT: .src/payments-gateway/Stushbr.PaymentsGatewayWeb
+  APP_ROOT: src/payments-gateway/Stushbr.PaymentsGatewayWeb
 
 jobs:
   build:
@@ -36,21 +36,21 @@ jobs:
         shell: bash
         run: |
           pushd '${{ env.APP_ROOT }}'
-          dotnet build --configuration Release --output /output
+          dotnet build --configuration Release
           popd
 
       - name: Publish with dotnet
         shell: bash
         run: |
           pushd '${{ env.APP_ROOT }}'
-          dotnet publish --configuration Release --output /output
+          dotnet publish --configuration Release --output ./output
           popd
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: .net-app
-          path: ./output
+          path: ${{ env.APP_ROOT }}/output
 
   deploy:
     runs-on: ubuntu-latest
