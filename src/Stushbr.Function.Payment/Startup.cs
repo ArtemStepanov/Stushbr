@@ -21,7 +21,6 @@ internal class Startup : FunctionsStartup
 
         builder.Services.Configure<SendPulseConfiguration>(builder.GetContext().Configuration.GetSection("SendPulse").Bind);
         builder.Services.Configure<TelegramConfiguration>(builder.GetContext().Configuration.GetSection("Telegram").Bind);
-        builder.Services.Configure<TildaConfiguration>(builder.GetContext().Configuration.GetSection("Tilda").Bind);
 
         builder.Services.AddHttpClient<SendPulseWebHookClient>((provider, opt) =>
         {
