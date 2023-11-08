@@ -15,7 +15,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Cache
         uses: actions/cache@v3
@@ -26,7 +26,7 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Setup DotNet ${{ vars.DOTNET_VERSION }} Environment
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ vars.DOTNET_VERSION }}
 
@@ -52,12 +52,12 @@ jobs:
     needs: build
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: ${{ env.FUNCTION_NAME }}
 
       - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.FUNCTION_NAME }}
           slot-name: production
