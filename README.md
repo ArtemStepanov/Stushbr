@@ -1,2 +1,9 @@
 # Stushbr
-Payment Gateway (QIWI), Entities Processor
+
+[![.NET](https://github.com/ArtemStepanov/Stushbr/actions/workflows/dotnet.yml/badge.svg)](https://github.com/ArtemStepanov/Stushbr/actions/workflows/dotnet.yml)
+
+## Payment Gateway
+
+## Payment Function
+
+## Entities Processor
