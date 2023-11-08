@@ -73,7 +73,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Add function key for Tilda access
-        run: az functionapp function keys set --name ${{ env.FUNCTION_NAME }} --resource-group ${{ env.RG_NAME }} --function-name ${{ env.FUNCTION_NAME }} --key-name tilda --key-value ${{ secrets.TILDA_FUNCTION_ACCESS_KEY }}
+      - name: Add function keys for PaymentHook
+        run: az functionapp function keys set --name ${{ env.FUNCTION_NAME }} --resource-group ${{ env.RG_NAME }} --function-name PaymentHook --key-name tilda --key-value ${{ secrets.TILDA_FUNCTION_ACCESS_KEY }}
 
 
