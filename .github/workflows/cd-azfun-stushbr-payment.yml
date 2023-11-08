@@ -1,0 +1,73 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy Payment Function App
+
+on:
+  workflow_dispatch:
+
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: ./src/Stushbr.Function.Payment
+  FUNCTION_NAME: azfun-stushbr-payment
+  RG_NAME: rg-stushbr
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Setup DotNet ${{ vars.DOTNET_VERSION }} Environment
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ vars.DOTNET_VERSION }}
+
+      - name: Add Stxima.SendPulse nuget source
+        run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.NUGET_ACCESS }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/ArtemStepanov/index.json"
+
+      - name: Build with dotnet
+        shell: bash
+        run: |
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          dotnet build --configuration Release --output ./output
+          popd
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.FUNCTION_NAME }}
+          path: ./output
+
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ env.FUNCTION_NAME }}
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.FUNCTION_NAME }}
+          slot-name: production
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_EDD18FFDF388457D821A4A0DA43759C1 }}
+          package: .
+
+      - name: Add function key for Tilda access
+        run: az functionapp function keys set --name ${{ env.FUNCTION_NAME }} --resource-group ${{ env.RG_NAME }} --function-name ${{ env.FUNCTION_NAME }} --key-name tilda --key-value ${{ secrets.TILDA_FUNCTION_ACCESS_KEY }}
