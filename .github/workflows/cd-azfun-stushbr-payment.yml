@@ -63,6 +63,7 @@ jobs:
           slot-name: production
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_EDD18FFDF388457D821A4A0DA43759C1 }}
           package: .
+          resource-group-name: ${{ env.RG_NAME }}
 
   setup-function:
     runs-on: ubuntu-latest
