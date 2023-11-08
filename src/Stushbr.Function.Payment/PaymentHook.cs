@@ -6,8 +6,10 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Stushbr.Application.Commands.Service;
+using Stushbr.Domain.Contracts.Abstractions;
 using Stushbr.Function.Payment.Commands;
 using Stushbr.Function.Payment.Configurations;
+using Stushbr.Function.Payment.Contracts;
 using Stushbr.Function.Payment.Enums;
 using Stushbr.Function.Payment.Tilda.Requests;
 using System.Linq;
@@ -33,7 +35,6 @@ namespace Stushbr.Function.Payment
             _tildaConfiguration = tildaConfiguration.Value;
         }
 
-        // call this function from Tilda
         [FunctionName("PaymentHook")]
         public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "payment/hook")]
@@ -75,7 +76,6 @@ namespace Stushbr.Function.Payment
             return new OkResult();
         }
 
-        // call this function from Tilda
         [FunctionName("ServiceHook")]
         public async Task<IActionResult> RunService(
             [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "service")]
@@ -85,16 +85,16 @@ namespace Stushbr.Function.Payment
             // read body as json and get Command field from it
             var json = await JsonDocument.ParseAsync(req.Body);
             var command = json.RootElement.GetProperty("Command").Deserialize<CommandType>();
-
-            var message = "Unknown command";
-            switch (command)
+            CommandResultBase? message = command switch
             {
-                case CommandType.Migrate:
-                    message = await _mediator.Send(new MigrateCommand());
-                    break;
-            }
+                CommandType.Migrate => await _mediator.Send(new MigrateCommand()),
+                CommandType.AddItem => await _mediator.Send(json.Deserialize<AddItemCommand>()!),
+                CommandType.DeleteItem => await _mediator.Send(json.Deserialize<DeleteItemCommand>()!),
+                CommandType.UpdateItem => await _mediator.Send(json.Deserialize<UpdateItemCommand>()!),
+                _ => null
+            };
 
-            return new OkObjectResult(new { Message = message });
+            return new OkObjectResult(message);
         }
     }
 }
