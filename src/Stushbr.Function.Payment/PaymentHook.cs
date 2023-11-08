@@ -19,19 +19,16 @@ namespace Stushbr.Function.Payment
     {
         private readonly IMediator _mediator;
         private readonly ILogger _logger;
-        private readonly TildaConfiguration _tildaConfiguration;
         private readonly ApplicationConfiguration _appConfiguration;
 
         public PaymentHook(
             IMediator mediator,
             ILogger<PaymentHook> logger,
-            IOptions<TildaConfiguration> tildaConfiguration,
             IOptions<ApplicationConfiguration> applicationConfiguration
         )
         {
             _mediator = mediator;
             _logger = logger;
-            _tildaConfiguration = tildaConfiguration.Value;
             _appConfiguration = applicationConfiguration.Value;
             if (_appConfiguration.MigrationMode)
             {
@@ -42,16 +39,10 @@ namespace Stushbr.Function.Payment
         // call this function from Tilda
         [FunctionName("PaymentHook")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "payment/hook")]
+            [HttpTrigger(AuthorizationLevel.User, "post", Route = "payment/hook")]
             HttpRequest req
         )
         {
-            if (!req.Headers.TryGetValue("Referer", out var referer) || !referer.Any(x => _tildaConfiguration.AllowedDomains.Split(',').Any(x.Contains)))
-            {
-                _logger.LogWarning("Invalid request: {Json}", await req.ReadAsStringAsync());
-                return new UnauthorizedResult();
-            }
-
             // parse request
             // if it is about telegram, then create telegram channel invite link and send an event to sendpulse
             // https://events.sendpulse.com/events/id/830cf27f8ca543a8e3babbc5264cfbec/7937666
