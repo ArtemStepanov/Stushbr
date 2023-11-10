@@ -34,10 +34,15 @@ namespace Stushbr.Function.Payment
 
         [FunctionName("PaymentHook")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.User, "post", Route = "payment/hook")]
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "payment/hook")]
             HttpRequest req
         )
         {
+            if (!req.Headers.TryGetValue("X-Access-Token", out var token) && token != _appConfiguration.TildaWebhookSecret)
+            {
+                return new UnauthorizedResult();
+            }
+
             // parse request
             // if it is about telegram, then create telegram channel invite link and send an event to sendpulse
             // https://events.sendpulse.com/events/id/830cf27f8ca543a8e3babbc5264cfbec/7937666
@@ -56,10 +61,10 @@ namespace Stushbr.Function.Payment
             using var json = await JsonDocument.ParseAsync(req.Body);
             _logger.LogDebug("Request body: {Json}", json.ToString());
             var payment = json.Deserialize<TildaPayment>(new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            if (payment is null)
+            if (payment is null || !payment.IsValid())
             {
                 _logger.LogWarning("Invalid request: {Json}", await req.ReadAsStringAsync());
-                return new BadRequestObjectResult(new { Message = "Invalid request" });
+                return new OkObjectResult(new { Message = "Invalid request" });
             }
 
             await _mediator.Send(new ProcessTelegramPaymentCommand(payment.Email, payment.Phone, payment.Payment.Products.Select(x => x.ExternalId).ToList()));
