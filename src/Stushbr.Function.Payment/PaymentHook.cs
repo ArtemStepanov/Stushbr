@@ -39,10 +39,15 @@ namespace Stushbr.Function.Payment
         // call this function from Tilda
         [FunctionName("PaymentHook")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.User, "post", Route = "payment/hook")]
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "payment/hook")]
             HttpRequest req
         )
         {
+            if (!req.Headers.TryGetValue("X-Access-Token", out var token) && token != _appConfiguration.TildaWebhookSecret)
+            {
+                return new UnauthorizedResult();
+            }
+
             // parse request
             // if it is about telegram, then create telegram channel invite link and send an event to sendpulse
             // https://events.sendpulse.com/events/id/830cf27f8ca543a8e3babbc5264cfbec/7937666
