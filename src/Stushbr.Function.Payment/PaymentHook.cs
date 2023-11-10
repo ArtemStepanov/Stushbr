@@ -66,7 +66,7 @@ namespace Stushbr.Function.Payment
             using var json = await JsonDocument.ParseAsync(req.Body);
             _logger.LogDebug("Request body: {Json}", json.ToString());
             var payment = json.Deserialize<TildaPayment>(new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            if (payment is null)
+            if (payment is null || !payment.IsValid())
             {
                 _logger.LogWarning("Invalid request: {Json}", await req.ReadAsStringAsync());
                 return new BadRequestObjectResult(new { Message = "Invalid request" });
