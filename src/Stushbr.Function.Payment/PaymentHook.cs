@@ -9,7 +9,6 @@ using Stushbr.Application.Commands.Service;
 using Stushbr.Domain.Contracts.Abstractions;
 using Stushbr.Function.Payment.Commands;
 using Stushbr.Function.Payment.Configurations;
-using Stushbr.Function.Payment.Contracts;
 using Stushbr.Function.Payment.Enums;
 using Stushbr.Function.Payment.Tilda.Requests;
 using System.Linq;
@@ -22,14 +21,16 @@ namespace Stushbr.Function.Payment
     {
         private readonly IMediator _mediator;
         private readonly ILogger _logger;
+        private readonly TildaConfiguration _tildaConfiguration;
 
         public PaymentHook(
             IMediator mediator,
-            ILogger<PaymentHook> logger
-        )
+            ILogger<PaymentHook> logger,
+            IOptions<TildaConfiguration> tildaConfiguration)
         {
             _mediator = mediator;
             _logger = logger;
+            _tildaConfiguration = tildaConfiguration.Value;
         }
 
         [FunctionName("PaymentHook")]
@@ -38,7 +39,7 @@ namespace Stushbr.Function.Payment
             HttpRequest req
         )
         {
-            if (!req.Headers.TryGetValue("X-Access-Token", out var token) && token != _appConfiguration.TildaWebhookSecret)
+            if (!req.Headers.TryGetValue("X-Access-Token", out var token) && token != _tildaConfiguration.TildaWebhookSecret)
             {
                 return new UnauthorizedResult();
             }
