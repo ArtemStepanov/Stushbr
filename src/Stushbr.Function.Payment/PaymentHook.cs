@@ -69,7 +69,7 @@ namespace Stushbr.Function.Payment
             if (payment is null || !payment.IsValid())
             {
                 _logger.LogWarning("Invalid request: {Json}", await req.ReadAsStringAsync());
-                return new BadRequestObjectResult(new { Message = "Invalid request" });
+                return new OkObjectResult(new { Message = "Invalid request" });
             }
 
             await _mediator.Send(new ProcessTelegramPaymentCommand(payment.Email, payment.Phone, payment.Payment.Products.Select(x => x.ExternalId).ToList()));
