@@ -6,8 +6,10 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Stushbr.Application.Commands.Service;
+using Stushbr.Domain.Contracts.Abstractions;
 using Stushbr.Function.Payment.Commands;
 using Stushbr.Function.Payment.Configurations;
+using Stushbr.Function.Payment.Enums;
 using Stushbr.Function.Payment.Tilda.Requests;
 using System.Linq;
 using System.Text.Json;
@@ -19,31 +21,25 @@ namespace Stushbr.Function.Payment
     {
         private readonly IMediator _mediator;
         private readonly ILogger _logger;
-        private readonly ApplicationConfiguration _appConfiguration;
+        private readonly TildaConfiguration _tildaConfiguration;
 
         public PaymentHook(
             IMediator mediator,
             ILogger<PaymentHook> logger,
-            IOptions<ApplicationConfiguration> applicationConfiguration
-        )
+            IOptions<TildaConfiguration> tildaConfiguration)
         {
             _mediator = mediator;
             _logger = logger;
-            _appConfiguration = applicationConfiguration.Value;
-            if (_appConfiguration.MigrationMode)
-            {
-                _logger.LogWarning("Migration mode is enabled");
-            }
+            _tildaConfiguration = tildaConfiguration.Value;
         }
 
-        // call this function from Tilda
         [FunctionName("PaymentHook")]
         public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "payment/hook")]
             HttpRequest req
         )
         {
-            if (!req.Headers.TryGetValue("X-Access-Token", out var token) && token != _appConfiguration.TildaWebhookSecret)
+            if (!req.Headers.TryGetValue("X-Access-Token", out var token) && token != _tildaConfiguration.TildaWebhookSecret)
             {
                 return new UnauthorizedResult();
             }
@@ -77,7 +73,6 @@ namespace Stushbr.Function.Payment
             return new OkResult();
         }
 
-        // call this function from Tilda
         [FunctionName("ServiceHook")]
         public async Task<IActionResult> RunService(
             [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "service")]
@@ -86,31 +81,17 @@ namespace Stushbr.Function.Payment
         {
             // read body as json and get Command field from it
             var json = await JsonDocument.ParseAsync(req.Body);
-            var command = json.RootElement.GetProperty("Command").GetString();
-            if (command is null)
+            var command = json.RootElement.GetProperty("Command").Deserialize<CommandType>();
+            CommandResultBase? message = command switch
             {
-                _logger.LogWarning("Invalid request: {Json}", await req.ReadAsStringAsync());
-                return new BadRequestObjectResult(new { Message = "Invalid request" });
-            }
+                CommandType.Migrate => await _mediator.Send(new MigrateCommand()),
+                CommandType.AddItem => await _mediator.Send(json.Deserialize<AddItemCommand>()!),
+                CommandType.DeleteItem => await _mediator.Send(json.Deserialize<DeleteItemCommand>()!),
+                CommandType.UpdateItem => await _mediator.Send(json.Deserialize<UpdateItemCommand>()!),
+                _ => null
+            };
 
-            var message = "Unknown command";
-            switch (command)
-            {
-                case "Migrate":
-                    if (_appConfiguration.MigrationMode)
-                    {
-                        message = await _mediator.Send(new MigrateCommand());
-                    }
-                    else
-                    {
-                        _logger.LogWarning("Migration mode is disabled");
-                        message = "Migration mode is disabled";
-                    }
-
-                    break;
-            }
-
-            return new OkObjectResult(new { Message = message });
+            return new OkObjectResult(message);
         }
     }
 }
