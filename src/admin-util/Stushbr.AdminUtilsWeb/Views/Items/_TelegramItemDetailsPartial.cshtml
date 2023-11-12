@@ -1,6 +1,6 @@
 @model Stushbr.AdminUtilsWeb.ViewModels.Items.TelegramItemViewModel
 
-<form asp-action="UpsertTelegramItem" method="post">
+<form asp-action="UpsertTelegramItem" method="post" asp-route-itemId="@ViewData["ItemId"]">
     <input type="hidden" asp-for="Id" />
     <div class="mb-3">
         <label for="sendPulseTemplateId" class="form-label">Send Pulse Template Id</label>

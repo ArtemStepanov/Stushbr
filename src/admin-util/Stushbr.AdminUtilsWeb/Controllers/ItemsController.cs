@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Stushbr.AdminUtilsWeb.ViewModels;
 using Stushbr.AdminUtilsWeb.ViewModels.Items;
 using Stushbr.Core.Enums;
 using Stushbr.Data.DataAccess.Sql;
@@ -46,10 +45,10 @@ public class ItemsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [HttpPost("{id:int}")]
-    public async Task<IActionResult> UpdateItem(int id, ItemViewModel model)
+    [HttpPost]
+    public async Task<IActionResult> UpdateItem(ItemViewModel model)
     {
-        var item = await _dbContext.Items.FindAsync(id);
+        var item = await _dbContext.Items.FindAsync(model.Id);
         if (item is null)
         {
             return NotFound();
@@ -69,7 +68,7 @@ public class ItemsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [HttpDelete("{id:int}")]
+    [HttpDelete]
     public async Task<IActionResult> DeleteItem(int id)
     {
         var item = await _dbContext.Items.FindAsync(id);
@@ -84,10 +83,10 @@ public class ItemsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [HttpPost("telegram")]
-    public async Task<IActionResult> UpsertTelegramItem(TelegramItemViewModel model)
+    [HttpPost]
+    public async Task<IActionResult> UpsertTelegramItem(int itemId, TelegramItemViewModel model)
     {
-        var telegramItem = await _dbContext.TelegramItems.FindAsync(model.Id);
+        var telegramItem = await _dbContext.TelegramItems.Include(x => x.Channels).FirstOrDefaultAsync(x => x.Id == model.Id);
         if (telegramItem is null)
         {
             telegramItem = new TelegramItem
@@ -96,7 +95,8 @@ public class ItemsController : Controller
                 Channels = model.ChannelIds.Split(',').Select(x => new TelegramItemChannel
                 {
                     ChannelId = long.Parse(x)
-                }).ToList()
+                }).ToList(),
+                ItemId = itemId
             };
 
             await _dbContext.TelegramItems.AddAsync(telegramItem);
@@ -104,6 +104,8 @@ public class ItemsController : Controller
         else
         {
             telegramItem.SendPulseTemplateId = model.SendPulseTemplateId;
+
+            _dbContext.RemoveRange(telegramItem.Channels);
             telegramItem.Channels = model.ChannelIds.Split(',').Select(x => new TelegramItemChannel
             {
                 ChannelId = long.Parse(x)

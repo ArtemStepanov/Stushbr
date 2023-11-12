@@ -6,7 +6,7 @@ public class TelegramItem : IIdentifier
 {
     public int Id { get; set; }
 
-    public ICollection<TelegramItemChannel> Channels { get; set; } = Array.Empty<TelegramItemChannel>();
+    public List<TelegramItemChannel> Channels { get; set; } = new();
 
     public string? SendPulseTemplateId { get; set; }
 

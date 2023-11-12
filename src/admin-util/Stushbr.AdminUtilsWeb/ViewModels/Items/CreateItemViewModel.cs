@@ -7,6 +7,6 @@ public sealed class CreateItemViewModel
     public double Price { get; set; }
     public string ItemIdentifier { get; set; } = default!;
     public string Type { get; set; } = default!;
-    public DateTime AvailableSince { get; set; } = DateTime.Today;
-    public DateTime AvailableBefore { get; set; } = DateTime.Today.AddDays(10);
+    public DateTime AvailableSince { get; set; } = DateTime.Now;
+    public DateTime AvailableBefore { get; set; } = DateTime.Now.AddDays(10);
 }

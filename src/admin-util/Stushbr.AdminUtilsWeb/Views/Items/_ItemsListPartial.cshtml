@@ -1,4 +1,5 @@
 @using Stushbr.AdminUtilsWeb.ViewModels.Items
+@using System.Globalization
 @model List<Stushbr.AdminUtilsWeb.ViewModels.Items.ItemViewModel>
 
 <div class="container">
@@ -15,12 +16,12 @@
                             Item Identifier: @item.ItemIdentifier <br/>
                             Type: @item.Type <br/>
                             Is Enabled: @item.IsEnabled <br/>
-                            Available Since: @item.AvailableSince.ToString("yyyy-MM-ddThh:mm") <br/>
-                            Available Before: @item.AvailableBefore.ToString("yyyy-MM-ddThh:mm") <br/>
+                            Available Since: @item.AvailableSince.ToString("dd/MM/yyyy hh:mm", CultureInfo.InvariantCulture) <br/>
+                            Available Before: @item.AvailableBefore.ToString("dd/MM/yyyy hh:mm", CultureInfo.InvariantCulture) <br/>
                             Is Available: @item.IsAvailable
                         </p>
                         <a asp-action="UpdateItem" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
-                        <button onclick="Items.deleteItem(@item.Id)" class="btn btn-danger">Delete</button>
+                        <button onclick="void Items.deleteItem(@item.Id)" class="btn btn-danger">Delete</button>
                         <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#telegramItemDetailsModal-@item.Id">Telegram Item Details</button>
                     </div>
                 </div>
@@ -34,7 +35,13 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                @await Html.PartialAsync("_TelegramItemDetailsPartial", item.TelegramItem)
+                                @{
+                                    var viewData = new ViewDataDictionary(ViewData)
+                                    {
+                                        { "ItemId", item.Id }
+                                    };
+                                }
+                                @await Html.PartialAsync("_TelegramItemDetailsPartial", item.TelegramItem, viewData)
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

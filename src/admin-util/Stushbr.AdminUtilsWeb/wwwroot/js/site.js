@@ -6,15 +6,17 @@
 class Items {
 
     static deleteItem(itemId) {
-        fetch('/Items/' + itemId, {
+        fetch('/Items/DeleteItem/' + itemId, {
             method: 'DELETE',
+            redirect: 'follow'
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    location.reload();
+            .then(response => {
+                if (response.ok) {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    }
                 } else {
-                    alert('Error: ' + data.error);
+                    alert('Error: ' + response.text());
                 }
             });
     }
