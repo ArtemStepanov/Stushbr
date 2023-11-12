@@ -1,4 +1,4 @@
-namespace Stushbr.AdminUtilsWeb.Models;
+namespace Stushbr.AdminUtilsWeb.ViewModels;
 
 public class ErrorViewModel
 {

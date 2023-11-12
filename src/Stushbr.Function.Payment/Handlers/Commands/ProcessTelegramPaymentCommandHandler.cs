@@ -35,7 +35,7 @@ internal class ProcessTelegramPaymentCommandHandler : BaseRequestHandler<Process
     public override async Task<ProcessTelegramPaymentResult> Handle(ProcessTelegramPaymentCommand request, CancellationToken cancellationToken)
     {
         var items = await DbContext.Items
-            .Include(item => item.TelegramItem!).ThenInclude(telegramItem => telegramItem.ChannelIds)
+            .Include(item => item.TelegramItem!).ThenInclude(telegramItem => telegramItem.Channels)
             .Where(x => request.ItemIdentifiers.Contains(x.ItemIdentifier))
             .ToListAsync(cancellationToken);
 
@@ -65,7 +65,7 @@ internal class ProcessTelegramPaymentCommandHandler : BaseRequestHandler<Process
 
     private async Task<ChatInviteLink?> ProcessItem(Item item, CancellationToken cancellationToken)
     {
-        foreach (var channelId in item.TelegramItem!.ChannelIds)
+        foreach (var channelId in item.TelegramItem!.Channels)
         {
             var link = await _telegramService.CreateInviteLinkAsync(channelId.ChannelId, cancellationToken);
             return link;

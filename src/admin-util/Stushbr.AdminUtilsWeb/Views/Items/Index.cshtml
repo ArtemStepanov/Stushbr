@@ -1,0 +1,10 @@
+@model List<Stushbr.AdminUtilsWeb.ViewModels.Items.ItemViewModel>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h1>Items</h1>
+
+@await Html.PartialAsync("_ItemsListPartial", Model)

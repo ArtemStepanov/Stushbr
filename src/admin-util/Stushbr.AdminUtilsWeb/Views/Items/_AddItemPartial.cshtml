@@ -1,0 +1,53 @@
+@using Stushbr.Core.Enums
+@model Stushbr.AdminUtilsWeb.ViewModels.Items.CreateItemViewModel
+@{
+    var itemTypes = Enum.GetValues<ItemType>().Select(value => new SelectListItem
+    {
+        Text = value.ToString(),
+        Value = ((int)value).ToString()
+    });
+}
+
+<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addItemModalLabel">Add Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="AddItem" method="post">
+                    <div class="mb-3">
+                        <label for="displayName" class="form-label">Display Name</label>
+                        <input type="text" class="form-control" id="displayName" asp-for="DisplayName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="description" asp-for="Description" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="number" class="form-control" id="price" asp-for="Price" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="itemIdentifier" class="form-label">Item Identifier</label>
+                        <input type="text" class="form-control" id="itemIdentifier" asp-for="ItemIdentifier" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Type</label>
+                        <select asp-for="Type" asp-items="itemTypes" class="form-control" id="type" required></select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="availableSince" class="form-label">Available Since</label>
+                        <input type="datetime-local" class="form-control" id="availableSince" asp-for="AvailableSince" value="@Model.AvailableSince.ToString("yyyy-MM-ddThh:mm")" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="availableBefore" class="form-label">Available Before</label>
+                        <input type="datetime-local" class="form-control" id="availableBefore" asp-for="AvailableBefore" value="@Model.AvailableBefore.ToString("yyyy-MM-ddThh:mm")" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

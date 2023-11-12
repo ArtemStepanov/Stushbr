@@ -1,0 +1,14 @@
+@model Stushbr.AdminUtilsWeb.ViewModels.Items.TelegramItemViewModel
+
+<form asp-action="UpsertTelegramItem" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="mb-3">
+        <label for="sendPulseTemplateId" class="form-label">Send Pulse Template Id</label>
+        <input type="text" class="form-control" id="sendPulseTemplateId" asp-for="SendPulseTemplateId" required>
+    </div>
+    <div class="mb-3">
+        <label for="channelIds" class="form-label">Channel Ids</label>
+        <input type="text" class="form-control" id="channelIds" asp-for="ChannelIds" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

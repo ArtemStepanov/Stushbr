@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Stushbr.AdminUtilsWeb.Models;
+using Stushbr.AdminUtilsWeb.ViewModels;
 
 namespace Stushbr.AdminUtilsWeb.Controllers;
 

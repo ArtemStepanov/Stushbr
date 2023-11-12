@@ -38,7 +38,7 @@ public class ClientItemProcessorHostedService : BackgroundService
         var freshItems = await _dbContext.ClientItems
             .Where(x => x.IsPaid && !x.IsProcessed)
             .Include(x => x.Client)
-            .Include(x => x.Item).ThenInclude(x => x!.TelegramItem).ThenInclude(x => x!.ChannelIds)
+            .Include(x => x.Item).ThenInclude(x => x!.TelegramItem).ThenInclude(x => x!.Channels)
             .Include(x => x.TelegramData)
             .ToListAsync(cancellationToken);
 

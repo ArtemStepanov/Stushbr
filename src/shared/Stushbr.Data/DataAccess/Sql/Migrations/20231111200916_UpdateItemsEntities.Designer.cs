@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Stushbr.Data.DataAccess.Sql;
 
@@ -11,9 +12,10 @@ using Stushbr.Data.DataAccess.Sql;
 namespace Stushbr.Data.DataAccess.Sql.Migrations
 {
     [DbContext(typeof(StushbrDbContext))]
-    partial class StushbrDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231111200916_UpdateItemsEntities")]
+    partial class UpdateItemsEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
