@@ -34,6 +34,9 @@
                     </li>
                 </ul>
                 <p class="nav navbar-text">Hello, @User.GetDisplayName()</p>
+                <form method="post" asp-controller="Home" asp-action="SignOutAction" id="logoutForm" class="form-inline">
+                    <button type="submit" class="nav-link btn btn-link text-dark">Sign out</button>
+                </form>
             </div>
         </div>
     </nav>

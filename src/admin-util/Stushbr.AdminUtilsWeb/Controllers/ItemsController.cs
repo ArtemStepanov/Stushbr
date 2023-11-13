@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stushbr.AdminUtilsWeb.ViewModels.Items;
@@ -24,6 +26,7 @@ public class ItemsController : Controller
     }
 
     [HttpPost]
+    [Authorize(Policy = "Admin")]
     public async Task<IActionResult> AddItem(CreateItemViewModel model)
     {
         // todo: convert to mediatr command
@@ -46,6 +49,7 @@ public class ItemsController : Controller
     }
 
     [HttpPost]
+    [Authorize(Policy = "Admin")]
     public async Task<IActionResult> UpdateItem(ItemViewModel model)
     {
         var item = await _dbContext.Items.FindAsync(model.Id);
@@ -69,6 +73,7 @@ public class ItemsController : Controller
     }
 
     [HttpDelete]
+    [Authorize(Policy = "Admin")]
     public async Task<IActionResult> DeleteItem(int id)
     {
         var item = await _dbContext.Items.FindAsync(id);
@@ -84,6 +89,7 @@ public class ItemsController : Controller
     }
 
     [HttpPost]
+    [Authorize(Policy = "Admin")]
     public async Task<IActionResult> UpsertTelegramItem(int itemId, TelegramItemViewModel model)
     {
         var telegramItem = await _dbContext.TelegramItems.Include(x => x.Channels).FirstOrDefaultAsync(x => x.Id == model.Id);

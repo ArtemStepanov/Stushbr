@@ -17,7 +17,7 @@
             </p>
             <div class="d-grid gap-2">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editItemModal-@Model.Id">Edit</button>
-                @await Html.PartialAsync("_EditItemPartial", Model)
+                @await Html.PartialAsync("Partial/_EditItemModalPartial", Model)
                 <form asp-action="DeleteItem" method="post" asp-route-id="@Model.Id">
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
@@ -27,5 +27,5 @@
     </div>
 
     <!-- Telegram Item Details Modal -->
-    @await Html.PartialAsync("_TelegramItemDetailsPartial", Model.TelegramItem, new ViewDataDictionary(ViewData) { { "Item", Model } })
+    @await Html.PartialAsync("Partial/_TelegramItemDetailsModalPartial", Model.TelegramItem, new ViewDataDictionary(ViewData) { { "Item", Model } })
 </div>

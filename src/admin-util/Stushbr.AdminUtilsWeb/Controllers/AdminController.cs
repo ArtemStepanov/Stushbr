@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stushbr.Data.DataAccess.Sql;
 
 namespace Stushbr.AdminUtilsWeb.Controllers;
 
+[Authorize(Policy = "Admin")]
 public class AdminController : Controller
 {
     private readonly StushbrDbContext _dbContext;

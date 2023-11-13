@@ -5,12 +5,12 @@
     <div class="row">
         @foreach (var item in Model)
         {
-            @await Html.PartialAsync("_ItemCardPartial", item)
+            @await Html.PartialAsync("Partial/_ItemCardPartial", item)
         }
     </div>
     <!-- Add Item Button -->
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addItemModal">Add Item</button>
 
     <!-- Add Item Modal -->
-    @await Html.PartialAsync("_AddItemPartial", new CreateItemViewModel())
+    @await Html.PartialAsync("Partial/_AddItemModalPartial", new CreateItemViewModel())
 </div>
