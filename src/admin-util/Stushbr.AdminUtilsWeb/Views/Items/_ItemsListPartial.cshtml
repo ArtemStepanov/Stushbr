@@ -13,16 +13,21 @@
                         <p class="card-text">
                             Description: @item.Description <br/>
                             Price: @item.Price <br/>
-                            Item Identifier: @item.ItemIdentifier <br/>
+                            Item External Identifier: @item.ItemIdentifier <br/>
                             Type: @item.Type <br/>
                             Is Enabled: @item.IsEnabled <br/>
                             Available Since: @item.AvailableSince.ToString("dd/MM/yyyy hh:mm", CultureInfo.InvariantCulture) <br/>
                             Available Before: @item.AvailableBefore.ToString("dd/MM/yyyy hh:mm", CultureInfo.InvariantCulture) <br/>
                             Is Available: @item.IsAvailable
                         </p>
-                        <a asp-action="UpdateItem" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
-                        <button onclick="void Items.deleteItem(@item.Id)" class="btn btn-danger">Delete</button>
-                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#telegramItemDetailsModal-@item.Id">Telegram Item Details</button>
+                        <div class="d-grid gap-2">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editItemModal-@item.Id">Edit</button>
+                            @await Html.PartialAsync("_EditItemPartial", item)
+                            <form asp-action="DeleteItem" method="post" asp-route-id="@item.Id">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#telegramItemDetailsModal-@item.Id">Telegram Item Details</button>
+                        </div>
                     </div>
                 </div>
 
