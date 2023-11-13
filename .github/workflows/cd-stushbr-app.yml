@@ -68,5 +68,5 @@ jobs:
         with:
           app-name: stushbr
           slot-name: production
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B12AE05B3E05496CA279DE484031678A }}
+          publish-profile: ${{ secrets.ADMIN_WEBAPP_PUBLISH_PROFILE }}
           package: .
