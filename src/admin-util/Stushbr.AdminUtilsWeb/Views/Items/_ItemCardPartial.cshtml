@@ -1,0 +1,31 @@
+@using System.Globalization
+@model Stushbr.AdminUtilsWeb.ViewModels.Items.ItemViewModel
+
+<div class="col-sm-4">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">@Model.DisplayName</h5>
+            <p class="card-text">
+                Description: @Model.Description <br/>
+                Price: @Model.Price <br/>
+                Item External Identifier: @Model.ItemIdentifier <br/>
+                Type: @Model.Type <br/>
+                Is Enabled: @Model.IsEnabled <br/>
+                Available Since: @Model.AvailableSince.ToString("dd/MM/yyyy hh:mm", CultureInfo.InvariantCulture) <br/>
+                Available Before: @Model.AvailableBefore.ToString("dd/MM/yyyy hh:mm", CultureInfo.InvariantCulture) <br/>
+                Is Available: @Model.IsAvailable
+            </p>
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editItemModal-@Model.Id">Edit</button>
+                @await Html.PartialAsync("_EditItemPartial", Model)
+                <form asp-action="DeleteItem" method="post" asp-route-id="@Model.Id">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#telegramItemDetailsModal-@Model.Id">Telegram Item Details</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Telegram Item Details Modal -->
+    @await Html.PartialAsync("_TelegramItemDetailsPartial", Model.TelegramItem, new ViewDataDictionary(ViewData) { { "Item", Model } })
+</div>

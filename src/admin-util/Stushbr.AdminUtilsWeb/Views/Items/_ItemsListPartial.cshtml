@@ -1,60 +1,11 @@
 @using Stushbr.AdminUtilsWeb.ViewModels.Items
-@using System.Globalization
 @model List<Stushbr.AdminUtilsWeb.ViewModels.Items.ItemViewModel>
 
 <div class="container">
     <div class="row">
         @foreach (var item in Model)
         {
-            <div class="col-sm-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.DisplayName</h5>
-                        <p class="card-text">
-                            Description: @item.Description <br/>
-                            Price: @item.Price <br/>
-                            Item External Identifier: @item.ItemIdentifier <br/>
-                            Type: @item.Type <br/>
-                            Is Enabled: @item.IsEnabled <br/>
-                            Available Since: @item.AvailableSince.ToString("dd/MM/yyyy hh:mm", CultureInfo.InvariantCulture) <br/>
-                            Available Before: @item.AvailableBefore.ToString("dd/MM/yyyy hh:mm", CultureInfo.InvariantCulture) <br/>
-                            Is Available: @item.IsAvailable
-                        </p>
-                        <div class="d-grid gap-2">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editItemModal-@item.Id">Edit</button>
-                            @await Html.PartialAsync("_EditItemPartial", item)
-                            <form asp-action="DeleteItem" method="post" asp-route-id="@item.Id">
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#telegramItemDetailsModal-@item.Id">Telegram Item Details</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Telegram Item Details Modal -->
-                <div class="modal fade" id="telegramItemDetailsModal-@item.Id" tabindex="-1" aria-labelledby="telegramItemDetailsModalLabel-@item.Id" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="telegramItemDetailsModalLabel-@item.Id">Telegram Item Details (@item.DisplayName)</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                @{
-                                    var viewData = new ViewDataDictionary(ViewData)
-                                    {
-                                        { "ItemId", item.Id }
-                                    };
-                                }
-                                @await Html.PartialAsync("_TelegramItemDetailsPartial", item.TelegramItem, viewData)
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @await Html.PartialAsync("_ItemCardPartial", item)
         }
     </div>
     <!-- Add Item Button -->

@@ -1,14 +1,32 @@
 @model Stushbr.AdminUtilsWeb.ViewModels.Items.TelegramItemViewModel
+@{
+    var item = (Stushbr.AdminUtilsWeb.ViewModels.Items.ItemViewModel)ViewData["Item"]!;
+}
 
-<form asp-action="UpsertTelegramItem" method="post" asp-route-itemId="@ViewData["ItemId"]">
-    <input type="hidden" asp-for="Id" />
-    <div class="mb-3">
-        <label for="sendPulseTemplateId" class="form-label">Send Pulse Template Id</label>
-        <input type="text" class="form-control" id="sendPulseTemplateId" asp-for="SendPulseTemplateId" required>
+<div class="modal fade" id="telegramItemDetailsModal-@item.Id" tabindex="-1" aria-labelledby="telegramItemDetailsModalLabel-@item.Id" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="telegramItemDetailsModalLabel-@item.Id">Telegram Item Details (@item.DisplayName)</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="UpsertTelegramItem" method="post" asp-route-itemId="@item.Id">
+                    <input type="hidden" asp-for="Id"/>
+                    <div class="mb-3">
+                        <label for="sendPulseTemplateId" class="form-label">Send Pulse Template Id</label>
+                        <input type="text" class="form-control" id="sendPulseTemplateId" asp-for="SendPulseTemplateId" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="channelIds" class="form-label">Channel Ids</label>
+                        <input type="text" class="form-control" id="channelIds" asp-for="ChannelIds" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="channelIds" class="form-label">Channel Ids</label>
-        <input type="text" class="form-control" id="channelIds" asp-for="ChannelIds" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+</div>
