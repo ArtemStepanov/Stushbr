@@ -43,7 +43,7 @@ jobs:
         shell: bash
         run: |
           pushd '${{ env.APP_ROOT }}'
-          dotnet publish --configuration Release --output ${{ env.APP_ROOT }}/output
+          dotnet publish --configuration Release --output ./output
           popd
 
       - name: Upload artifact for deployment job
