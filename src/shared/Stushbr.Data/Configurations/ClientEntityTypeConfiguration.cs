@@ -9,8 +9,6 @@ public sealed class ClientEntityTypeConfiguration : IEntityTypeConfiguration<Cli
 {
     public void Configure(EntityTypeBuilder<Client> builder)
     {
-        builder.HasKey(c => c.Id);
-
         builder.Property(c => c.FirstName).IsRequired().HasMaxLength(100);
 
         builder.Property(c => c.SecondName).IsRequired().HasMaxLength(100);
@@ -22,7 +20,6 @@ public sealed class ClientEntityTypeConfiguration : IEntityTypeConfiguration<Cli
         builder.Ignore(c => c.FullName);
 
         builder.HasMany(c => c.ClientItems)
-            .WithOne(x => x.Client)
-            .OnDelete(DeleteBehavior.Cascade);
+            .WithOne(x => x.Client).OnDelete(DeleteBehavior.Cascade);
     }
 }
