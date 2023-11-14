@@ -17,7 +17,7 @@ namespace Stushbr.Data.DataAccess.Sql.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.22")
+                .HasAnnotation("ProductVersion", "6.0.24")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -142,7 +142,7 @@ namespace Stushbr.Data.DataAccess.Sql.Migrations
                     b.Property<DateTime>("AvailableSince")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 11, 6, 19, 55, 53, 957, DateTimeKind.Utc).AddTicks(1869));
+                        .HasDefaultValue(new DateTime(2023, 11, 11, 20, 9, 16, 19, DateTimeKind.Utc).AddTicks(740));
 
                     b.Property<string>("Data")
                         .HasColumnType("nvarchar(max)");
@@ -198,10 +198,10 @@ namespace Stushbr.Data.DataAccess.Sql.Migrations
                     b.HasIndex("ItemId")
                         .IsUnique();
 
-                    b.ToTable("TelegramItem");
+                    b.ToTable("TelegramItems");
                 });
 
-            modelBuilder.Entity("Stushbr.Domain.Models.Items.TelegramItemChannels", b =>
+            modelBuilder.Entity("Stushbr.Domain.Models.Items.TelegramItemChannel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -219,7 +219,7 @@ namespace Stushbr.Data.DataAccess.Sql.Migrations
 
                     b.HasIndex("TelegramItemId");
 
-                    b.ToTable("TelegramItemChannels");
+                    b.ToTable("Channels");
                 });
 
             modelBuilder.Entity("Stushbr.Domain.Models.Clients.ClientItem", b =>
@@ -263,10 +263,10 @@ namespace Stushbr.Data.DataAccess.Sql.Migrations
                     b.Navigation("Item");
                 });
 
-            modelBuilder.Entity("Stushbr.Domain.Models.Items.TelegramItemChannels", b =>
+            modelBuilder.Entity("Stushbr.Domain.Models.Items.TelegramItemChannel", b =>
                 {
                     b.HasOne("Stushbr.Domain.Models.Items.TelegramItem", null)
-                        .WithMany("ChannelIds")
+                        .WithMany("Channels")
                         .HasForeignKey("TelegramItemId");
                 });
 
@@ -289,7 +289,7 @@ namespace Stushbr.Data.DataAccess.Sql.Migrations
 
             modelBuilder.Entity("Stushbr.Domain.Models.Items.TelegramItem", b =>
                 {
-                    b.Navigation("ChannelIds");
+                    b.Navigation("Channels");
                 });
 #pragma warning restore 612, 618
         }

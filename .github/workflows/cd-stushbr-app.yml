@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  APP_ROOT: src/payments-gateway/Stushbr.PaymentsGatewayWeb
+  APP_ROOT: src/admin-util/Stushbr.AdminUtilsWeb
 
 jobs:
   build:
@@ -66,7 +66,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: stushbr
+          app-name: webapp-stushbr
           slot-name: production
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B12AE05B3E05496CA279DE484031678A }}
+          publish-profile: ${{ secrets.ADMIN_WEBAPP_PUBLISH_PROFILE }}
           package: .

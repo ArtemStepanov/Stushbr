@@ -35,8 +35,6 @@ public static class ServiceCollectionExtensions
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipelineBehaviour<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPostProcessorBehavior<,>));
 
-        services.AddAutoMapper(Assembly.GetCallingAssembly(), Assembly.GetExecutingAssembly());
-
         return services;
     }
 }

@@ -1,0 +1,16 @@
+@using Stushbr.AdminUtilsWeb.ViewModels.Items
+@model List<Stushbr.AdminUtilsWeb.ViewModels.Items.ItemViewModel>
+
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            @await Html.PartialAsync("Partial/_ItemCardPartial", item)
+        }
+    </div>
+    <!-- Add Item Button -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addItemModal">Add Item</button>
+
+    <!-- Add Item Modal -->
+    @await Html.PartialAsync("Partial/_AddItemModalPartial", new CreateItemViewModel())
+</div>

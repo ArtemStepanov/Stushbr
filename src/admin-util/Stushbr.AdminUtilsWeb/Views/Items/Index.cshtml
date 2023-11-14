@@ -1,0 +1,9 @@
+@model List<Stushbr.AdminUtilsWeb.ViewModels.Items.ItemViewModel>
+
+@{
+    ViewData["Title"] = "Items";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@await Html.PartialAsync("Partial/_ItemsListPartial", Model)
