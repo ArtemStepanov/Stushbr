@@ -72,7 +72,7 @@ public class ItemsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [HttpDelete]
+    [HttpPost]
     [Authorize(Policy = "Admin")]
     public async Task<IActionResult> DeleteItem(int id)
     {

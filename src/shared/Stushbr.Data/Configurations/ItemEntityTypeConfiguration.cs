@@ -11,15 +11,10 @@ public sealed class ItemEntityTypeConfiguration : IEntityTypeConfiguration<Item>
 {
     public void Configure(EntityTypeBuilder<Item> builder)
     {
-        // Primary Key Configuration
-        builder.HasKey(x => x.Id);
-
         // Property Configurations
         builder.Property(x => x.DisplayName).IsRequired();
 
         builder.Property(x => x.Description).IsRequired();
-
-        builder.Property(x => x.Price).IsRequired();
 
         builder.Property(i => i.Data)
             .HasConversion(
@@ -32,6 +27,7 @@ public sealed class ItemEntityTypeConfiguration : IEntityTypeConfiguration<Item>
 
         builder.Property(x => x.AvailableSince).IsRequired().HasDefaultValue(DateTime.UtcNow);
 
+        builder.Property(x => x.ItemIdentifier).IsRequired();
         builder.HasIndex(x => x.ItemIdentifier).IsUnique();
 
         builder.HasOne(x => x.TelegramItem)
