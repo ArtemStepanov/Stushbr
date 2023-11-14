@@ -7,6 +7,7 @@ using Stushbr.Application.ExceptionHandling;
 using Stushbr.Application.Services;
 using Stushbr.Core.Configuration;
 using Stushbr.Data.DataAccess.Sql;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -15,6 +16,8 @@ services.AddEssentials(builder.Configuration);
 services.AddSwaggerGen();
 
 #region Services
+
+services.AddAutoMapper(Assembly.GetCallingAssembly(), Assembly.GetExecutingAssembly());
 
 services.AddSingleton(provider => BillPaymentsClientFactory.Create(
         provider.GetRequiredService<ApplicationConfiguration>().Qiwi!.SecretToken

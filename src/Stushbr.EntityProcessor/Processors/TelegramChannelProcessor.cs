@@ -34,7 +34,7 @@ public class TelegramChannelProcessor : ITelegramChannelProcessor
 
             await GenerateInviteLinksAndUpdateClientItemAsync(
                 clientItem,
-                clientItem.Item!.TelegramItem!.ChannelIds.Select(x => x.ChannelId),
+                clientItem.Item!.TelegramItem!.Channels.Select(x => x.ChannelId),
                 cancellationToken
             );
         }
