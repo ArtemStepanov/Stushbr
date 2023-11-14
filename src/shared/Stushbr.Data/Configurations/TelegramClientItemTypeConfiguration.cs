@@ -11,7 +11,5 @@ public sealed class TelegramClientItemTypeConfiguration : IEntityTypeConfigurati
 {
     public void Configure(EntityTypeBuilder<TelegramClientItem> builder)
     {
-        // Primary Key Configuration
-        builder.HasKey(c => c.Id);
     }
 }

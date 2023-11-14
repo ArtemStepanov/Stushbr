@@ -1,10 +1,10 @@
-using Stushbr.Domain.Abstractions;
-
 namespace Stushbr.Domain.Models.Items;
 
-public sealed class TelegramItemChannel : IIdentifier
+public sealed class TelegramItemChannel
 {
-    public int Id { get; set; }
+    public int TelegramItemId { get; set; }
 
     public long ChannelId { get; set; }
+
+    public TelegramItem? TelegramItem { get; set; }
 }

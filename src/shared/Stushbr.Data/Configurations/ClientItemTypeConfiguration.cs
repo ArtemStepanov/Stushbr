@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Stushbr.Domain.Models;
 using Stushbr.Domain.Models.Clients;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -21,18 +20,16 @@ public sealed class ClientItemTypeConfiguration : IEntityTypeConfiguration<Clien
                     : JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
                 v => v == null
                     ? null
-                    : JsonSerializer.Deserialize<JsonNode>(v, (JsonSerializerOptions?)null)
-            );
-
-        // Ignore the TelegramData property
-        builder.HasMany(c => c.TelegramData)
-            .WithOne(x => x.ClientItem).OnDelete(DeleteBehavior.Cascade);
+                    : JsonSerializer.Deserialize<JsonNode>(v, (JsonSerializerOptions?)null));
 
         // Relationship Configurations
         builder.HasOne(c => c.Client)
-            .WithMany(x => x.ClientItems).OnDelete(DeleteBehavior.Cascade);
+            .WithMany(x => x.ClientItems).OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasMany(c => c.TelegramData)
+            .WithOne(x => x.ClientItem).OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(c => c.Item)
-            .WithMany(i => i.ClientItems).OnDelete(DeleteBehavior.Cascade);
+            .WithMany(i => i.ClientItems).OnDelete(DeleteBehavior.Restrict);
     }
 }
