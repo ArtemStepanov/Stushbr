@@ -9,11 +9,17 @@ namespace Stushbr.Data.DataAccess.Sql.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("DELETE FROM Channels WHERE TelegramItemId IS NULL");
+            // Create a new temporary table without the identity column
+            migrationBuilder.Sql(@"
+SELECT TelegramItemId, ChannelId
+INTO Temp_Channels
+FROM Channels");
 
-            migrationBuilder.DropForeignKey(
-                name: "FK_Channels_TelegramItems_TelegramItemId",
-                table: "Channels");
+            // Drop the original table
+            migrationBuilder.DropTable(name: "Channels");
+
+            // Rename the temporary table to the original table's name
+            migrationBuilder.Sql(@"EXEC sp_rename 'Temp_Channels', 'Channels';");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_ClientItems_Clients_ClientId",
@@ -26,18 +32,6 @@ namespace Stushbr.Data.DataAccess.Sql.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_TelegramClientItem_ClientItems_ClientItemId",
                 table: "TelegramClientItem");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Channels",
-                table: "Channels");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Channels_TelegramItemId",
-                table: "Channels");
-
-            migrationBuilder.DropColumn(
-                name: "Id",
-                table: "Channels");
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "AvailableSince",
@@ -99,9 +93,17 @@ namespace Stushbr.Data.DataAccess.Sql.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Channels_TelegramItems_TelegramItemId",
-                table: "Channels");
+            // Create a new temporary table with the identity column
+            migrationBuilder.Sql(@"
+SELECT IDENTITY(int, 1, 1) AS Id, TelegramItemId, ChannelId
+INTO Temp_Channels
+FROM Channels");
+
+            // Drop the original table
+            migrationBuilder.DropTable(name: "Channels");
+
+            // Rename the temporary table to the original table's name
+            migrationBuilder.Sql(@"EXEC sp_rename 'Temp_Channels', 'Channels';");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_ClientItems_Clients_ClientId",
@@ -114,10 +116,6 @@ namespace Stushbr.Data.DataAccess.Sql.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_TelegramClientItem_ClientItems_ClientItemId",
                 table: "TelegramClientItem");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Channels",
-                table: "Channels");
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "AvailableSince",
