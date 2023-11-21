@@ -8,32 +8,18 @@ using Qiwi.BillPayments.Model.Out;
 using Stushbr.Application.Abstractions;
 using Stushbr.Core.Configuration;
 using Stushbr.Core.Enums;
-using Stushbr.Domain.Models;
 using Stushbr.Domain.Models.Clients;
 using Stushbr.Domain.Models.Items;
 
 namespace Stushbr.Application.Services;
 
-public class QiwiService : IQiwiService
+public class QiwiService(
+    ILogger<QiwiService> logger,
+    BillPaymentsClient qiwiClient,
+    ApplicationConfiguration configuration,
+    IMapper mapper
+) : IQiwiService
 {
-    private readonly ILogger<QiwiService> _logger;
-    private readonly BillPaymentsClient _qiwiClient;
-    private readonly ApplicationConfiguration _configuration;
-    private readonly IMapper _mapper;
-
-    public QiwiService(
-        ILogger<QiwiService> logger,
-        BillPaymentsClient qiwiClient,
-        ApplicationConfiguration configuration,
-        IMapper mapper
-    )
-    {
-        _logger = logger;
-        _qiwiClient = qiwiClient;
-        _configuration = configuration;
-        _mapper = mapper;
-    }
-
     public async Task<BillResponse> CreateBillAsync(ClientItem loadedClientItem)
     {
         var item = loadedClientItem.Item!;
@@ -51,13 +37,13 @@ public class QiwiService : IQiwiService
 
         try
         {
-            var createBillResult = await _qiwiClient.CreateBillAsync<BillResponse>(new CreateBillInfo
+            var createBillResult = await qiwiClient.CreateBillAsync<BillResponse>(new CreateBillInfo
             {
                 Amount = amount,
                 Comment = FormatComment(item, client),
-                Customer = _mapper.Map<Customer>(client),
+                Customer = mapper.Map<Customer>(client),
                 BillId = loadedClientItem.Id.ToString(),
-                SuccessUrl = new Uri(_configuration.SuccessUrl),
+                SuccessUrl = new Uri(configuration.SuccessUrl),
                 ExpirationDateTime = DateTime.Now.AddDays(10)
             });
 
@@ -66,16 +52,16 @@ public class QiwiService : IQiwiService
 
             return createBillResult;
         }
-        catch(BillPaymentsServiceException ex)
+        catch (BillPaymentsServiceException ex)
         {
-            _logger.LogError(ex, "Unable to create qiwi bill");
+            logger.LogError(ex, "Unable to create qiwi bill");
             throw;
         }
     }
 
     public async Task<BillResponse> GetBillInfoAsync(string billId)
     {
-        var billInfo = await _qiwiClient.GetBillInfoAsync(billId);
+        var billInfo = await qiwiClient.GetBillInfoAsync(billId);
         return billInfo;
     }
 

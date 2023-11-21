@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Options;
 using Qiwi.BillPayments.Client;
 using Stushbr.Api.Extensions;
 using Stushbr.Application.Abstractions;
@@ -39,7 +38,6 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddHostedService<ClientItemProcessorHostedService>();
 
         #endregion
-    })
-    .Build();
+    }).Build();
 
 await host.RunAsync();

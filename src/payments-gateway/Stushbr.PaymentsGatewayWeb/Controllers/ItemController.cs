@@ -10,40 +10,31 @@ namespace Stushbr.PaymentsGatewayWeb.Controllers;
 
 [ApiController]
 [Route("items")]
-public class ItemController : ControllerBase
+public class ItemController(
+    ISender sender,
+    IMapperBase mapper
+) : ControllerBase
 {
-    private readonly IMediator _mediator;
-    private readonly IMapper _mapper;
-
-    public ItemController(
-        IMediator mediator,
-        IMapper mapper
-    )
-    {
-        _mediator = mediator;
-        _mapper = mapper;
-    }
-
     [HttpGet("available")]
     public async Task<ActionResult<ItemResponse[]>> GetAvailableItems()
     {
-        var items = await _mediator.Send(new GetAvailableItemsQuery());
+        var items = await sender.Send(new GetAvailableItemsQuery());
         return items
-            .Select(i => _mapper.Map<ItemResponse>(i))
+            .Select(mapper.Map<ItemResponse>)
             .ToArray();
     }
 
     [HttpGet("{id:int}")]
     public async Task<ActionResult<ItemResponse>> GetItemById(int id)
     {
-        var item = await _mediator.Send(new GetItemByIdQuery(id));
-        return _mapper.Map<ItemResponse>(item);
+        var item = await sender.Send(new GetItemByIdQuery(id));
+        return mapper.Map<ItemResponse>(item);
     }
 
     [HttpPost("order")]
     public async Task<ActionResult<OrderItemResponse>> OrderItem([FromBody] OrderItemCommand command)
     {
-        var order = await _mediator.Send(command);
+        var order = await sender.Send(command);
         return Ok(order);
     }
 }

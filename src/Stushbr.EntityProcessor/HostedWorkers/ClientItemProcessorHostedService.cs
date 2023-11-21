@@ -6,28 +6,17 @@ using Stushbr.EntitiesProcessor.Processors;
 
 namespace Stushbr.EntitiesProcessor.HostedWorkers;
 
-public class ClientItemProcessorHostedService : BackgroundService
+public class ClientItemProcessorHostedService(
+    ILogger<ClientItemProcessorHostedService> logger,
+    StushbrDbContext dbContext,
+    ITelegramChannelProcessor telegramChannelProcessor
+) : BackgroundService
 {
-    private readonly ILogger<ClientItemProcessorHostedService> _logger;
-    private readonly StushbrDbContext _dbContext;
-    private readonly ITelegramChannelProcessor _telegramChannelProcessor;
-
-    public ClientItemProcessorHostedService(
-        ILogger<ClientItemProcessorHostedService> logger,
-        StushbrDbContext dbContext,
-        ITelegramChannelProcessor telegramChannelProcessor
-    )
-    {
-        _logger = logger;
-        _dbContext = dbContext;
-        _telegramChannelProcessor = telegramChannelProcessor;
-    }
-
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            _logger.LogInformation("Processing fresh client items");
+            logger.LogInformation("Processing fresh client items");
             await ProcessFreshClientItems(stoppingToken);
             await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
         }
@@ -35,27 +24,27 @@ public class ClientItemProcessorHostedService : BackgroundService
 
     private async Task ProcessFreshClientItems(CancellationToken cancellationToken)
     {
-        var freshItems = await _dbContext.ClientItems
+        var freshItems = await dbContext.ClientItems
             .Where(x => x.IsPaid && !x.IsProcessed)
             .Include(x => x.Client)
             .Include(x => x.Item).ThenInclude(x => x!.TelegramItem).ThenInclude(x => x!.Channels)
             .Include(x => x.TelegramData)
             .ToListAsync(cancellationToken);
 
-        _logger.LogInformation("{Count} fresh client items were found", freshItems.Count);
+        logger.LogInformation("{Count} fresh client items were found", freshItems.Count);
 
         foreach (var clientItem in freshItems)
         {
-            _logger.LogInformation("Processing client item '{Id}'", clientItem.Id);
+            logger.LogInformation("Processing client item '{Id}'", clientItem.Id);
             switch (clientItem.Item!.Type)
             {
                 case ItemType.TelegramChannel:
-                    await _telegramChannelProcessor.ProcessClientItemAsync(clientItem, cancellationToken);
+                    await telegramChannelProcessor.ProcessClientItemAsync(clientItem, cancellationToken);
                     return;
                 case ItemType.YouTubeVideo:
                     throw new NotImplementedException();
                 case ItemType.Other:
-                    _logger.LogWarning("Nothing to do here with the client item '{ClientItemId}'", clientItem.Id);
+                    logger.LogWarning("Nothing to do here with the client item '{ClientItemId}'", clientItem.Id);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

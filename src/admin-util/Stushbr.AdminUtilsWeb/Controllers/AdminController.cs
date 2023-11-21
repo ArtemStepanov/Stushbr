@@ -6,15 +6,8 @@ using Stushbr.Data.DataAccess.Sql;
 namespace Stushbr.AdminUtilsWeb.Controllers;
 
 [Authorize(Policy = "Admin")]
-public class AdminController : Controller
+public class AdminController(StushbrDbContext dbContext) : Controller
 {
-    private readonly StushbrDbContext _dbContext;
-
-    public AdminController(StushbrDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
-    
     // GET
     public IActionResult Index()
     {
@@ -24,7 +17,8 @@ public class AdminController : Controller
     [HttpPost]
     public async Task<IActionResult> MigrateAsync()
     {
-        await _dbContext.Database.MigrateAsync(HttpContext.RequestAborted);
+        // todo: use mediatr
+        await dbContext.Database.MigrateAsync(HttpContext.RequestAborted);
         return RedirectToAction("Index");
     }
 }

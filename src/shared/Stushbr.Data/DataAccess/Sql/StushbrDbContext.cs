@@ -7,7 +7,7 @@ using System.Threading.Channels;
 
 namespace Stushbr.Data.DataAccess.Sql;
 
-public sealed class StushbrDbContext : DbContext
+public sealed class StushbrDbContext(DbContextOptions<StushbrDbContext> options) : DbContext(options)
 {
     public DbSet<Client> Clients { get; set; } = null!;
 
@@ -18,10 +18,6 @@ public sealed class StushbrDbContext : DbContext
     public DbSet<TelegramItemChannel> Channels { get; set; } = null!;
 
     public DbSet<TelegramItem> TelegramItems { get; set; } = null!;
-
-    public StushbrDbContext(DbContextOptions<StushbrDbContext> options) : base(options)
-    {
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

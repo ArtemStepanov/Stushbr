@@ -10,24 +10,15 @@ using Stushbr.PaymentsGatewayWeb.Application.Commands.Results;
 
 namespace Stushbr.PaymentsGatewayWeb.Application.Handlers.Commands;
 
-public sealed class OrderItemCommandHandler : BaseRequestHandler<OrderItemCommand, OrderItemResponse>
+public sealed class OrderItemCommandHandler(
+    StushbrDbContext dbContext,
+    ILogger<OrderItemCommandHandler> logger,
+    IQiwiService qiwiService
+) : BaseRequestHandler<OrderItemCommand, OrderItemResponse>(dbContext)
 {
-    private readonly ILogger<OrderItemCommandHandler> _logger;
-    private readonly IQiwiService _qiwiService;
-
-    public OrderItemCommandHandler(
-        StushbrDbContext dbContext,
-        ILogger<OrderItemCommandHandler> logger,
-        IQiwiService qiwiService
-    ) : base(dbContext)
-    {
-        _logger = logger;
-        _qiwiService = qiwiService;
-    }
-
     public override async Task<OrderItemResponse> Handle(OrderItemCommand request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Getting or creating client \"{Email}\" info", request.ClientInfo.Email);
+        logger.LogInformation("Getting or creating client \"{Email}\" info", request.ClientInfo.Email);
 
 
         var client = await FindOrCreateClientAsync(request, cancellationToken);
@@ -37,7 +28,7 @@ public sealed class OrderItemCommandHandler : BaseRequestHandler<OrderItemComman
         if (clientItem.PaymentSystemBillId is null)
         {
             // Create new bill and update client item
-            qiwiBill = await _qiwiService.CreateBillAsync(clientItem);
+            qiwiBill = await qiwiService.CreateBillAsync(clientItem);
 
             clientItem.PaymentSystemBillId = qiwiBill.BillId;
             clientItem.PaymentSystemBillDueDate = qiwiBill.ExpirationDateTime;
@@ -68,7 +59,7 @@ public sealed class OrderItemCommandHandler : BaseRequestHandler<OrderItemComman
             );
         }
 
-        qiwiBill = await _qiwiService.GetBillInfoAsync(clientItem.PaymentSystemBillId);
+        qiwiBill = await qiwiService.GetBillInfoAsync(clientItem.PaymentSystemBillId);
 
         return new OrderItemResponse
         {
@@ -85,7 +76,7 @@ public sealed class OrderItemCommandHandler : BaseRequestHandler<OrderItemComman
 
         if (client is not null)
         {
-            if (!client.ClientItems.Any())
+            if (client.ClientItems.Count == 0)
             {
                 client.ClientItems.Add(new ClientItem
                 {
@@ -96,7 +87,7 @@ public sealed class OrderItemCommandHandler : BaseRequestHandler<OrderItemComman
             return client;
         }
 
-        _logger.LogInformation("Client {Email} not found, creating new one", command.ClientInfo.Email);
+        logger.LogInformation("Client {Email} not found, creating new one", command.ClientInfo.Email);
         var createdClient = await DbContext.Clients.AddAsync(new Client
         {
             Email = command.ClientInfo.Email,

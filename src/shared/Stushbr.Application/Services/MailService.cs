@@ -8,25 +8,16 @@ using Stxima.SendPulseClient.Models.Request;
 
 namespace Stushbr.Application.Services;
 
-public class MailService : IMailService
+public class MailService(
+    ILogger<MailService> logger,
+    ISendPulseEmailHttpClient sendPulseEmailHttpClient
+) : IMailService
 {
-    private readonly ILogger<MailService> _logger;
-    private readonly ISendPulseEmailHttpClient _sendPulseEmailHttpClient;
-
     private static readonly SendMailUserData StaticFrom = new()
     {
         Email = "stushbr@stushbr.com",
         Name = "Анастасия"
     };
-
-    public MailService(
-        ILogger<MailService> logger,
-        ISendPulseEmailHttpClient sendPulseEmailHttpClient
-    )
-    {
-        _logger = logger;
-        _sendPulseEmailHttpClient = sendPulseEmailHttpClient;
-    }
 
     public async Task SendTelegramInviteLinkAsync(ClientItem clientItem)
     {
@@ -48,7 +39,7 @@ public class MailService : IMailService
         var sendPulseTemplateId = item.TelegramItem?.SendPulseTemplateId;
         if (string.IsNullOrWhiteSpace(sendPulseTemplateId))
         {
-            _logger.LogWarning("SendPulse template id is not set for item {ItemId}", item.Id);
+            logger.LogWarning("SendPulse template id is not set for item {ItemId}", item.Id);
             return;
         }
 
@@ -67,7 +58,7 @@ public class MailService : IMailService
             );
         }
 
-        await _sendPulseEmailHttpClient.SendMailAsync(new SendMailRequest
+        await sendPulseEmailHttpClient.SendMailAsync(new SendMailRequest
         {
             Subject = GetTelegramMailSubject(telegramClientItem.ChannelName),
             Template = new MailTemplateRequest
@@ -83,7 +74,7 @@ public class MailService : IMailService
         });
     }
 
-    private string GetTelegramMailSubject(string? channelName)
+    private static string GetTelegramMailSubject(string? channelName)
     {
         return "Привет! Ваше приглашение в Telegram-канал" + (string.IsNullOrEmpty(channelName)
             ? ""

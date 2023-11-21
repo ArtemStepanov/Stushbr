@@ -5,15 +5,8 @@ using System.Net;
 
 namespace Stushbr.Application.ExceptionHandling;
 
-public class HttpResponseExceptionFilter : IActionFilter
+public class HttpResponseExceptionFilter(ILogger<HttpResponseExceptionFilter> logger) : IActionFilter
 {
-    private readonly ILogger<HttpResponseExceptionFilter> _logger;
-
-    public HttpResponseExceptionFilter(ILogger<HttpResponseExceptionFilter> logger)
-    {
-        _logger = logger;
-    }
-
     public void OnActionExecuting(ActionExecutingContext context)
     {
     }
@@ -41,7 +34,7 @@ public class HttpResponseExceptionFilter : IActionFilter
     {
         var httpContext = context.HttpContext;
 
-        _logger.LogError(
+        logger.LogError(
             new EventId(),
             exception,
             "Handling internal exception ({ExceptionTypeName}).\n" +
@@ -61,7 +54,7 @@ public class HttpResponseExceptionFilter : IActionFilter
     {
         var httpContext = context.HttpContext;
 
-        _logger.LogWarning(
+        logger.LogWarning(
             "Handling HttpException ({ExceptionTypeName}).\n" +
             "Request: {RequestMethod} {RequestPath}\n" +
             "Message: {Message}",
