@@ -9,19 +9,14 @@ using Stushbr.Domain.Models.Items;
 
 namespace Stushbr.AdminUtilsWeb.Controllers;
 
-public class ItemsController : Controller
+public class ItemsController(StushbrDbContext dbContext) : Controller
 {
-    private readonly StushbrDbContext _dbContext;
-
-    public ItemsController(StushbrDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    // todo: use mediatr
 
     // GET
     public async Task<IActionResult> Index()
     {
-        var items = await _dbContext.Items.Select(ItemViewModel.Create).ToListAsync();
+        var items = await dbContext.Items.Select(ItemViewModel.Create).ToListAsync();
         return View(items);
     }
 
@@ -42,8 +37,8 @@ public class ItemsController : Controller
             AvailableBefore = model.AvailableBefore
         };
 
-        await _dbContext.Items.AddAsync(item);
-        await _dbContext.SaveChangesAsync();
+        await dbContext.Items.AddAsync(item);
+        await dbContext.SaveChangesAsync();
 
         return RedirectToAction(nameof(Index));
     }
@@ -52,7 +47,7 @@ public class ItemsController : Controller
     [Authorize(Policy = "Admin")]
     public async Task<IActionResult> UpdateItem(ItemViewModel model)
     {
-        var item = await _dbContext.Items.FindAsync(model.Id);
+        var item = await dbContext.Items.FindAsync(model.Id);
         if (item is null)
         {
             return NotFound();
@@ -67,7 +62,7 @@ public class ItemsController : Controller
         item.AvailableSince = model.AvailableSince;
         item.AvailableBefore = model.AvailableBefore;
 
-        await _dbContext.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
 
         return RedirectToAction(nameof(Index));
     }
@@ -76,14 +71,14 @@ public class ItemsController : Controller
     [Authorize(Policy = "Admin")]
     public async Task<IActionResult> DeleteItem(int id)
     {
-        var item = await _dbContext.Items.FindAsync(id);
+        var item = await dbContext.Items.FindAsync(id);
         if (item is null)
         {
             return NotFound();
         }
 
-        _dbContext.Remove(item);
-        await _dbContext.SaveChangesAsync();
+        dbContext.Remove(item);
+        await dbContext.SaveChangesAsync();
 
         return RedirectToAction(nameof(Index));
     }
@@ -92,7 +87,7 @@ public class ItemsController : Controller
     [Authorize(Policy = "Admin")]
     public async Task<IActionResult> UpsertTelegramItem(int itemId, TelegramItemViewModel model)
     {
-        var telegramItem = await _dbContext.TelegramItems.Include(x => x.Channels).FirstOrDefaultAsync(x => x.Id == model.Id);
+        var telegramItem = await dbContext.TelegramItems.Include(x => x.Channels).FirstOrDefaultAsync(x => x.Id == model.Id);
         if (telegramItem is null)
         {
             telegramItem = new TelegramItem
@@ -105,20 +100,20 @@ public class ItemsController : Controller
                 ItemId = itemId
             };
 
-            await _dbContext.TelegramItems.AddAsync(telegramItem);
+            await dbContext.TelegramItems.AddAsync(telegramItem);
         }
         else
         {
             telegramItem.SendPulseTemplateId = model.SendPulseTemplateId;
 
-            _dbContext.RemoveRange(telegramItem.Channels);
+            dbContext.RemoveRange(telegramItem.Channels);
             telegramItem.Channels = model.ChannelIds.Split(',').Select(x => new TelegramItemChannel
             {
                 ChannelId = long.Parse(x)
             }).ToList();
         }
 
-        await _dbContext.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
 
         return RedirectToAction(nameof(Index));
     }

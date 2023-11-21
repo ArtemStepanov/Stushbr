@@ -9,29 +9,19 @@ using Stushbr.Domain.Contracts;
 
 namespace Stushbr.Application.CommandHandlers.Service;
 
-public sealed class MigrateCommandHandler : BaseRequestHandler<MigrateCommand, MigrateResult>
+public sealed class MigrateCommandHandler(
+    StushbrDbContext dbContext,
+    ILogger<MigrateCommandHandler> logger,
+    IOptions<ApplicationConfiguration> appConfiguration
+) : BaseRequestHandler<MigrateCommand, MigrateResult>(dbContext)
 {
-    private readonly ILogger<MigrateCommandHandler> _logger;
-    private readonly ApplicationConfiguration _appConfiguration;
-
-    public MigrateCommandHandler(
-        StushbrDbContext dbContext,
-        ILogger<MigrateCommandHandler> logger,
-        IOptions<ApplicationConfiguration> appConfiguration
-    ) : base(dbContext)
-    {
-        _logger = logger;
-        _appConfiguration = appConfiguration.Value;
-    }
+    private readonly ApplicationConfiguration _appConfiguration = appConfiguration.Value;
 
     public override async Task<MigrateResult> Handle(MigrateCommand request, CancellationToken cancellationToken)
     {
-        if (_appConfiguration.MigrationMode)
+        if (!_appConfiguration.MigrationMode)
         {
-        }
-        else
-        {
-            _logger.LogWarning("Migration mode is disabled");
+            logger.LogWarning("Migration mode is disabled");
             return new MigrateResult("Migration mode is disabled", false);
         }
 
@@ -41,7 +31,7 @@ public sealed class MigrateCommandHandler : BaseRequestHandler<MigrateCommand, M
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Failed to migrate database");
+            logger.LogError(e, "Failed to migrate database");
             return new MigrateResult("Failed to migrate database", false);
         }
 

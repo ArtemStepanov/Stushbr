@@ -14,24 +14,13 @@ using Telegram.Bot.Types;
 
 namespace Stushbr.Function.Payment.Handlers.Commands;
 
-internal class ProcessTelegramPaymentCommandHandler : BaseRequestHandler<ProcessTelegramPaymentCommand, ProcessTelegramPaymentResult>
+internal class ProcessTelegramPaymentCommandHandler(
+    ILogger<ProcessTelegramPaymentCommandHandler> logger,
+    ITelegramService telegramService,
+    SendPulseWebHookClient sendPulseWebHookClient,
+    StushbrDbContext dbContext
+) : BaseRequestHandler<ProcessTelegramPaymentCommand, ProcessTelegramPaymentResult>(dbContext)
 {
-    private readonly ILogger<ProcessTelegramPaymentCommandHandler> _logger;
-    private readonly ITelegramService _telegramService;
-    private readonly SendPulseWebHookClient _sendPulseWebHookClient;
-
-    public ProcessTelegramPaymentCommandHandler(
-        ILogger<ProcessTelegramPaymentCommandHandler> logger,
-        ITelegramService telegramService,
-        SendPulseWebHookClient sendPulseWebHookClient,
-        StushbrDbContext dbContext
-    ) : base(dbContext)
-    {
-        _logger = logger;
-        _telegramService = telegramService;
-        _sendPulseWebHookClient = sendPulseWebHookClient;
-    }
-
     public override async Task<ProcessTelegramPaymentResult> Handle(ProcessTelegramPaymentCommand request, CancellationToken cancellationToken)
     {
         var items = await DbContext.Items
@@ -39,9 +28,9 @@ internal class ProcessTelegramPaymentCommandHandler : BaseRequestHandler<Process
             .Where(x => request.ItemIdentifiers.Contains(x.ItemIdentifier))
             .ToListAsync(cancellationToken);
 
-        if (!items.Any())
+        if (items.Count == 0)
         {
-            _logger.LogWarning("Telegram items with identifiers [{ItemIdentifier}] were not found", string.Join(", ", request.ItemIdentifiers));
+            logger.LogWarning("Telegram items with identifiers [{ItemIdentifier}] were not found", string.Join(", ", request.ItemIdentifiers));
             return new ProcessTelegramPaymentResult(false);
         }
 
@@ -51,14 +40,14 @@ internal class ProcessTelegramPaymentCommandHandler : BaseRequestHandler<Process
             var link = await ProcessItem(item, cancellationToken);
             if (link is null)
             {
-                _logger.LogWarning("Telegram item with identifier [{ItemIdentifier}] was not found", item.ItemIdentifier);
+                logger.LogWarning("Telegram item with identifier [{ItemIdentifier}] was not found", item.ItemIdentifier);
                 continue;
             }
 
             links.Add(link.InviteLink);
         }
 
-        await _sendPulseWebHookClient.CallWebhookAsync(new CallTelegramWebhookRequest(request.Email, request.Phone, string.Join(",", links)), cancellationToken);
+        await sendPulseWebHookClient.CallWebhookAsync(new CallTelegramWebhookRequest(request.Email, request.Phone, string.Join(",", links)), cancellationToken);
 
         return new ProcessTelegramPaymentResult(true);
     }
@@ -67,7 +56,7 @@ internal class ProcessTelegramPaymentCommandHandler : BaseRequestHandler<Process
     {
         foreach (var channelId in item.TelegramItem!.Channels)
         {
-            var link = await _telegramService.CreateInviteLinkAsync(channelId.ChannelId, cancellationToken);
+            var link = await telegramService.CreateInviteLinkAsync(channelId.ChannelId, cancellationToken);
             return link;
         }
 

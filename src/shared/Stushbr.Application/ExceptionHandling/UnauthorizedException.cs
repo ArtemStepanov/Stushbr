@@ -2,10 +2,5 @@
 
 namespace Stushbr.Application.ExceptionHandling
 {
-    public class UnauthorizedException : HttpException
-    {
-        public UnauthorizedException(string message = "Unauthorized") : base(message, HttpStatusCode.Unauthorized)
-        {
-        }
-    }
+    public class UnauthorizedException(string message = "Unauthorized") : HttpException(message, HttpStatusCode.Unauthorized);
 }

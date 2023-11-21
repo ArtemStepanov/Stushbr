@@ -4,31 +4,18 @@ using Stushbr.Domain.Models.Clients;
 
 namespace Stushbr.EntitiesProcessor.Processors;
 
-public class TelegramChannelProcessor : ITelegramChannelProcessor
+public class TelegramChannelProcessor(
+    ILogger<TelegramChannelProcessor> logger,
+    ITelegramService telegramService,
+    IMailService mailService,
+    StushbrDbContext dbContext
+) : ITelegramChannelProcessor
 {
-    private readonly ILogger<TelegramChannelProcessor> _logger;
-    private readonly ITelegramService _telegramService;
-    private readonly IMailService _mailService;
-    private readonly StushbrDbContext _dbContext;
-
-    public TelegramChannelProcessor(
-        ILogger<TelegramChannelProcessor> logger,
-        ITelegramService telegramService,
-        IMailService mailService,
-        StushbrDbContext dbContext
-    )
-    {
-        _logger = logger;
-        _telegramService = telegramService;
-        _mailService = mailService;
-        _dbContext = dbContext;
-    }
-
     public async Task ProcessClientItemAsync(ClientItem clientItem, CancellationToken cancellationToken)
     {
         LogInformation("Processing telegram item", clientItem);
 
-        if (!clientItem.TelegramData.Any())
+        if (clientItem.TelegramData.Count == 0)
         {
             LogInformation("Invitation links are not exist and will be generated", clientItem);
 
@@ -40,14 +27,14 @@ public class TelegramChannelProcessor : ITelegramChannelProcessor
         }
 
         LogInformation("Sending link to mail", clientItem);
-        await _mailService.SendTelegramInviteLinkAsync(clientItem);
+        await mailService.SendTelegramInviteLinkAsync(clientItem);
 
         LogInformation("Updating client item state to processed", clientItem);
 
         clientItem.SetProcessed(true);
 
-        _dbContext.ClientItems.Update(clientItem);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        dbContext.ClientItems.Update(clientItem);
+        await dbContext.SaveChangesAsync(cancellationToken);
 
         LogInformation("Item processed", clientItem);
     }
@@ -60,8 +47,8 @@ public class TelegramChannelProcessor : ITelegramChannelProcessor
     {
         foreach (var telegramChannelId in telegramChannelIds)
         {
-            var link = await _telegramService.CreateInviteLinkAsync(telegramChannelId, cancellationToken);
-            var chatInfo = await _telegramService.GetChatInfoAsync(telegramChannelId, cancellationToken);
+            var link = await telegramService.CreateInviteLinkAsync(telegramChannelId, cancellationToken);
+            var chatInfo = await telegramService.GetChatInfoAsync(telegramChannelId, cancellationToken);
             clientItem.TelegramData.Add(new TelegramClientItem
             {
                 InviteLink = link.InviteLink,
@@ -70,12 +57,12 @@ public class TelegramChannelProcessor : ITelegramChannelProcessor
             });
         }
 
-        _dbContext.ClientItems.Update(clientItem);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        dbContext.ClientItems.Update(clientItem);
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
     private void LogInformation(string text, ClientItem clientItem)
     {
-        _logger.LogInformation("[CI '{ItemId}'] {Text}", clientItem.Id, text);
+        logger.LogInformation("[CI '{ItemId}'] {Text}", clientItem.Id, text);
     }
 }

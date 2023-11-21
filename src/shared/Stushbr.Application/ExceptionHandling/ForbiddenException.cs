@@ -2,10 +2,5 @@
 
 namespace Stushbr.Application.ExceptionHandling
 {
-    public class ForbiddenException : HttpException
-    {
-        public ForbiddenException(string message = "Forbidden") : base(message, HttpStatusCode.Forbidden)
-        {
-        }
-    }
+    public class ForbiddenException(string message = "Forbidden") : HttpException(message, HttpStatusCode.Forbidden);
 }

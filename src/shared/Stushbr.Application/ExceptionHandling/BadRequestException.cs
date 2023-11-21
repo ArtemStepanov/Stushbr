@@ -3,12 +3,8 @@ using System.Net;
 
 namespace Stushbr.Application.ExceptionHandling
 {
-    public class BadRequestException : HttpException
+    public class BadRequestException(string? message = "Bad Request") : HttpException(message, HttpStatusCode.BadRequest)
     {
-        public BadRequestException(string? message = "Bad Request") : base(message, HttpStatusCode.BadRequest)
-        {
-        }
-
         public BadRequestException(ModelStateDictionary modelState) : this("Неверное состояние запроса")
         {
             Response.Errors.AddRange(modelState.SelectMany(pair => pair.Value.Errors, (pair, error) => new ErrorsResponse.Error
