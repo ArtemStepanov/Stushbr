@@ -1,6 +1,6 @@
 ﻿namespace Stushbr.Core.Configuration;
 
-public class ApplicationConfiguration
+public sealed class ApplicationConfiguration
 {
     public QiwiConfiguration? Qiwi { get; set; }
 

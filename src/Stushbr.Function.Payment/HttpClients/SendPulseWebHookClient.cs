@@ -9,20 +9,14 @@ using System.Threading.Tasks;
 
 namespace Stushbr.Function.Payment.HttpClients;
 
-public sealed class SendPulseWebHookClient
+public sealed class SendPulseWebHookClient(
+    HttpClient httpClient,
+    ILogger<SendPulseWebHookClient> logger
+)
 {
-    private readonly HttpClient _httpClient;
-    private readonly ILogger<SendPulseWebHookClient> _logger;
-
-    public SendPulseWebHookClient(HttpClient httpClient, ILogger<SendPulseWebHookClient> logger)
-    {
-        _httpClient = httpClient;
-        _logger = logger;
-    }
-
     public async ValueTask CallWebhookAsync(CallTelegramWebhookRequest request, CancellationToken ct = default)
     {
-        var response = await _httpClient.PostAsync(string.Empty, JsonContent.Create(request), ct);
+        var response = await httpClient.PostAsync(string.Empty, JsonContent.Create(request), ct);
         var dynamic = await response.Content.ReadAsAsync<dynamic>(cancellationToken: ct);
         if (dynamic?.result != true)
         {
@@ -30,13 +24,8 @@ public sealed class SendPulseWebHookClient
         }
 
         string serialized = JsonSerializer.Serialize(dynamic);
-        _logger.LogDebug("Response: {Response}", serialized);
+        logger.LogDebug("Response: {Response}", serialized);
     }
 
-    private class ApiException : Exception
-    {
-        public ApiException(string message) : base(message)
-        {
-        }
-    }
+    private class ApiException(string message) : Exception(message);
 }

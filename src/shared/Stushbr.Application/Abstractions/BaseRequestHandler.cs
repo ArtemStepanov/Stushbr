@@ -3,14 +3,10 @@ using Stushbr.Data.DataAccess.Sql;
 
 namespace Stushbr.Application.Abstractions;
 
-public abstract class BaseRequestHandler<TRequest, TResult> : IRequestHandler<TRequest, TResult> where TRequest : IRequest<TResult>
+public abstract class BaseRequestHandler<TRequest, TResult>(StushbrDbContext dbContext) : IRequestHandler<TRequest, TResult>
+    where TRequest : IRequest<TResult>
 {
-    protected StushbrDbContext DbContext { get; }
-
-    protected BaseRequestHandler(StushbrDbContext dbContext)
-    {
-        DbContext = dbContext;
-    }
+    protected StushbrDbContext DbContext { get; } = dbContext;
 
     public abstract Task<TResult> Handle(TRequest request, CancellationToken cancellationToken);
 }

@@ -1,8 +1,3 @@
 ﻿namespace Stushbr.Core.Configuration;
 
-public class QiwiConfiguration
-{
-    public string? SecretToken { get; set; }
-
-    public string? PublicToken { get; set; }
-}
+public sealed record QiwiConfiguration(string? SecretToken, string? PublicToken);

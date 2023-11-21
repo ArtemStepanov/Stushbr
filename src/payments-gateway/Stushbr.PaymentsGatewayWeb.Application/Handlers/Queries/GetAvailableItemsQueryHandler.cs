@@ -6,12 +6,8 @@ using Stushbr.PaymentsGatewayWeb.Application.Queries;
 
 namespace Stushbr.PaymentsGatewayWeb.Application.Handlers.Queries;
 
-public sealed class GetAvailableItemsQueryHandler : BaseRequestHandler<GetAvailableItemsQuery, IReadOnlyCollection<Item>>
+public sealed class GetAvailableItemsQueryHandler(StushbrDbContext dbContext) : BaseRequestHandler<GetAvailableItemsQuery, IReadOnlyCollection<Item>>(dbContext)
 {
-    public GetAvailableItemsQueryHandler(StushbrDbContext dbContext) : base(dbContext)
-    {
-    }
-
     public override async Task<IReadOnlyCollection<Item>> Handle(GetAvailableItemsQuery request, CancellationToken cancellationToken)
     {
         var items = await DbContext.Items

@@ -7,33 +7,21 @@ using Stushbr.Domain.Models.Clients;
 
 namespace Stushbr.EntitiesProcessor.HostedWorkers;
 
-public class ClientItemStatusUpdaterHostedService : BackgroundService
-{
-    private readonly ILogger<ClientItemStatusUpdaterHostedService> _logger;
-    private readonly IQiwiService _qiwiService;
-    private readonly StushbrDbContext _dbContext;
-
-    public ClientItemStatusUpdaterHostedService(
-        ILogger<ClientItemStatusUpdaterHostedService> logger,
+public class ClientItemStatusUpdaterHostedService(ILogger<ClientItemStatusUpdaterHostedService> logger,
         StushbrDbContext dbContext,
-        IQiwiService qiwiService
-    )
-    {
-        _logger = logger;
-        _dbContext = dbContext;
-        _qiwiService = qiwiService;
-    }
-
+        IQiwiService qiwiService)
+    : BackgroundService
+{
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            _logger.LogInformation("Updating item state for not processed client items");
-            var notProcessedClientItems = await _dbContext.ClientItems
+            logger.LogInformation("Updating item state for not processed client items");
+            var notProcessedClientItems = await dbContext.ClientItems
                 .Where(x => !x.IsPaid && !string.IsNullOrEmpty(x.PaymentSystemBillId))
                 .ToListAsync(stoppingToken);
 
-            _logger.LogInformation("{Count} items will be updated", notProcessedClientItems.Count);
+            logger.LogInformation("{Count} items will be updated", notProcessedClientItems.Count);
 
             await ProcessClientItemsPaymentStatus(notProcessedClientItems, stoppingToken);
 
@@ -50,7 +38,7 @@ public class ClientItemStatusUpdaterHostedService : BackgroundService
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var qiwiBillInfo = await _qiwiService.GetBillInfoAsync(clientItem.PaymentSystemBillId!);
+            var qiwiBillInfo = await qiwiService.GetBillInfoAsync(clientItem.PaymentSystemBillId!);
             if (qiwiBillInfo.Status.ValueEnum == BillStatusEnum.Waiting)
             {
                 LogInformation(clientItem, "Awaiting payment");
@@ -63,8 +51,8 @@ public class ClientItemStatusUpdaterHostedService : BackgroundService
                 LogInformation(clientItem, "Has been payed and will be updated");
                 clientItem.IsPaid = true;
                 clientItem.PaymentDate = qiwiBillInfo.Status.ChangedDateTime;
-                _dbContext.ClientItems.Update(clientItem);
-                await _dbContext.SaveChangesAsync(cancellationToken);
+                dbContext.ClientItems.Update(clientItem);
+                await dbContext.SaveChangesAsync(cancellationToken);
                 await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
                 continue;
             }
@@ -75,14 +63,14 @@ public class ClientItemStatusUpdaterHostedService : BackgroundService
             }
 
             LogInformation(clientItem, "Can no longer be paid and will be removed");
-            _dbContext.ClientItems.Remove(clientItem);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            dbContext.ClientItems.Remove(clientItem);
+            await dbContext.SaveChangesAsync(cancellationToken);
             await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
         }
     }
 
     private void LogInformation(ClientItem clientItem, string text)
     {
-        _logger.LogInformation("[CI {ItemId}] {Text}", clientItem.Id, text);
+        logger.LogInformation("[CI {ItemId}] {Text}", clientItem.Id, text);
     }
 }
