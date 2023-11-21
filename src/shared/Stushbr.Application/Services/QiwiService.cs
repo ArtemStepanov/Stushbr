@@ -68,7 +68,7 @@ public class QiwiService : IQiwiService
         }
         catch(BillPaymentsServiceException ex)
         {
-            _logger.LogError("Unable to create QIWI bill", ex);
+            _logger.LogError(ex, "Unable to create qiwi bill");
             throw;
         }
     }
