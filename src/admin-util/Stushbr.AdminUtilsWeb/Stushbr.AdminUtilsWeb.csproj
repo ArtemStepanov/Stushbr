@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\shared\Stushbr.Api\Stushbr.Api.csproj" />
+    <ProjectReference Include="..\Stushbr.AdminUtilsWeb.Application\Stushbr.AdminUtilsWeb.Application.csproj" />
   </ItemGroup>
 
 </Project>

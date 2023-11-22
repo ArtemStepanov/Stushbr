@@ -6,6 +6,19 @@
 
 <div class="container">
     <h3>Migration</h3>
+    @if (ViewData.ModelState.ContainsKey("Migrate") && ViewData.ModelState["Migrate"]?.Errors.Count > 0)
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewData.ModelState["Migrate"]!.Errors[0].ErrorMessage
+        </div>
+    }
+    @if (ViewData["MigrateResult"] is true)
+    {
+        <div class="alert alert-success" role="alert">
+            Database migrated successfully.
+        </div>
+    }
+    <p>Run migrations to update the database to the latest version.</p>
     <form asp-action="Migrate" method="post">
         <button type="submit" class="btn btn-primary">Migrate</button>
     </form>

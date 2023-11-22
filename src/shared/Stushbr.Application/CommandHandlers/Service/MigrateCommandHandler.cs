@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using Stushbr.Application.Abstractions;
 using Stushbr.Application.Commands.Service;
 using Stushbr.Core.Configuration;
+using Stushbr.Core.Mediatr.Abstractions;
 using Stushbr.Data.DataAccess.Sql;
 using Stushbr.Domain.Contracts;
 
@@ -13,16 +14,16 @@ public sealed class MigrateCommandHandler(
     StushbrDbContext dbContext,
     ILogger<MigrateCommandHandler> logger,
     IOptions<ApplicationConfiguration> appConfiguration
-) : BaseRequestHandler<MigrateCommand, MigrateResult>(dbContext)
+) : BaseRequestHandler<MigrateCommand, MigrationResult>(dbContext)
 {
     private readonly ApplicationConfiguration _appConfiguration = appConfiguration.Value;
 
-    public override async Task<MigrateResult> Handle(MigrateCommand request, CancellationToken cancellationToken)
+    public override async Task<MigrationResult> Handle(MigrateCommand request, CancellationToken cancellationToken)
     {
         if (!_appConfiguration.MigrationMode)
         {
             logger.LogWarning("Migration mode is disabled");
-            return new MigrateResult("Migration mode is disabled", false);
+            return new MigrationResult("Migration mode is disabled", false);
         }
 
         try
@@ -32,9 +33,9 @@ public sealed class MigrateCommandHandler(
         catch (Exception e)
         {
             logger.LogError(e, "Failed to migrate database");
-            return new MigrateResult("Failed to migrate database", false);
+            return new MigrationResult("Failed to migrate database", false);
         }
 
-        return new MigrateResult("Database migrated", true);
+        return new MigrationResult("Database migrated", true);
     }
 }

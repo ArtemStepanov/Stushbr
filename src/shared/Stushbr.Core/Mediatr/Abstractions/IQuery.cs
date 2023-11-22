@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Stushbr.Application.Abstractions;
+namespace Stushbr.Core.Mediatr.Abstractions;
 
 public interface IQuery : IRequest
 {

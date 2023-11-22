@@ -1,6 +1,9 @@
-namespace Stushbr.AdminUtilsWeb.ViewModels.Items;
+using Stushbr.AdminUtilsWeb.Domain.Items.Contracts;
+using Stushbr.Core.Mediatr.Abstractions;
 
-public sealed class CreateItemViewModel
+namespace Stushbr.AdminUtilsWeb.Domain.Items.Commands;
+
+public sealed class CreateItemCommand : ICommand<ItemViewModel>
 {
     public string DisplayName { get; set; } = default!;
 

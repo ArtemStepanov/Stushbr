@@ -1,24 +1,30 @@
-using Microsoft.AspNetCore.Authorization;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Stushbr.Data.DataAccess.Sql;
+using Stushbr.AdminUtilsWeb.Attributes;
+using Stushbr.Api.Abstractions;
+using Stushbr.Application.Commands.Service;
 
 namespace Stushbr.AdminUtilsWeb.Controllers;
 
-[Authorize(Policy = "Admin")]
-public class AdminController(StushbrDbContext dbContext) : Controller
+[AuthorizeAdmin]
+public class AdminController(ISender sender) : StushbrControllerBase(sender)
 {
-    // GET
     public IActionResult Index()
     {
         return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> MigrateAsync()
-    {
-        // todo: use mediatr
-        await dbContext.Database.MigrateAsync(HttpContext.RequestAborted);
-        return RedirectToAction("Index");
-    }
+    public async Task<IActionResult> MigrateAsync() =>
+        await CallHandlerAsync(new MigrateCommand(), result =>
+        {
+            if (!result.Success)
+            {
+                ModelState.AddModelError("Migrate", result.Message);
+                return View("Index");
+            }
+
+            ViewData["MigrateResult"] = true;
+            return View("Index");
+        });
 }
