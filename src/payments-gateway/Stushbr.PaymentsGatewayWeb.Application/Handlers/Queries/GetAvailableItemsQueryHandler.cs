@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Stushbr.Application.Abstractions;
-using Stushbr.Core.Mediatr.Abstractions;
 using Stushbr.Data.DataAccess.Sql;
 using Stushbr.Domain.Models.Items;
 using Stushbr.PaymentsGatewayWeb.Application.Queries;

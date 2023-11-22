@@ -1,5 +1,4 @@
-﻿using Stushbr.Application.Abstractions;
-using Stushbr.Core.Mediatr.Abstractions;
+﻿using Stushbr.Core.Mediatr.Abstractions;
 using Stushbr.PaymentsGatewayWeb.Application.Commands.Results;
 using System.ComponentModel.DataAnnotations;
 

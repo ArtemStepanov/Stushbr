@@ -1,7 +1,6 @@
 using Stushbr.Application.Abstractions;
 using Stushbr.Application.ExceptionHandling;
 using Stushbr.Application.Extensions;
-using Stushbr.Core.Mediatr.Abstractions;
 using Stushbr.Data.DataAccess.Sql;
 using Stushbr.Domain.Models.Items;
 using Stushbr.PaymentsGatewayWeb.Application.Queries;
