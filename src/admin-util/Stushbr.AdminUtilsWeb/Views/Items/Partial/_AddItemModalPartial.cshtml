@@ -1,6 +1,6 @@
 @using Stushbr.Core.Enums
 @using System.Globalization
-@model Stushbr.AdminUtilsWeb.ViewModels.Items.CreateItemViewModel
+@model Stushbr.AdminUtilsWeb.Domain.Items.Commands.CreateItemCommand
 @{
     var itemTypes = Enum.GetValues<ItemType>().Select(value => new SelectListItem
     {

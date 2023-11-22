@@ -1,5 +1,6 @@
-@using Stushbr.AdminUtilsWeb.ViewModels.Items
-@model List<Stushbr.AdminUtilsWeb.ViewModels.Items.ItemViewModel>
+@using Stushbr.AdminUtilsWeb.Domain.Items.Contracts
+@using Stushbr.AdminUtilsWeb.Domain.Items.Commands
+@model IReadOnlyList<Stushbr.AdminUtilsWeb.Domain.Items.Contracts.ItemViewModel>
 
 <div class="container">
     <div class="row">
@@ -12,5 +13,5 @@
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addItemModal">Add Item</button>
 
     <!-- Add Item Modal -->
-    @await Html.PartialAsync("Partial/_AddItemModalPartial", new CreateItemViewModel())
+    @await Html.PartialAsync("Partial/_AddItemModalPartial", new CreateItemCommand())
 </div>

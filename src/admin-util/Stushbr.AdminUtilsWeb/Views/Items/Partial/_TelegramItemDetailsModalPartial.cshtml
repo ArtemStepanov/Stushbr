@@ -1,6 +1,7 @@
-@model Stushbr.AdminUtilsWeb.ViewModels.Items.TelegramItemViewModel
+@using Stushbr.AdminUtilsWeb.Domain.Items.Contracts
+@model Stushbr.AdminUtilsWeb.Domain.Items.Contracts.TelegramItemViewModel
 @{
-    var item = (Stushbr.AdminUtilsWeb.ViewModels.Items.ItemViewModel)ViewData["Item"]!;
+    var item = (ItemViewModel)ViewData["Item"]!;
 }
 
 <div class="modal fade" id="telegramItemDetailsModal-@item.Id" tabindex="-1" aria-labelledby="telegramItemDetailsModalLabel-@item.Id" aria-hidden="true">
@@ -11,7 +12,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form asp-action="UpsertTelegramItem" method="post" asp-route-itemId="@item.Id">
+                <form asp-action="UpsertTelegramItem" method="post">
                     <input type="hidden" asp-for="Id"/>
                     <div class="mb-3">
                         <label for="sendPulseTemplateId" class="form-label">Send Pulse Template Id</label>
