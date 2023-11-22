@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {toast} from "react-toastify";
 import {StushbrApi} from "../common/StushbrApi";
@@ -14,15 +14,15 @@ function ItemPage(props: any) {
 
     const params = useParams<{ id: string }>()
 
-    const fetchItem = async () => {
+    const fetchItem = useCallback(async () => {
         const fetchedItem = await toast.promise(() => StushbrApi.getItemById(params.id), Defaults.DefaultToastPromiseMessages)
         setItem(fetchedItem)
-    }
+    }, [params.id])
 
     useEffect(() => {
         void fetchItem()
         document.title = Defaults.Title
-    }, [])
+    }, [fetchItem])
 
     return (
         <>

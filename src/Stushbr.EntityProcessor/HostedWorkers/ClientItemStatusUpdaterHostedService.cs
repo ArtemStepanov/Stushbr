@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Qiwi.BillPayments.Model;
 using Stushbr.Application.Abstractions;
 using Stushbr.Data.DataAccess.Sql;
-using Stushbr.Domain.Models;
 using Stushbr.Domain.Models.Clients;
 
 namespace Stushbr.EntitiesProcessor.HostedWorkers;

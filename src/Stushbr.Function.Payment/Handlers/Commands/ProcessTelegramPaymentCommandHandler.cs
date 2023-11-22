@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Stushbr.Application.Abstractions;
-using Stushbr.Core.Mediatr.Abstractions;
 using Stushbr.Data.DataAccess.Sql;
 using Stushbr.Domain.Models.Items;
 using Stushbr.Function.Payment.Commands;

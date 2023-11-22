@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Stushbr.Application.Abstractions;
 using Stushbr.Core.Enums;
 using Stushbr.Data.DataAccess.Sql;
 using Stushbr.EntitiesProcessor.Processors;
