@@ -1,4 +1,4 @@
-name: NPM Build Stushbr.PaymentsGatewayWeb ClientApp
+name: NPM PaymentsGatewayWeb
 
 on:
   push:
