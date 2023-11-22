@@ -23,7 +23,7 @@ public sealed class CreateItemCommandHandler(StushbrDbContext dbContext) : BaseR
             AvailableBefore = request.AvailableBefore
         };
 
-        await dbContext.Items.AddAsync(item, cancellationToken);
+        await DbContext.Items.AddAsync(item, cancellationToken);
 
         return ItemViewModel.Create.Compile()(item);
     }
