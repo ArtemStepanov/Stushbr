@@ -11,7 +11,7 @@ public sealed class UpsertTelegramItemCommandHandler(StushbrDbContext dbContext)
 {
     public override async Task<TelegramItemViewModel> Handle(UpsertTelegramItemCommand request, CancellationToken cancellationToken)
     {
-        var telegramItem = await dbContext.TelegramItems.Include(x => x.Channels).FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+        var telegramItem = await DbContext.TelegramItems.Include(x => x.Channels).FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
         if (telegramItem is null)
         {
             telegramItem = new TelegramItem
@@ -24,13 +24,13 @@ public sealed class UpsertTelegramItemCommandHandler(StushbrDbContext dbContext)
                 ItemId = request.ItemId
             };
 
-            await dbContext.TelegramItems.AddAsync(telegramItem, cancellationToken);
+            await DbContext.TelegramItems.AddAsync(telegramItem, cancellationToken);
         }
         else
         {
             telegramItem.SendPulseTemplateId = request.SendPulseTemplateId;
 
-            dbContext.RemoveRange(telegramItem.Channels);
+            DbContext.RemoveRange(telegramItem.Channels);
             telegramItem.Channels = request.ChannelIds.Split(',').Select(x => new TelegramItemChannel
             {
                 ChannelId = long.Parse(x)

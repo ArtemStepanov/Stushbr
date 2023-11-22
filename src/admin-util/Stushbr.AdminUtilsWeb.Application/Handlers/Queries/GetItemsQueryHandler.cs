@@ -10,6 +10,6 @@ public sealed class GetItemsQueryHandler(StushbrDbContext dbContext) : BaseReque
 {
     public override async Task<IReadOnlyList<ItemViewModel>> Handle(GetItemsQuery request, CancellationToken cancellationToken)
     {
-        return await dbContext.Items.Select(ItemViewModel.Create).ToListAsync(cancellationToken);
+        return await DbContext.Items.Select(ItemViewModel.Create).ToListAsync(cancellationToken);
     }
 }
