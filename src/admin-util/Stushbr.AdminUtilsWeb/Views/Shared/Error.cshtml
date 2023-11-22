@@ -1,4 +1,4 @@
-﻿@model Stushbr.AdminUtilsWeb.ViewModels.ErrorViewModel
+﻿@model Stushbr.AdminUtilsWeb.Domain.Contracts.ErrorViewModel
 @{
     ViewData["Title"] = "Error";
 }
@@ -11,6 +11,12 @@
     <p>
         <strong>Request ID:</strong> <code>@Model.RequestId</code>
     </p>
+    @if (!string.IsNullOrWhiteSpace(Model.Message))
+    {
+        <p>
+            <strong>Message:</strong> <code>@Model.Message</code>
+        </p>
+    }
 }
 
 <h3>Development Mode</h3>

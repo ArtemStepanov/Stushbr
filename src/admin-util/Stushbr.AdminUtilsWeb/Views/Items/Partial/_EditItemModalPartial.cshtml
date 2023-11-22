@@ -1,6 +1,5 @@
-@using Stushbr.AdminUtilsWeb.ViewModels.Items
 @using Stushbr.Core.Enums
-@model ItemViewModel
+@model Stushbr.AdminUtilsWeb.Domain.Items.Contracts.ItemViewModel
 @{
     var itemTypes = Enum.GetValues<ItemType>().Select(value => new SelectListItem
     {

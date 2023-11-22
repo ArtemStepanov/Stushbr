@@ -1,7 +1,7 @@
 using Stushbr.Domain.Models.Items;
 using System.Linq.Expressions;
 
-namespace Stushbr.AdminUtilsWeb.ViewModels.Items;
+namespace Stushbr.AdminUtilsWeb.Domain.Items.Contracts;
 
 public sealed record ItemViewModel(
     int Id,
@@ -31,6 +31,7 @@ public sealed record ItemViewModel(
         item.TelegramItem != null
             ? new TelegramItemViewModel(
                 item.TelegramItem!.Id,
+                item.Id,
                 item.TelegramItem!.SendPulseTemplateId ?? string.Empty,
                 string.Join(", ", item.TelegramItem!.Channels.Select(c => c.ChannelId))
             )

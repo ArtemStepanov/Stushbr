@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Diagnostics;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Stushbr.AdminUtilsWeb.ViewModels;
+using Stushbr.AdminUtilsWeb.Domain.Contracts;
+using Stushbr.Application.ExceptionHandling;
 
 namespace Stushbr.AdminUtilsWeb.Controllers;
 
@@ -22,7 +24,27 @@ public class HomeController : Controller
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        var exceptionHandlerPathFeature =
+            HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+
+        var errorModel = new ErrorViewModel(Activity.Current?.Id ?? HttpContext.TraceIdentifier, EvaluateMessage());
+
+        return View(errorModel);
+
+        string? EvaluateMessage()
+        {
+            if (exceptionHandlerPathFeature is null)
+            {
+                return null;
+            }
+
+            return exceptionHandlerPathFeature.Error switch
+            {
+                BadRequestException badRequestException => badRequestException.Message,
+                NotFoundException notFoundException => notFoundException.Message,
+                _ => null
+            };
+        }
     }
 
     [HttpPost]
