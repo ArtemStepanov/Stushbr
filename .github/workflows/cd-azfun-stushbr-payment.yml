@@ -72,16 +72,6 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Set function app to read/write mode
+      - name: Set app settings
         run: |
-          az functionapp config set --name ${{ env.FUNCTION_NAME }} --resource-group ${{ env.RG_NAME }} --ftps-state AllAllowed
-
-      - name: Add function keys for PaymentHook
-        run: |
-          az functionapp function keys set --name ${{ env.FUNCTION_NAME }} --resource-group ${{ env.RG_NAME }} --function-name PaymentHook --key-name tilda --key-value ${{ secrets.TILDA_FUNCTION_ACCESS_KEY }}
-
-      - name: Set function app back to read-only mode
-        run: |
-          az functionapp config set --name ${{ env.FUNCTION_NAME }} --resource-group ${{ env.RG_NAME }} --ftps-state FtpsOnly
-
-
+          az functionapp config appsettings set --name ${{ env.FUNCTION_NAME }} --resource-group ${{ env.RG_NAME }} --settings "${{ secrets.PAYMENT_FUNCTION_APP_SETTINGS }} ${{ vars.PAYMENT_FUNCTION_APP_SETTINGS }}"
