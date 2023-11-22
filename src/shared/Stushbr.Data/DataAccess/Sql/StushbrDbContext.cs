@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Stushbr.Domain.Models;
 using Stushbr.Domain.Models.Clients;
 using Stushbr.Domain.Models.Items;
-using System.Threading.Channels;
 
 namespace Stushbr.Data.DataAccess.Sql;
 

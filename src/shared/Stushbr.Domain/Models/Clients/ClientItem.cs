@@ -1,7 +1,5 @@
-﻿using Stushbr.Core.Extensions;
-using Stushbr.Domain.Abstractions;
+﻿using Stushbr.Domain.Abstractions;
 using Stushbr.Domain.Models.Items;
-using System.Runtime.Serialization;
 using System.Text.Json.Nodes;
 
 namespace Stushbr.Domain.Models.Clients;

@@ -4,7 +4,6 @@ using Microsoft.Extensions.Options;
 using Stushbr.Application.Abstractions;
 using Stushbr.Application.Commands.Service;
 using Stushbr.Core.Configuration;
-using Stushbr.Core.Mediatr.Abstractions;
 using Stushbr.Data.DataAccess.Sql;
 using Stushbr.Domain.Contracts;
 

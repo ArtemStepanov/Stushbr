@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Stushbr.Application.PipelineBehaviours;
 using Stushbr.Core.Configuration;
 using Stushbr.Data.DataAccess.Sql;
-using System.Reflection;
 
 namespace Stushbr.Api.Extensions;
 

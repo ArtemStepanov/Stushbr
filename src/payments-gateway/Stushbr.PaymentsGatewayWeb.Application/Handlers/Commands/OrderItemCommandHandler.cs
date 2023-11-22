@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using Qiwi.BillPayments.Model.Out;
 using Stushbr.Application.Abstractions;
 using Stushbr.Application.ExceptionHandling;
-using Stushbr.Core.Mediatr.Abstractions;
 using Stushbr.Data.DataAccess.Sql;
 using Stushbr.Domain.Models.Clients;
 using Stushbr.PaymentsGatewayWeb.Application.Commands;
