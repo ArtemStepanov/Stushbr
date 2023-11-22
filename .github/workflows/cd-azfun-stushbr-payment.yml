@@ -74,4 +74,4 @@ jobs:
 
       - name: Set app settings
         run: |
-          az functionapp config appsettings set --name ${{ env.FUNCTION_NAME }} --resource-group ${{ env.RG_NAME }} --settings "${{ secrets.PAYMENT_FUNCTION_APP_SETTINGS }} ${{ vars.PAYMENT_FUNCTION_APP_SETTINGS }}"
+            az functionapp config appsettings set --name ${{ env.FUNCTION_NAME }} --resource-group ${{ env.RG_NAME }} --settings "Application__TildaWebhookSecret=${{ secrets.PAYMENT_FUNCTION_APP_SETTINGS_TILDA_WEBHOOK_SECRET }} AzureFunctionsJobHost__logging__logLevel__default=${{ vars.PAYMENT_FUNCTION_APP_SETTINGS_LOG_LEVEL }} SendPulse__HookUrl=${{ secrets.PAYMENT_FUNCTION_APP_SETTINGS_SENDPULSE_HOOK_URL }} Telegram__AccessKey=${{ secrets.PAYMENT_FUNCTION_APP_SETTINGS_TELEGRAM_ACCESS_KEY }}"
