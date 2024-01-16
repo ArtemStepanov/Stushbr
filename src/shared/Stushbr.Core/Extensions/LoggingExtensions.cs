@@ -5,19 +5,19 @@ namespace Stushbr.Core.Extensions;
 
 public static class LoggingExtensions
 {
-    public static IDisposable TimeOperation(this ILogger logger, string operationName)
+    public static IDisposable TimeOperation(this ILogger logger, string operationName, LogLevel logLevel = LogLevel.Information)
     {
-        return new TimedOperation(logger, operationName);
+        return new TimedOperation(logger, operationName, logLevel);
     }
 
-    private class TimedOperation(ILogger logger, string operationName) : IDisposable
+    private class TimedOperation(ILogger logger, string operationName, LogLevel logLevel) : IDisposable
     {
         private readonly Stopwatch _timer = Stopwatch.StartNew();
 
         public void Dispose()
         {
             _timer.Stop();
-            logger.LogInformation("Execution of {OperationName} took {Elapsed}", operationName, _timer.Elapsed);
+            logger.Log(logLevel, "Execution of {OperationName} took {Elapsed}", operationName, _timer.Elapsed);
         }
     }
 }
