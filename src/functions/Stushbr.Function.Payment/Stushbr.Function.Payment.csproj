@@ -26,6 +26,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\shared\Stushbr.Api\Stushbr.Api.csproj" />
+    <ProjectReference Include="..\..\shared\Stushbr.Api\Stushbr.Api.csproj" />
   </ItemGroup>
 </Project>
