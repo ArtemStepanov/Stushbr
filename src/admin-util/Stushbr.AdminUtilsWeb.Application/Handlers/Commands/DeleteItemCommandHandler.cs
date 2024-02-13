@@ -9,12 +9,7 @@ public sealed class DeleteItemCommandHandler(StushbrDbContext dbContext) : BaseR
 {
     public override async Task<bool> Handle(DeleteItemCommand request, CancellationToken cancellationToken)
     {
-        var item = await DbContext.Items.FindAsync(new object?[] { request.ItemId }, cancellationToken);
-        if (item is null)
-        {
-            throw new NotFoundException();
-        }
-
+        var item = await DbContext.Items.FindAsync([request.ItemId], cancellationToken) ?? throw new NotFoundException();
         DbContext.Remove(item);
 
         return true;

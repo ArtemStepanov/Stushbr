@@ -3,4 +3,4 @@ using Stushbr.Core.Mediatr.Abstractions;
 
 namespace Stushbr.AdminUtilsWeb.Domain.Items.Queries;
 
-public sealed record GetItemsQuery() : IQuery<IReadOnlyList<ItemViewModel>>;
+public sealed record GetItemsQuery : IQuery<IReadOnlyList<ItemViewModel>>;

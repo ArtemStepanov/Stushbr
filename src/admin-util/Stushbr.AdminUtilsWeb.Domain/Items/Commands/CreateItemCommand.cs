@@ -5,15 +5,15 @@ namespace Stushbr.AdminUtilsWeb.Domain.Items.Commands;
 
 public sealed class CreateItemCommand : ICommand<ItemViewModel>
 {
-    public string DisplayName { get; set; } = default!;
+    public required string DisplayName { get; set; }
 
-    public string Description { get; set; } = default!;
+    public required string Description { get; set; }
 
     public double Price { get; set; }
 
-    public string ItemIdentifier { get; set; } = default!;
+    public required string ItemIdentifier { get; set; }
 
-    public string Type { get; set; } = default!;
+    public required string Type { get; set; }
 
     public DateTime AvailableSince { get; set; } = DateTime.Now;
 

@@ -10,8 +10,8 @@ public sealed class TransactionPipelineBehaviour<TRequest, TResult>(
 ) : IPipelineBehavior<TRequest, TResult>
     where TRequest : IRequest<TResult>
 {
-    public async Task<TResult> Handle(TRequest request, RequestHandlerDelegate<TResult> next, CancellationToken cancellationToken) =>
-        await dbContext.Database.CreateExecutionStrategy().ExecuteAsync(async xct =>
+    public Task<TResult> Handle(TRequest request, RequestHandlerDelegate<TResult> next, CancellationToken cancellationToken) =>
+        dbContext.Database.CreateExecutionStrategy().ExecuteAsync(async xct =>
         {
             var transaction = await dbContext.Database.BeginTransactionAsync(IsolationLevel.ReadCommitted, xct);
             var result = await next();

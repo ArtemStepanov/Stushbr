@@ -67,17 +67,17 @@ public class MailService(
                 Variables = templateVariables
             },
             From = StaticFrom,
-            To = new List<SendMailUserData>
-            {
-                new() { Email = client.Email, Name = client.FullName }
-            }
+            To = [new SendMailUserData { Email = client.Email, Name = client.FullName }]
         });
     }
 
     private static string GetTelegramMailSubject(string? channelName)
     {
-        return "Привет! Ваше приглашение в Telegram-канал" + (string.IsNullOrEmpty(channelName)
-            ? ""
-            : $" \"{channelName}\"");
+        return "Привет! Ваше приглашение в Telegram-канал" + GetTelegramChannelName();
+
+        string GetTelegramChannelName() =>
+            string.IsNullOrEmpty(channelName)
+                ? ""
+                : $" \"{channelName}\"";
     }
 }

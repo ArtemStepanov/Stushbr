@@ -12,5 +12,11 @@
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addItemModal">Add Item</button>
 
     <!-- Add Item Modal -->
-    @await Html.PartialAsync("Partial/_AddItemModalPartial", new CreateItemCommand())
+    @await Html.PartialAsync("Partial/_AddItemModalPartial", new CreateItemCommand
+    {
+        Description = string.Empty,
+        DisplayName = string.Empty,
+        ItemIdentifier = string.Empty,
+        Type = string.Empty
+    })
 </div>

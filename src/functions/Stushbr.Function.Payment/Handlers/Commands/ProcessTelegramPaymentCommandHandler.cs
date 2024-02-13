@@ -38,13 +38,13 @@ internal class ProcessTelegramPaymentCommandHandler(
         foreach (var item in items)
         {
             var link = await ProcessItem(item, cancellationToken);
-            if (link is null)
+            if (link.Count == 0)
             {
                 logger.LogWarning("Telegram item with identifier [{ItemIdentifier}] was not found", item.ItemIdentifier);
                 continue;
             }
 
-            links.Add(link.InviteLink);
+            links.AddRange(links);
         }
 
         await sendPulseWebHookClient.CallWebhookAsync(new CallTelegramWebhookRequest(request.Email, request.Phone, string.Join(",", links)), cancellationToken);
@@ -52,14 +52,15 @@ internal class ProcessTelegramPaymentCommandHandler(
         return new ProcessTelegramPaymentResult(true);
     }
 
-    private async Task<ChatInviteLink?> ProcessItem(Item item, CancellationToken cancellationToken)
+    private async Task<IReadOnlyCollection<ChatInviteLink>> ProcessItem(Item item, CancellationToken cancellationToken)
     {
+        var links = new List<ChatInviteLink>();
         foreach (var channelId in item.TelegramItem!.Channels)
         {
             var link = await telegramService.CreateInviteLinkAsync(channelId.ChannelId, cancellationToken);
-            return link;
+            links.Add(link);
         }
 
-        return null;
+        return links;
     }
 }
