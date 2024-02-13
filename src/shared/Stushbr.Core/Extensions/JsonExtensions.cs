@@ -5,9 +5,9 @@ namespace Stushbr.Core.Extensions;
 
 public static class JsonExtensions
 {
-    public static JsonNode? JsonNodeFromObject(this object any)
+    public static JsonNode? JsonNodeFromObject(this object @object)
     {
-        return JsonSerializer.SerializeToNode(any);
+        return JsonSerializer.SerializeToNode(@object);
     }
 
     public static T? ToObject<T>(this JsonNode json)

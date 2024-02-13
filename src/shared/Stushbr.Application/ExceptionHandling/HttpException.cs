@@ -42,7 +42,7 @@ namespace Stushbr.Application.ExceptionHandling
             Response.Errors.AddRange(errors);
         }
 
-        public override string Message => Response.Errors.Any()
+        public override string Message => Response.Errors.Count > 0
             ? "Errors are:\n" + string.Join("\n", Response.Errors)
             : base.Message;
     }

@@ -8,11 +8,11 @@ public class ClientItem : IIdentifier
 {
     public int Id { get; set; }
 
-    public int ClientId { get; set; } = default!;
+    public int ClientId { get; set; }
 
     public Client? Client { get; set; }
 
-    public int ItemId { get; set; } = default!;
+    public int ItemId { get; set; }
 
     public Item? Item { get; set; }
 

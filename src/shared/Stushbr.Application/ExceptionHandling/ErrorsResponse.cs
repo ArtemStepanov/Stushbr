@@ -37,12 +37,12 @@ namespace Stushbr.Application.ExceptionHandling
 
             public override string ToString()
             {
-                return $"{(!string.IsNullOrEmpty(Property) ? (" [" + Property + "]") : string.Empty)} {Message}";
+                return $"{(!string.IsNullOrEmpty(Property) ? " [" + Property + "]" : string.Empty)} {Message}";
             }
         }
 
         [JsonPropertyName("errors")]
-        public List<Error> Errors { get; } = new();
+        public List<Error> Errors { get; } = [];
 
         [JsonConstructor]
         internal ErrorsResponse()

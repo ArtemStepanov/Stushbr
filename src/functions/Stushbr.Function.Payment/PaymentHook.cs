@@ -31,21 +31,6 @@ public class PaymentHook(
             return new UnauthorizedResult();
         }
 
-        // parse request
-        // if it is about telegram, then create telegram channel invite link and send an event to sendpulse
-        // https://events.sendpulse.com/events/id/830cf27f8ca543a8e3babbc5264cfbec/7937666
-        // {
-        //   "email": "stushaborz@icloud.com",
-        //   "phone": "+123456789",
-        //   "link": "link value",
-        //   "event_date": "2023-09-29"
-        // }
-
-        // if it is about video, then add user to video
-        // if it is about files, add user to access to the folder specified
-
-        // test channel id: -1001697690171
-
         using var json = await JsonDocument.ParseAsync(req.Body);
         logger.LogDebug("Request body: {Json}", json.ToString());
         var payment = json.Deserialize<TildaPayment>(new JsonSerializerOptions { PropertyNameCaseInsensitive = true });

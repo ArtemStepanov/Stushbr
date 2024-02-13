@@ -9,15 +9,15 @@ public class Item : IIdentifier
 {
     public int Id { get; set; }
 
-    public string DisplayName { get; set; } = default!;
+    public required string DisplayName { get; set; }
 
-    public string Description { get; set; } = default!;
+    public required string Description { get; set; }
 
     public string? ImageUrl { get; set; }
 
     public double Price { get; set; }
 
-    public string ItemIdentifier { get; set; } = default!;
+    public required string ItemIdentifier { get; set; }
 
     public ItemType Type { get; set; }
 

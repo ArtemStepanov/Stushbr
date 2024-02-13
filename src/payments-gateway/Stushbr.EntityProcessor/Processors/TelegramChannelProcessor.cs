@@ -17,7 +17,7 @@ public class TelegramChannelProcessor(
 
         if (clientItem.TelegramData.Count == 0)
         {
-            LogInformation("Invitation links are not exist and will be generated", clientItem);
+            LogInformation("Invitation links are not exists and will be generated", clientItem);
 
             await GenerateInviteLinksAndUpdateClientItemAsync(
                 clientItem,

@@ -6,11 +6,11 @@ public class TelegramClientItem : IIdentifier
 {
     public int Id { get; set; }
 
-    public string InviteLink { get; set; } = default!;
+    public required string InviteLink { get; set; }
 
     public DateTime? LinkExpireDate { get; set; }
 
-    public string ChannelName { get; set; } = default!;
+    public required string ChannelName { get; set; }
 
     public int ClientItemId { get; set; }
 
