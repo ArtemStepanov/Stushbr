@@ -11,11 +11,7 @@ public sealed class UpdateItemCommandHandler(StushbrDbContext dbContext) : BaseR
 {
     public override async Task<ItemViewModel> Handle(UpdateItemCommand request, CancellationToken cancellationToken)
     {
-        var item = await DbContext.Items.FindAsync(new object?[] { request.Id }, cancellationToken: cancellationToken);
-        if (item is null)
-        {
-            throw new NotFoundException();
-        }
+        var item = await DbContext.Items.FindAsync([request.Id], cancellationToken: cancellationToken) ?? throw new NotFoundException();
 
         item.DisplayName = request.DisplayName;
         item.Description = request.Description;

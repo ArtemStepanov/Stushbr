@@ -1,6 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using Stushbr.Application.Abstractions;
 using Stushbr.Application.ExceptionHandling;
-using Stushbr.Application.Extensions;
 using Stushbr.Data.DataAccess.Sql;
 using Stushbr.Domain.Models.Items;
 using Stushbr.PaymentsGatewayWeb.Application.Queries;
@@ -11,10 +11,10 @@ public sealed class GetItemByIdQueryHandler(StushbrDbContext dbContext) : BaseRe
 {
     public override async Task<Item> Handle(GetItemByIdQuery request, CancellationToken cancellationToken)
     {
-        var item = await DbContext.Items.FindOrThrowAsync(request.Id, "Продукт не найден", cancellationToken);
-        if (!item.IsAvailable)
+        var item = await DbContext.Items.FirstOrDefaultAsync(x => x.Id == request.Id && x.IsAvailable, cancellationToken);
+        if (item is null)
         {
-            throw new BadRequestException("Продукт неактивен");
+            throw new NotFoundException("Продукт не найден");
         }
 
         return item;

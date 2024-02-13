@@ -1,3 +1,3 @@
 namespace Stushbr.Domain.Contracts.Abstractions;
 
-public abstract record CommandResultBase();
+public abstract record CommandResultBase;

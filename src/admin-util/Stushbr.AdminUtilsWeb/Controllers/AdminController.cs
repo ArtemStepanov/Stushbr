@@ -15,8 +15,8 @@ public class AdminController(ISender sender) : StushbrControllerBase(sender)
     }
 
     [HttpPost]
-    public async Task<IActionResult> MigrateAsync() =>
-        await CallHandlerAsync(new MigrateCommand(), result =>
+    public Task<IActionResult> MigrateAsync() =>
+        CallHandlerAsync(new MigrateCommand(), result =>
         {
             if (!result.Success)
             {
