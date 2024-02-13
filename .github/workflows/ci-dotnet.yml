@@ -29,7 +29,7 @@ jobs:
         dotnet-version: ${{ vars.DOTNET_VERSION }}
 
     - name: Add Stxima.SendPulse nuget source
-      run: dotnet nuget update source --name github --username ${{ github.actor }} --password ${{ secrets.NUGET_ACCESS }} --store-password-in-clear-text
+      run: dotnet nuget update source "github" --username ${{ github.actor }} --password ${{ secrets.NUGET_ACCESS }} --store-password-in-clear-text
 
     - name: Restore dependencies
       run: dotnet restore
