@@ -29,8 +29,8 @@ jobs:
         with:
           dotnet-version: ${{ vars.DOTNET_VERSION }}
 
-      - name: Add Stxima.SendPulse nuget source
-        run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.NUGET_ACCESS }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/ArtemStepanov/index.json"
+      - name: Update nuget source
+        run: dotnet nuget update source "github" --username ${{ github.actor }} --password ${{ secrets.NUGET_ACCESS }} --store-password-in-clear-text
 
       - name: Build with dotnet
         shell: bash
