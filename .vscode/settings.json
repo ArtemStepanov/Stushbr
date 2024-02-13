@@ -1,6 +1,6 @@
 {
     "azureFunctions.projectSubpath": "src\\Stushbr.Function.Payment",
-    "azureFunctions.deploySubpath": "src\\Stushbr.Function.Payment/bin/Release/net6.0/publish",
+    "azureFunctions.deploySubpath": "src\\Stushbr.Function.Payment/bin/Release/net8.0/publish",
     "azureFunctions.projectLanguage": "C#",
     "azureFunctions.projectRuntime": "~4",
     "debug.internalConsoleOptions": "neverOpen",
