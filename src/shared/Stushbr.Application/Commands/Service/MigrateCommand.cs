@@ -3,4 +3,4 @@ using Stushbr.Domain.Contracts;
 
 namespace Stushbr.Application.Commands.Service;
 
-public sealed record MigrateCommand() : ICommand<MigrationResult>;
+public sealed record MigrateCommand : ICommand<MigrationResult>;

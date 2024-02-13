@@ -12,22 +12,22 @@ public class ItemsController(ISender sender) : StushbrControllerBase(sender)
 {
     [HttpGet]
     [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client, NoStore = false)]
-    public async Task<IActionResult> Index() =>
-        await CallHandlerAsync(new GetItemsQuery(), View);
+    public Task<IActionResult> Index() =>
+        CallHandlerAsync(new GetItemsQuery(), View);
 
     [HttpPost]
-    public async Task<IActionResult> AddItem(CreateItemCommand command) =>
-        await CallHandlerAsync(command, _ => RedirectToAction("Index"));
+    public Task<IActionResult> AddItem(CreateItemCommand command) =>
+        CallHandlerAsync(command, _ => RedirectToAction("Index"));
 
     [HttpPost]
-    public async Task<IActionResult> UpdateItem(UpdateItemCommand command) =>
-        await CallHandlerAsync(command, _ => RedirectToAction("Index"));
+    public Task<IActionResult> UpdateItem(UpdateItemCommand command) =>
+        CallHandlerAsync(command, _ => RedirectToAction("Index"));
 
     [HttpPost]
-    public async Task<IActionResult> DeleteItem(int id) =>
-        await CallHandlerAsync(new DeleteItemCommand(id), _ => RedirectToAction("Index"));
+    public Task<IActionResult> DeleteItem(int id) =>
+        CallHandlerAsync(new DeleteItemCommand(id), _ => RedirectToAction("Index"));
 
     [HttpPost]
-    public async Task<IActionResult> UpsertTelegramItem(UpsertTelegramItemCommand command) =>
-        await CallHandlerAsync(command, _ => RedirectToAction("Index"));
+    public Task<IActionResult> UpsertTelegramItem(UpsertTelegramItemCommand command) =>
+        CallHandlerAsync(command, _ => RedirectToAction("Index"));
 }

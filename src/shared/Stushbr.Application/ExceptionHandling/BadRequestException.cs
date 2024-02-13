@@ -12,7 +12,7 @@ namespace Stushbr.Application.ExceptionHandling
                 Property = pair.Key,
                 Message = !string.IsNullOrEmpty(error.ErrorMessage)
                     ? error.ErrorMessage
-                    : "Неверное значение свойства",
+                    : "Неверное значение свойства"
             }));
         }
 

@@ -17,7 +17,7 @@ public class QiwiService(
     ILogger<QiwiService> logger,
     BillPaymentsClient qiwiClient,
     ApplicationConfiguration configuration,
-    IMapper mapper
+    IMapperBase mapper
 ) : IQiwiService
 {
     public async Task<BillResponse> CreateBillAsync(ClientItem loadedClientItem)
@@ -40,14 +40,14 @@ public class QiwiService(
             var createBillResult = await qiwiClient.CreateBillAsync<BillResponse>(new CreateBillInfo
             {
                 Amount = amount,
-                Comment = FormatComment(item, client),
+                Comment = FormatComment(item),
                 Customer = mapper.Map<Customer>(client),
                 BillId = loadedClientItem.Id.ToString(),
                 SuccessUrl = new Uri(configuration.SuccessUrl),
                 ExpirationDateTime = DateTime.Now.AddDays(10)
             });
 
-            if (createBillResult == null)
+            if (createBillResult is null)
                 throw new Exception("Unable to create qiwi bill");
 
             return createBillResult;
@@ -65,7 +65,7 @@ public class QiwiService(
         return billInfo;
     }
 
-    private static string FormatComment(Item item, Client client)
+    private static string FormatComment(Item item)
     {
         var type = item.Type switch
         {

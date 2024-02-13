@@ -20,7 +20,6 @@ public sealed class OrderItemCommandHandler(
     {
         logger.LogInformation("Getting or creating client \"{Email}\" info", request.ClientInfo.Email);
 
-
         var client = await FindOrCreateClientAsync(request, cancellationToken);
         var clientItem = client.ClientItems.First();
 
@@ -47,7 +46,7 @@ public sealed class OrderItemCommandHandler(
             {
                 throw new BadRequestException(
                     "Вы уже оплатили данный продукт." +
-                    $" Информация должна быть у вас на почте, проверьте её: \"{client.Email}\"." +
+                    " Информация должна быть у вас на почте." +
                     " Если вам кажется, что что-то могло пойти не так, напишите мне: @stushbrphoto"
                 );
             }
